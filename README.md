@@ -26,7 +26,7 @@ IT/
 │   ├── stockage/
 │   └── virtualization-containers/
 ├── networking/             # Réseaux, protocoles, TCP/IP
-├── systems/                # Administration systèmes
+├── systems/                
 │   ├── linux/
 │   │   ├── cheatsheets/
 │   │   ├── labs/
@@ -45,14 +45,14 @@ IT/
 ```
 Cyber/
 ├── concepts/               # IDS, IAM, concepts sécu
-├── cryptographie/          # Chiffrement, hashing, PKI
-├── cti/                    # Cyber Threat Intelligence
-├── forensic/               # Analyse post-incident
-├── hardening/              # Durcissement systèmes
+├── cryptographie/          # Chiffrement, hash, PKI
+├── cti/                    # APT, frameworks, STIX/TAXII
+├── forensic/               # Autopsy...
+├── hardening/              # AD, Windows, Network devices
 │   ├── active-directory/
 │   └── windows/
-├── taxonomie-malware/      # Classification malwares
-└── tools/                  # Outils offensifs
+├── taxonomie-malware/      # Vue d'ensemble
+└── tools/                  
     ├── burp/
     ├── john/
     └── nmap/
@@ -60,7 +60,7 @@ Cyber/
 
 ---
 
-##  Organisation desnNotes
+##  Organisation des notes
 
 Chaque section peut contenir :
 - **`notes/`** - Notes de cours et documentation
