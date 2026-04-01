@@ -35,7 +35,11 @@ IT/
 │   └── wireshark-tcpdump/
 ├── 99_Empty_virtualization-containers/
 └── images/
+```
 
+### Cyber
+
+```text
 Cyber/
 ├── 01_CTI/
 ├── 02_OSINT/
@@ -51,3 +55,16 @@ Cyber/
 ├── 20260401_Reponse_Incident.md
 ├── 20260401_Threat-Hunting.docx
 └── 99_Concepts/
+```
+
+---
+
+## Organisation des notes
+
+Chaque section peut contenir :
+- **`notes/`** - Notes de cours et documentation
+- **`cheatsheets/`** - Commandes essentielles
+- **`labs/`** - Exercices pratiques et CTF write-ups
+- **`README.md`** - Index et ressources de la section
+
+---
