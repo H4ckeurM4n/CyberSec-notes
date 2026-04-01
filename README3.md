@@ -23,38 +23,35 @@ Les contenus proviennent principalement de prises de notes personnelles, parfois
 
 ```text
 IT/
-├── 01_Linux/
-├── 02_Windows/
-├── 03_Networking/
-├── 04_Active-Directory/
-├── 05_Scripting/
-├── 99_Empty_architecture-hardware/
-├── 99_Empty_logs/
-├── 99_Empty_stockage/
-├── 99_Empty_tools/
+├── 01_Linux/                          # Bases Linux
+├── 02_Windows/                        # Notes Windows
+├── 03_Networking/                     # Réseau, infrastructure IT, AppSec
+├── 04_Active-Directory/               # Active Directory
+├── 05_Scripting/                      # Bash et scripting
+├── 99_Empty_architecture-hardware/    # Section à compléter
+├── 99_Empty_logs/                     # Section à compléter
+├── 99_Empty_stockage/                 # Section à compléter
+├── 99_Empty_tools/                    # Section à compléter
 │   └── wireshark-tcpdump/
-├── 99_Empty_virtualization-containers/
-└── images/
+├── 99_Empty_virtualization-containers/# Section à compléter
+└── images/                            # Images et captures utilisées dans les notes
 ```
 
 ### Cyber
 
 ```text
 Cyber/
-├── 01_CTI/
-├── 02_OSINT/
-├── 03_Cryptographie/
-├── 03_Forensic/
-├── 04_Hardening/
+├── 01_CTI/                    # CTI, APT, dark web, écosystèmes cybercriminels
+├── 02_OSINT/                  # OSINT général, crypto, investigation financière
+├── 03_Cryptographie/          # Cryptographie
+├── 03_Forensic/               # Digital forensics
+├── 04_Hardening/              # Hardening Windows et Active Directory
 │   ├── active-directory/
 │   └── windows/
-├── 10_Tools/
-│   ├── burp/
-│   ├── john/
-│   └── nmap/
+├── 10_Tools/                  # Burp, John, Nmap
 ├── 20260401_Reponse_Incident.md
 ├── 20260401_Threat-Hunting.docx
-└── 99_Concepts/
+└── 99_Concepts/               # Concepts transverses : SOC, GRC, VPN, etc.
 ```
 
 ---
