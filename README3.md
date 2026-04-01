@@ -1,4 +1,4 @@
---- ## Structure du Repository ### IT
+# CyberSec Notes <p align="center"> <img src="assets/hacker.png" alt="CyberSec" width="400"/> </p> > Notes pour moi-même prises pendant mes cours (scolaire, HTB, certif...). ## À propos Je prends mes notes sur Notion, et je dépose au fil de l'eau mes exports .md, cependant la mise en page ne semble pas idéale sur Github, j'utilise bcp de menus dépliants pour avoir une bonne lisibilité, cependant cela n'a pas l'air d'être reproduit ici. En cours de correction. Orga : - **IT/** : Concepts IT généralistes (Réseaux, Linux, Windows, AD, Stockage...) - **Cyber/** : Crypto, CTI, Forensic, Hardening... --- ## Structure du Repository ### IT
 IT/
 ├── fundamentals/           # Concepts de base
 │   ├── architecture-hardware/
