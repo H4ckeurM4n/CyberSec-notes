@@ -1,4 +1,4 @@
-## Structure du Repository ### IT
+--- ## Structure du Repository ### IT
 IT/
 ├── fundamentals/           # Concepts de base
 │   ├── architecture-hardware/
