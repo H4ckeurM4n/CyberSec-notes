@@ -1,35 +1,54 @@
-# CyberSec Notes <p align="center"> <img src="assets/hacker.png" alt="CyberSec" width="400"/> </p> > Notes pour moi-même prises pendant mes cours (scolaire, HTB, certif...). ## À propos Je prends mes notes sur Notion, et je dépose au fil de l'eau mes exports .md, cependant la mise en page ne semble pas idéale sur Github, j'utilise bcp de menus dépliants pour avoir une bonne lisibilité, cependant cela n'a pas l'air d'être reproduit ici. En cours de correction. Orga : - **IT/** : Concepts IT généralistes (Réseaux, Linux, Windows, AD, Stockage...) - **Cyber/** : Crypto, CTI, Forensic, Hardening... --- ## Structure du Repository ### IT
+# CyberSec Notes
+
+<p align="center">
+  <img src="assets/hacker.png" alt="CyberSec" width="400"/>
+</p>
+
+> Notes pour moi-même, prises au fil de mes cours, labs, certifications, exercices pratiques et recherches.
+
+## À propos
+
+Ce dépôt regroupe mes notes de travail et de cours générés autour de deux grands axes :
+
+- **IT/** : Concepts IT généralistes (Réseaux, Linux, Windows, AD, Stockage...)
+- **Cyber/** : CTI, OSINT, forensic, hardening, cryptographie... Mais aussi des concepts lié à l'Intelligence économique
+
+Les contenus proviennent principalement de prises de notes personnelles, parfois exportées depuis Notion, puis réorganisées progressivement dans ce repository.
+
+---
+
+## Structure actuelle du repository
+
+### IT
+
 IT/
-├── fundamentals/           # Concepts de base
-│   ├── architecture-hardware/
-│   ├── logs/
-│   ├── stockage/
-│   └── virtualization-containers/
-├── networking/             # Réseaux, protocoles, TCP/IP
-├── systems/                
-│   ├── linux/
-│   │   ├── cheatsheets/
-│   │   ├── labs/
-│   │   └── notes/
-│   └── windows/
-│       ├── active-directory/
-│       ├── cheatsheets/
-│       ├── labs/
-│       └── notes/
-└── tools/                  # Outils d'administration
-    └── wireshark-tcpdump/
+├── 01_Linux/
+├── 02_Windows/
+├── 03_Networking/
+├── 04_Active-Directory/
+├── 05_Scripting/
+├── 99_Empty_architecture-hardware/
+├── 99_Empty_logs/
+├── 99_Empty_stockage/
+├── 99_Empty_tools/
+│   └── wireshark-tcpdump/
+├── 99_Empty_virtualization-containers/
+└── images/
+
 ### Cyber
+
 Cyber/
-├── concepts/               # IDS, IAM, concepts sécu
-├── cryptographie/          # Chiffrement, hash, PKI
-├── cti/                    # APT, frameworks, STIX/TAXII
-├── forensic/               # Autopsy...
-├── hardening/              # AD, Windows, Network devices
+├── 01_CTI/
+├── 02_OSINT/
+├── 03_Cryptographie/
+├── 03_Forensic/
+├── 04_Hardening/
 │   ├── active-directory/
 │   └── windows/
-├── taxonomie-malware/      # Vue d'ensemble
-└── tools/                  
-    ├── burp/
-    ├── john/
-    └── nmap/
---- ## Organisation des notes Chaque section peut contenir : - **notes/** - Notes de cours et documentation - **cheatsheets/** - Commandes essentielles - **labs/** - Exercices pratiques et CTF write-ups - **README.md** - Index et ressources de la section ---
+├── 10_Tools/
+│   ├── burp/
+│   ├── john/
+│   └── nmap/
+├── 20260401_Reponse_Incident.md
+├── 20260401_Threat-Hunting.docx
+└── 99_Concepts/
