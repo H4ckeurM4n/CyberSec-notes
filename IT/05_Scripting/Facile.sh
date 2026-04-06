@@ -2,17 +2,22 @@
 
 chercher_fichier() {
     read -p "Quel est le fichier ? " file
+
     if [[ -z "$file" ]]; then
-        read -p "Indique un fichier stttp : "
+        read -p "Indique un fichier stttp : " file
         if [[ -z "$file" ]]; then
             echo "tant pis le script se ferme, la prochaine fois fais un effort et indique un fichier"
             exit 1
         fi
-    elif [[ ! -e "$file" ]]; then
-        echo "Le fichier n'existe pas !"
     fi
+
     emplacement=$(find / -type f -name "$file" 2>/dev/null) 
-    echo -e "Le fichier se trouve à \n$emplacement"
+
+    if [[ -z "$emplacement" ]]; then
+        echo "$file n'existe pas !"
+    else 
+        echo -e "$file se trouve à \n$emplacement"
+    fi
 }
 
 echo "Que veux-tu faire bg ?"
