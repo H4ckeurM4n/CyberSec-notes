@@ -1,6 +1,9 @@
 #!/bin/bash
 
 chercher_fichier() {
+    local file
+    local emplacement
+    
     read -p "Quel est le fichier ? " file
 
     if [[ -z "$file" ]]; then
@@ -11,20 +14,21 @@ chercher_fichier() {
         fi
     fi
 
-    emplacement=$(find / -type f -name "$file" 2>/dev/null) 
+    emplacement=$(find / -type f -iname "$file" 2>/dev/null) 
 
     if [[ -z "$emplacement" ]]; then
-        echo "$file n'existe pas !"
+        echo "Aucun fichier trouvé pour : $file !"
     else 
         echo -e "$file se trouve à \n$emplacement"
     fi
 }
 
 echo "Que veux-tu faire bg ?"
-select choix in "Mais où qu'il est ce fichier ??" "Update Discord"; do
+select choix in "Mais où qu'il est ce fichier ??" "Update Discord" "Quitter"; do
     case $choix in
         "Mais où qu'il est ce fichier ??") chercher_fichier ;;
         "Update Discord") sudo nano /usr/share/discord/resources/build_info.json ;;
+        "Quitter") echo "Asta la vista baby ! <3" ; break ;;
         *) echo "Fais un choix non ?"
     esac
 done
