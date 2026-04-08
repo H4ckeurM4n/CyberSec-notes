@@ -693,6 +693,51 @@ LIMITES : [chaînes non couvertes, attributions non confirmées]
 
 ---
 
+---
+
+# Annexe — Questions types d'entretien et réponses types
+
+## Questions essentielles
+
+- **Question :** Qu'est-ce que le cluster analysis en investigation blockchain ?
+  - **Réponse type :** Le clustering regroupe plusieurs adresses blockchain qui appartiennent vraisemblablement au même acteur. L'heuristique principale sur Bitcoin c'est le co-spending : si deux adresses apparaissent comme inputs d'une même transaction, elles sont contrôlées par la même entité (il faut les deux clés privées pour signer). Ça permet de reconstituer le portefeuille réel d'un suspect au-delà de l'adresse unique. Les outils comme Chainalysis Reactor ou OXT font ce clustering automatiquement et attribuent les clusters à des services connus (exchanges, mixers, darknet markets).
+
+- **Question :** Comment relie-t-on une adresse blockchain à une identité réelle ?
+  - **Réponse type :** On croise plusieurs sources. Côté blockchain : tracer les flux vers un exchange régulé qui applique le KYC — l'exchange peut fournir l'identité sur réquisition. Côté OSINT : chercher l'adresse dans les leaks, les forums, les réseaux sociaux. Parfois le suspect a publié son adresse sur un profil, utilisé un ENS (Ethereum Name Service) lié à un pseudonyme, ou fait un screenshot de son wallet. C'est souvent une erreur OPSEC du suspect qui fait basculer l'enquête, pas le traçage technique seul.
+
+- **Question :** Quels sont les principaux mécanismes d'évasion blockchain que vous connaissez ?
+  - **Réponse type :** Les mixers et tumblers (CoinJoin, Tornado Cash) mélangent les fonds de plusieurs utilisateurs pour rompre le lien entre source et destination. Les privacy coins (Monero avec RingCT, Zcash avec zk-SNARKs) offrent de la confidentialité native. Le chain hopping (passer d'une blockchain à une autre via des bridges ou des DEX) complique le traçage. Et le peel chain : l'attaquant envoie un petit montant à une nouvelle adresse et le reste à lui-même, et répète l'opération pour disperser les fonds.
+
+- **Question :** Pourquoi l'OPSEC est-elle essentielle pour un investigateur OSINT ?
+  - **Réponse type :** Parce que les cibles — criminalité organisée, acteurs étatiques — peuvent avoir des capacités de contre-surveillance. Si je consulte un profil LinkedIn avec mon vrai compte, la cible voit la visite. Si mes requêtes DNS sont en clair, mon activité d'investigation est visible. L'OPSEC inclut : VM dédiée par enquête, VPN non-corporate, navigateur vierge, DNS chiffré, avatars pour les interactions, et cloisonnement strict entre les enquêtes.
+
+- **Question :** Décrivez votre méthodologie face à une sollicitation d'investigation crypto.
+  - **Réponse type :** Je commence par formuler les questions de renseignement — que cherche-t-on exactement. Puis je fais l'OSINT corporate et personnes en parallèle du traçage blockchain. Pour le traçage : j'identifie les adresses de départ, je trace les flux entrants et sortants, j'identifie les services (exchanges, mixers, bridges) par clustering, et je cherche les points de cashout. Je corrèle les résultats on-chain avec l'OSINT classique (registres, réseaux sociaux, leaks). Je produis une note d'analyse structurée avec niveaux de confiance et limites explicites.
+
+## Questions complémentaires
+
+- **Question :** Quelle est la différence entre le modèle UTXO (Bitcoin) et le modèle compte (Ethereum) pour l'investigation ?
+  - **Réponse type :** Bitcoin utilise des UTXO (Unspent Transaction Outputs) — chaque transaction consomme des outputs précédents et en crée de nouveaux. Ça permet le co-spending analysis pour le clustering. Ethereum utilise un modèle de comptes avec soldes — il n'y a pas de co-spending, mais les interactions avec les smart contracts (DeFi, DEX) laissent des traces exploitables. Ethereum est aussi plus transparent sur les tokens (ERC-20, NFT), ce qui donne plus de points de pivot.
+
+## Questions les plus probables en entretien
+
+1. Cluster analysis : c'est quoi, comment ça marche ?
+2. Comment lier une adresse blockchain à une identité ?
+3. Mécanismes d'évasion blockchain ?
+4. OPSEC de l'investigateur ?
+5. Méthodologie face à une investigation crypto ?
+
+## Réponses flash
+
+- **Clustering** → Co-spending (BTC) = mêmes inputs = même entité. Regroupe les adresses en portefeuilles. Outils = Chainalysis, OXT.
+- **Attribution** → Tracer vers un exchange KYC + OSINT (leaks, réseaux sociaux, ENS, erreurs OPSEC). Corrélation on-chain + off-chain.
+- **Évasion** → Mixers (CoinJoin, Tornado Cash), privacy coins (Monero), chain hopping (bridges/DEX), peel chains.
+- **OPSEC** → VM dédiée, VPN non-corporate, navigateur vierge, DNS chiffré, avatars, cloisonnement par enquête.
+- **Méthodologie** → Questions de renseignement → OSINT corporate + personnes → traçage blockchain → corrélation → note d'analyse avec niveaux de confiance.
+- **UTXO vs compte** → BTC = UTXO, co-spending pour clustering. ETH = comptes, pas de co-spending mais traces smart contracts.
+
+---
+
 > **Note de clôture**
 >
 > Ce cours a été conçu pour former à l'investigation numérique et financière — la double compétence OSINT avancé + analyse blockchain qui permet de « suivre l'argent » dans l'économie numérique, quelles que soient les juridictions et les blockchains traversées.
