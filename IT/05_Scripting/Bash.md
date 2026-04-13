@@ -1629,7 +1629,7 @@ saluer                 # ✅ Pour appeler, juste le nom
 **Guidé :** Crée une fonction `maximum` qui prend deux nombres et affiche le plus grand. Teste-la avec `echo "Le max est $(maximum 10 25)"`.
 
 **Autonome :** Crée un script `outil.sh` avec les options `-l` (lister les fichiers), `-d` (afficher la date), `-u` (afficher l'utilisateur) en utilisant `case` et des fonctions.
-
+1
 ## 🧩 Mini-projet (chapitres 7-8)
 
 Crée un script `gestion.sh` qui :
