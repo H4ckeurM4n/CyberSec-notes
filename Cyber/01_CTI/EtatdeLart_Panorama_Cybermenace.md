@@ -72,11 +72,11 @@ L'année 2025 s'est achevée sur un événement qui devrait collectivement alarm
 
 Le panorama de la cybermenace en 2025-2026 ne se résume pas à un catalogue d'incidents. Il révèle un **système de menace** structurel, dont les caractéristiques fondamentales méritent d'être comprises avant d'entrer dans le détail technique.
 
-**Première caractéristique : la menace est systémique.** Elle ne touche plus uniquement les grandes entreprises ou les administrations centrales. L'ANSSI constate que la menace cyber « n'épargne personne » et qu'elle « est devenue systémique, touchant l'ensemble du tissu économique et social ». Les données du FBI IC3 confirment cette tendance à l'échelle mondiale, avec plus de 16 milliards de dollars de pertes déclarées en 2025 — un chiffre qui ne représente qu'une fraction de la réalité, tant le sous-signalement reste structurel.
+**Première caractéristique : la menace est systémique.** Elle ne touche plus uniquement les grandes entreprises ou les administrations centrales. L'ANSSI constate que la menace cyber « n'épargne personne » et qu'elle « est devenue systémique, touchant l'ensemble du tissu économique et social ». Les données du FBI IC3 confirment cette tendance à l'échelle mondiale, avec plus de 20 milliards de dollars de pertes déclarées en 2025 — un chiffre qui ne représente qu'une fraction de la réalité, tant le sous-signalement reste structurel.
 
 **Deuxième caractéristique : les frontières entre acteurs s'érodent.** Le phénomène le plus structurant de la période est sans doute l'effacement progressif des frontières qui séparaient traditionnellement les acteurs étatiques des cybercriminels. L'ANSSI parle d'un « brouillard technologique et organisationnel » résultant d'un « partage de capacités plus prononcé entre ces acteurs » et de « l'adoption croisée de pratiques ». Europol, dans sa SOCTA 2025, documente ce phénomène sous l'angle de la criminalité organisée, montrant comment les réseaux criminels servent les objectifs d'acteurs étatiques hybrides — et réciproquement. Cette convergence complique fondamentalement l'attribution, la défense et la réponse.
 
-**Troisième caractéristique : la menace se déplace vers l'infrastructure.** Les attaquants ciblent de moins en moins les utilisateurs finaux par le phishing classique et de plus en plus les équipements d'infrastructure — VPN, firewalls, passerelles réseau, équipements de bordure. L'ANSSI note que plus de la moitié de ses opérations de cyberdéfense en 2024-2025 ont eu pour origine l'exploitation de vulnérabilités sur ces équipements. Ce pivot est stratégique : il permet un accès silencieux, persistant, et souvent indétectable par les solutions de sécurité classiques.
+**Troisième caractéristique : la menace se déplace vers l'infrastructure.** Les attaquants ciblent de moins en moins les utilisateurs finaux par le phishing classique et de plus en plus les équipements d'infrastructure — VPN, firewalls, passerelles réseau, équipements de bordure. L'ANSSI note que plus de la moitié de ses opérations de cyberdéfense en 2024 ont eu pour origine l'exploitation de vulnérabilités sur ces équipements, en 2025, les équipements de bordure restent des cibles privilégiées. Ce pivot est stratégique : il permet un accès silencieux, persistant, et souvent indétectable par les solutions de sécurité classiques.
 
 **Quatrième caractéristique : l'intelligence artificielle amplifie les deux côtés.** L'IA n'est plus un facteur théorique. Elle est désormais utilisée opérationnellement tant par les attaquants (phishing personnalisé, deepfakes, automatisation de la reconnaissance) que par les défenseurs (détection augmentée, automatisation du SOC, analyse comportementale). Microsoft documente dans son Digital Defense Report 2025 une croissance significative des contenus générés par IA dans les opérations d'influence étatiques — une tendance qui s'accélère.
 
@@ -120,7 +120,7 @@ Le paysage de la cybermenace est documenté par un écosystème dense de product
 
 **Europol** produit deux publications complémentaires. L'IOCTA (Internet Organised Crime Threat Assessment) est centré sur la cybercriminalité, avec un focus sur l'écosystème criminel, les données volées, le ransomware et la fraude. La SOCTA (Serious and Organised Crime Threat Assessment) replace la cybercriminalité dans le contexte plus large de la criminalité organisée et des menaces hybrides. La SOCTA 2025 est particulièrement notable pour son analyse de la convergence entre réseaux criminels et acteurs étatiques hybrides.
 
-**Le FBI/IC3** (Internet Crime Complaint Center) publie un rapport annuel apportant la perspective quantitative américaine : nombre de plaintes, pertes financières par type de crime, tendances de signalement. Le rapport 2025 documente plus de 16 milliards de dollars de pertes déclarées. Ces données sont précieuses mais reflètent un biais de déclaration (les victimes américaines qui choisissent de signaler).
+**Le FBI/IC3** (Internet Crime Complaint Center) publie un rapport annuel apportant la perspective quantitative américaine : nombre de plaintes, pertes financières par type de crime, tendances de signalement. Le rapport IC3 2025 documente 20,877 milliards de dollars de pertes déclarées. Ces données sont précieuses mais reflètent un biais de déclaration (les victimes américaines qui choisissent de signaler).
 
 **Le CSE/CCCS** (Centre de la sécurité des télécommunications / Centre canadien pour la cybersécurité) publie le National Cyber Threat Assessment, qui identifie les grandes tendances structurantes. L'édition 2025-2026 est remarquable pour son analyse structurée en cinq tendances (IA, évasion de détection, acteurs non-étatiques géopolitiquement inspirés, concentration des fournisseurs, services à double usage) et sa couverture détaillée de l'écosystème ransomware.
 
@@ -130,7 +130,7 @@ Le paysage de la cybermenace est documenté par un écosystème dense de product
 
 **Microsoft** publie le Digital Defense Report (MDDR), qui apporte une perspective unique par sa télémétrie mondiale. Avec des milliards de signaux traités quotidiennement, Microsoft documente des tendances que les agences nationales ne peuvent pas observer à cette échelle — notamment sur l'utilisation de l'IA dans les opérations d'influence, la fraude à l'identité synthétique, et les techniques d'accès initial.
 
-**INTERPOL** publie des documents stratégiques sur la lutte globale contre le cybercrime, articulant la coopération entre les 196 pays membres autour de quatre objectifs : cadres et recommandations, renseignement et analyse, coordination opérationnelle, et renforcement des capacités.
+**INTERPOL** publie des documents stratégiques sur la lutte globale contre le cybercrime, articulant la coopération entre les 195 pays membres autour de quatre objectifs : cadres et recommandations, renseignement et analyse, coordination opérationnelle, et renforcement des capacités.
 
 > **💡 Bonne pratique** : un CTL de qualité ne s'appuie jamais sur une source unique. Le croisement de sources ayant des biais différents (géographiques, sectoriels, méthodologiques) est le meilleur moyen de mitiger les angles morts. Un analyste CTI qui ne consulte que les rapports de son propre pays ou de son propre éditeur de sécurité produit un CTL biaisé.
 
@@ -873,7 +873,7 @@ Le CSE documente des innovations coercitives croissantes : publication de compte
 
 #### 11.5 — Statistiques croisées
 
-Les données quantitatives croisées donnent une image plus complète. Le FBI IC3 rapporte plus de 16 milliards de dollars de pertes totales liées au cybercrime en 2025, avec le ransomware et les data breaches représentant une part significative des plaintes liées aux infrastructures critiques. L'ENISA documente 82 variants de ransomware déployées contre l'UE. L'ANSSI rapporte avoir traité de multiples incidents de ransomware impactant des prestataires et causant des effets en cascade sur leurs clients.
+Les données quantitatives croisées donnent une image plus complète. Le FBI IC3 rapporte 20,877 milliards de dollars de pertes totales liées au cybercrime en 2025, avec le ransomware et les data breaches représentant une part significative des plaintes liées aux infrastructures critiques. L'ENISA documente 82 variants de ransomware déployées contre l'UE. L'ANSSI rapporte avoir traité de multiples incidents de ransomware impactant des prestataires et causant des effets en cascade sur leurs clients.
 
 Ces chiffres sous-estiment systématiquement la réalité : le sous-signalement est structurel (beaucoup de victimes ne déclarent pas), les pertes indirectes (interruption d'activité, atteinte réputationnelle, coûts de remédiation) ne sont pas incluses, et les incidents dans certaines juridictions ne sont pas comptabilisés.
 
@@ -935,7 +935,7 @@ Les forces de l'ordre ont ciblé l'infrastructure infostealer et IAB. L'opérati
 
 Le FBI IC3 documente un paysage de fraude en ligne massif. L'**investment fraud** (arnaques à l'investissement, principalement liées aux cryptomonnaies) représente les pertes les plus élevées. Le **BEC/CEO fraud** (compromission de messagerie professionnelle pour détourner des virements) reste l'une des fraudes les plus rentables par incident. Les **romance scams** et le **pig butchering** (arnaques sentimentales à long terme culminant dans une arnaque d'investissement) sont en forte croissance, exploitant les plateformes de rencontres et les réseaux sociaux.
 
-Les pertes totales déclarées au FBI IC3 dépassent **16 milliards de dollars** en 2025 — un chiffre qui ne représente qu'une fraction de la réalité mondiale, le FBI ne couvrant que les plaintes américaines.
+Les pertes totales déclarées au FBI IC3 est de **20,877 milliards de dollars** en 2025 — un chiffre qui ne représente qu'une fraction de la réalité mondiale, le FBI ne couvrant que les plaintes américaines.
 
 #### 13.2 — Phishing industrialisé et contournement MFA
 
@@ -975,7 +975,7 @@ Le modèle nord-coréen illustre le financement étatique par la cybercriminalit
 
 #### 14.1 — Architecture institutionnelle de la réponse opérationnelle
 
-La lutte opérationnelle contre le cybercrime repose sur un écosystème institutionnel dense. **Europol** (et son centre EC3) est le hub de coordination européen, fournissant un appui analytique et opérationnel aux enquêtes des États membres. **INTERPOL** coordonne les opérations à l'échelle mondiale entre ses 196 pays membres, avec des bureaux régionaux (Regional Cybercrime Operations Desks). Le **FBI/IC3** est la principale agence d'investigation américaine. Les agences nationales (ANSSI/CERT-FR, NCSC UK, BKA Allemagne, etc.) gèrent la réponse au niveau national.
+La lutte opérationnelle contre le cybercrime repose sur un écosystème institutionnel dense. **Europol** (et son centre EC3) est le hub de coordination européen, fournissant un appui analytique et opérationnel aux enquêtes des États membres. **INTERPOL** coordonne les opérations à l'échelle mondiale entre ses 195 pays membres, avec des bureaux régionaux (Regional Cybercrime Operations Desks). Le **FBI/IC3** est la principale agence d'investigation américaine. Les agences nationales (ANSSI/CERT-FR, NCSC UK, BKA Allemagne, etc.) gèrent la réponse au niveau national.
 
 Le **cycle EMPACT** (European Multidisciplinary Platform Against Criminal Threats) définit les priorités opérationnelles européennes, avec des objectifs spécifiques pour la cybercriminalité incluant le ciblage des groupes ransomware, les IAB, et les infrastructures de facilitation.
 
@@ -1035,7 +1035,7 @@ L'exploitation de vulnérabilités logicielles est devenue le deuxième vecteur 
 
 Le fait structurant est le **pivot vers la compromission d'infrastructure**. Les attaquants ciblent de moins en moins les postes utilisateurs (via le phishing) et de plus en plus les équipements d'infrastructure : VPN (Ivanti Connect Secure, Fortinet FortiOS), firewalls (Palo Alto PAN-OS), passerelles (Citrix), serveurs de gestion (BeyondTrust, SimpleHelp). Ce pivot est stratégique parce qu'il ne dépend pas de l'interaction utilisateur, offre un accès direct au réseau interne, et cible des équipements souvent moins supervisés que les endpoints.
 
-L'ANSSI confirme que « plus de la moitié des opérations de cyberdéfense de l'ANSSI, constituant son plus haut niveau d'engagement en réponse à incident, ont eu pour origine l'exploitation de vulnérabilités sur ces équipements ».
+L'ANSSI confirme que, en 2024, « plus de la moitié des opérations de cyberdéfense de l'ANSSI, ont eu pour origine l'exploitation de vulnérabilités sur ces équipements », en 2025, les équipements de bordure restent des cibles privilégiées.
 
 #### 15.3 — La gestion des CVE : un défi croissant
 
