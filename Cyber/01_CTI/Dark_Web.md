@@ -57,7 +57,7 @@ La frontière entre dark web et clear web est de plus en plus poreuse. Des plate
 
 #### 1.5 Ordres de grandeur
 
-Les mesures du Tor Project comptent en 2025-2026 environ 100 000 à 150 000 adresses .onion v3 uniques observées, dont 10-30 % sont actives à un moment donné. Parmi les sites actifs, environ 50-60 % sont légitimes, miroirs ou abandonnés ; 20-30 % sont des arnaques ; 10-20 % hébergent du contenu illicite. Le Tor Project estimait en 2014 qu'environ 1,5 % seulement des utilisateurs de Tor visitaient des hidden services — la majorité des 2-3 millions d'utilisateurs quotidiens utilisent Tor pour naviguer sur le web classique de manière anonyme.
+Les mesures du Tor Project comptent en 2025-2026 environ 800 000 adresses .onion v3 uniques observées, dont 10-30 % sont actives à un moment donné. Parmi les sites actifs, environ 50-60 % sont légitimes, miroirs ou abandonnés ; 20-30 % sont des arnaques ; 10-20 % hébergent du contenu illicite. Le CRS (Congrès US) estimait en 2015 qu'environ 3,4 % seulement des utilisateurs de Tor visitaient des hidden services — la majorité des 8 millions d'utilisateurs quotidiens utilisent Tor pour naviguer sur le web classique de manière anonyme. (Source : Tor Metrics https://metrics.torproject.org/hidserv-dir-v3-onions-seen.html?start=2025-01-15&end=2026-04-15)
 
 #### 1.6 Fil rouge — DARKSTREAM : le point de départ
 
@@ -75,15 +75,15 @@ Dans les années 1990, le **Naval Research Laboratory** (NRL) développe l'onion
 
 #### 2.2 L'ère Silk Road (2011-2013)
 
-**Silk Road**, créé par Ross Ulbricht (alias « Dread Pirate Roberts »), est le premier darknet market généraliste significatif. Lancé en février 2011, il combine Tor et Bitcoin dans un modèle d'e-commerce clandestin inspiré d'eBay. Silk Road atteint environ 1,2 million de transactions avant sa saisie par le FBI en octobre 2013. Ulbricht est identifié via des erreurs OPSEC : un post sur StackOverflow avec son vrai email, un pseudonyme relié à son identité réelle, et un serveur CAPTCHA qui a leaké l'IP du serveur.
+**Silk Road**, créé par Ross Ulbricht (alias « Dread Pirate Roberts »), est le premier darknet market généraliste significatif. Lancé en février 2011, il combine Tor et Bitcoin dans un modèle d'e-commerce clandestin inspiré d'eBay. Silk Road atteint environ 1,2 million de transactions avant sa saisie par le FBI en octobre 2013, avec plus de 150 000 personnes impliquées dans les transactions et plus de 4 000 vendeurs. Ulbricht est identifié via des erreurs OPSEC : un post sur StackOverflow avec son vrai email, un pseudonyme relié à son identité réelle, et un serveur CAPTCHA qui a leaké l'IP du serveur.
 
 #### 2.3 La professionnalisation (2014-2019)
 
-**AlphaBay** (2014-2017, opéré par Alexandre Cazes) devient le plus grand darknet market de l'histoire, avec plus de 250 000 listings. Sa saisie en juillet 2017 (Operation Bayonet) est couplée avec l'infiltration de **Hansa Market** par la police néerlandaise — les utilisateurs fuyant AlphaBay vers Hansa tombent dans un piège policier opéré pendant 30 jours.
+**AlphaBay** (2014-2017, opéré par Alexandre Cazes) devient le plus grand darknet market de l'histoire, Le DOJ parle de plus de 250 000 listings de drogues et produits chimiques toxiques, auxquels s’ajoutaient plus de 100 000 listings pour faux documents, accès frauduleux, malwares, armes, etc. Sa saisie en juillet 2017 (Operation Bayonet) est couplée avec l'infiltration de **Hansa Market** par la police néerlandaise — les utilisateurs fuyant AlphaBay vers Hansa tombent dans un piège policier opéré pendant 30 jours.
 
 #### 2.4 Hydra et la domination russophone (2015-2022)
 
-**Hydra Market** (2015-2022) — environ 5,2 milliards de dollars de transactions cumulées. Opéré exclusivement en russe, avec un système de « dead drops » physiques unique. Sa saisie par les autorités allemandes en avril 2022 crée une fragmentation de l'écosystème russophone.
+**Hydra Market** (2015-2022) — Le DOJ indique qu’Hydra a reçu environ 5,2 milliards de dollars en cryptomonnaies depuis 2015 et représentait environ 80 % des transactions crypto liées aux darknet markets en 2021. Opéré exclusivement en russe, avec un système de « dead drops » physiques unique. Sa saisie par les autorités allemandes en avril 2022 crée une fragmentation de l'écosystème russophone.
 
 #### 2.5 L'ère post-Hydra et les tendances 2024-2026
 
@@ -161,7 +161,7 @@ Les **guard nodes** (entry guards) voient l'IP réelle de l'utilisateur — posi
 
 #### 5.4 Métriques du réseau Tor
 
-En 2025-2026 : environ 6 000-7 000 relais actifs dont ~1 000 exit nodes, bande passante ~500-700 Gbit/s, 2-3 millions d'utilisateurs/jour. Principaux pays d'utilisateurs : États-Unis, Russie, Allemagne, Inde, Iran. La part accédant aux hidden services : environ 3-6 % du trafic total.
+En 2025-2026 : environ 10 000 relais actifs dont ~3 000 exit nodes, bande passante ~800 Gbit/s, 8 millions d'utilisateurs/jour. Principaux pays d'utilisateurs : États-Unis, Russie, Allemagne, Inde, Iran. La part accédant aux hidden services : environ 3-6 % du trafic total. (Source Tor Metrics https://metrics.torproject.org/ & https://metrics.torproject.org/relayflags.html & https://metrics.torproject.org/bandwidth.html)
 
 ---
 
@@ -197,14 +197,14 @@ Réseau de stockage distribué et chiffré. Le contenu est fragmenté et chiffr�
 
 #### 7.4 Comparaison technique
 
-| Critère | Tor | I2P | Freenet |
-|---------|-----|-----|---------|
-| Modèle de routage | Onion routing (circuits) | Garlic routing (tunnels unidirectionnels) | Stockage distribué |
+| Critère | Tor                                      | I2P | Freenet |
+| ------------------------ | ---------------------------------------- | -------------------------------------------- | ----------------------------------- |
+| Modèle de routage | Onion routing (circuits)                 | Garlic routing (tunnels unidirectionnels) | Stockage distribué |
 | Usage principal | Navigation web anonyme + hidden services | Communication interne (eepsites, messagerie) | Publication résistante à la censure |
-| Accès au web classique | Oui (exit nodes) | Limité (outproxies rares) | Non |
-| Taille du réseau | ~6 000-7 000 relais, 2-3M utilisateurs/jour | ~30 000 nœuds | ~5 000-10 000 nœuds |
-| Latence | Moyenne (1-5s) | Moyenne à élevée | Élevée (minutes) |
-| Contournement de censure | Oui (bridges, pluggable transports) | Limité | Limité |
+| Accès au web classique | Oui (exit nodes)                         | Limité (outproxies rares) | Non |
+| Taille du réseau | ~10 000 relais, 8M utilisateurs/jour     | ~30 000 nœuds | ~5 000-10 000 nœuds |
+| Latence | Moyenne (1-5s)                           | Moyenne à élevée | Élevée (minutes) |
+| Contournement de censure | Oui (bridges, pluggable transports)      | Limité | Limité |
 
 ---
 
@@ -1052,7 +1052,11 @@ Le cadre réglementaire est en retard. L'AI Act européen (entré en vigueur en 
 
 #### 40.1 Les grandes opérations de police
 
-**Operation Bayonet** (2017) : AlphaBay + Hansa. La police néerlandaise a opéré Hansa pendant 30 jours après la saisie d'AlphaBay, capturant les utilisateurs en migration. **Operation Cookie Monster** (2023) : saisie de Genesis Market (59 000 bots, 5 400 000 credentials). **Operation SpecTor** (2023) : 288 arrestations coordonnées dans 6 pays. **Operation Cronos** (2024) : disruption de l'infrastructure LockBit, identification de Dmitry Khoroshev comme LockBitSupp, saisie de l'infrastructure et des clés de déchiffrement. **Operation Stream** (2025) : démantèlement de Kidflix, l'une des plus grandes plateformes CSAM sur le dark web — plus de 91 000 vidéos CSAM, 1,8 million d'utilisateurs, 1 393 suspects identifiés, 79 arrestations, 39 enfants protégés. Cette opération, menée en coordination internationale, illustre l'efficacité de la coopération européenne via Europol et le J-CAT.
+- **Operation Bayonet** (2017) : AlphaBay + Hansa. La police néerlandaise a opéré Hansa pendant 30 jours après la saisie d'AlphaBay, capturant les utilisateurs en migration. 
+- **Operation Cookie Monster** (2023) : saisie de Genesis Market, Europol parle de **plus de 1,5 million de bot listings** et **plus de 2 millions d’identités numériques**, avec **17 pays** impliqués. (https://www.europol.europa.eu/media-press/newsroom/news/takedown-of-notorious-hacker-marketplace-selling-your-identity-to-criminals)
+- **Operation SpecTor** (2023) : 288 arrestations coordonnées dans 6 pays. 
+- **Operation Cronos** (2024) : disruption de l'infrastructure LockBit, identification de Dmitry Khoroshev comme LockBitSupp, saisie de l'infrastructure et des clés de déchiffrement. 
+- **Operation Stream** (2025) : démantèlement de Kidflix, l'une des plus grandes plateformes CSAM sur le dark web — plus de 91 000 vidéos CSAM, presque 2 millions d’utilisateurs, 1 393 suspects identifiés, 79 arrestations, 39 enfants protégés. Cette opération, menée en coordination internationale, illustre l'efficacité de la coopération européenne via Europol et le J-CAT. (https://www.europol.europa.eu/media-press/newsroom/news/global-crackdown-kidflix-major-child-sexual-exploitation-platform-almost-two-million-users)
 
 #### 40.2 Disruption et impact
 
