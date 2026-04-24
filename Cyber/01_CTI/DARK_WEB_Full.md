@@ -2629,3 +2629,319 @@ Pour l'analyste, cette structure économique suggère plusieurs focus.
 **Anticiper les transformations** : les modèles évoluent. Un vendeur individuel peut devenir IAB en montant en gamme, un IAB peut fonder son propre groupe RaaS, un opérateur RaaS peut se retirer en blanchisseur. L'analyste suit ces trajectoires pour anticiper les tendances.
 
 **Calibrer l'attribution** : chaque modèle a ses OPSEC typiques. Un vendeur individuel fait plus d'erreurs personnelles ; un opérateur RaaS opère avec plus de rigueur ; un service provider a des infrastructures plus visibles. L'attribution est plus facile sur certains profils que sur d'autres.
+
+---
+
+## PARTIE V — INVESTIGATION, VEILLE ET COLLECTE
+
+> **Ce que cette partie apprend.** Conduire une investigation dark web de manière professionnelle — cadre juridique et éthique, OPSEC de l'analyste, méthodes de collecte, workflow d'investigation d'un data leak, pivoting OSINT, veille continue, préservation des preuves.
+>
+> **Ce qu'elle ne couvre pas.** Les méthodes avancées d'analyse et d'attribution (Partie VI), les cas d'usage spécifiques par secteur (Partie VII), les études de cas complètes (Partie VIII).
+>
+> **Ce que vous saurez faire après cette partie.** Conduire une enquête OSINT sur le dark web en respectant le cadre légal français/européen, bâtir et maintenir une persona, investiguer un leak de données de manière structurée, préserver les preuves de manière admissible, et construire un programme de veille dark web durable.
+
+---
+
+### Chapitre 22 — Cadre juridique, éthique et sécurité de l'analyste
+
+Avant tout outil technique, l'analyste dark web doit maîtriser le cadre légal qui encadre son activité. Consulter un forum cybercriminel n'est pas illégal en soi — mais certains actes d'investigation le sont, et d'autres sont dans une **zone grise** qu'il faut savoir naviguer.
+
+#### 22.1 Le cadre français
+
+**Code pénal articles 323-1 à 323-8**. Atteinte aux STAD (systèmes de traitement automatisé de données). Incrimine :
+- **323-1** : l'accès ou le maintien frauduleux dans un STAD (maximum 3 ans d'emprisonnement et 100 000 € d'amende ; circonstances aggravantes si suppression/modification de données : 5 ans, 150 000 €).
+- **323-2** : l'entrave du fonctionnement d'un STAD (7 ans, 300 000 €).
+- **323-3** : la modification frauduleuse de données (7 ans, 300 000 €).
+- **323-3-1** : la détention et la diffusion d'outils conçus pour commettre ces infractions — **article clé pour l'analyste**, qui encadre la manipulation d'outils offensifs.
+
+**Loi du 24 juillet 2015 sur le renseignement** et articles associés dans le Code de la sécurité intérieure : cadre des activités de renseignement encadrées par l'État. L'analyste privé n'opère pas sous ce régime, mais les agences partenaires (DGSI, DGSE) peuvent.
+
+**Loi Informatique et Libertés + RGPD**. La collecte et le traitement de données personnelles exposées (même exposées par un attaquant) restent soumis aux régimes de protection. Un analyste qui capture un dump contenant des données personnelles doit gérer ce stock selon les règles applicables — base légale de traitement, minimisation, sécurisation, suppression post-exploitation.
+
+**Code de procédure pénale article 40**. Tout fonctionnaire qui, dans l'exercice de ses fonctions, acquiert la connaissance d'un crime ou d'un délit, est tenu d'en aviser le procureur. Un analyste fonctionnaire (service public, OIV) peut être concerné — même en secteur privé, la logique de signalement est structurante.
+
+**Cadre ANSSI / OIV**. Les OIV ont obligation de notification d'incidents significatifs à l'ANSSI. Les prestataires PASSI/PDIS/PRIS opèrent sous qualification.
+
+#### 22.2 Le cadre européen
+
+**Directive NIS 2 (UE 2022/2555)**. Transposée en France et dans tous les États membres. Obligations de cybersécurité et notification pour les entités essentielles et importantes dans 18 secteurs. Les analystes opérant pour ces entités ont un rôle dans la posture de notification.
+
+**RGPD**. Régit les données personnelles. Les dumps contenant données personnelles doivent être traités avec base légale (intérêt légitime de l'investigation, mission de service public, etc.), minimisation, sécurité.
+
+**Convention de Budapest sur la cybercriminalité (2001) et ses protocoles additionnels**. Cadre de coopération internationale en matière cybercriminalité. Protocole additionnel de mai 2022 facilite l'accès transfrontière à la preuve électronique.
+
+**EU Cyber Solidarity Act (2024)**. Crée un réseau européen de SOC et un mécanisme de réponse d'urgence pour incidents cyber transfrontaliers.
+
+**EU Cyber Sanctions Regime**. Sanctions ciblées contre cyberacteurs malveillants.
+
+#### 22.3 Les zones grises
+
+Plusieurs activités sont **dans la zone grise** — techniquement légales mais nécessitent prudence.
+
+**Consulter des forums criminels**. Légal en tant que tel. La simple consultation d'un contenu publiquement accessible (même sur .onion) n'est pas une infraction.
+
+**Créer un compte sur un forum criminel**. Nécessaire pour accéder aux zones fermées. Légal, avec précautions — le pseudonyme ne doit pas être utilisé pour commettre des infractions (solliciter des services criminels, acheter des données, participer à des discussions opérationnelles).
+
+**Télécharger des échantillons**. Zone sensible. Télécharger un fichier contenant des données personnelles (même publiquement exposées par l'attaquant) peut contrevenir au RGPD. Télécharger du malware pour analyse est **généralement accepté** dans un cadre de recherche, mais la détention de malware est encadrée par l'article 323-3-1. Pratique recommandée : n'en télécharger que ce qui est strictement nécessaire à la mission, documenter la justification, sécuriser le stock, supprimer après exploitation.
+
+**Télécharger des données volées**. Encore plus sensible. Principe : **nécessité et proportionnalité**. Télécharger un échantillon pour authentification est différent de télécharger l'intégralité d'un dump.
+
+**Télécharger du CSAM**. **Interdit absolument**. Même dans un cadre d'investigation, la détention est criminelle. Les investigations CSAM relèvent des autorités judiciaires avec cadre spécifique (pornographie enfantine, articles 227-23 et suivants du Code pénal).
+
+**Payer pour obtenir de l'information**. Dépend du contexte. Payer un droit d'entrée forum pour investigation : généralement accepté avec autorisation hiérarchique et traçabilité. Acheter des données volées : **risqué** — peut constituer recel. La DGSI accompagne ces cas.
+
+**Contacter un vendeur en se faisant passer pour acheteur**. Zone grise classique. Généralement accepté pour investigation avec encadrement, mais peut constituer provocation dans certains cadres — la jurisprudence française est restrictive sur la **provocation à la commission d'infraction**. L'analyste doit se présenter comme acheteur potentiel pour obtenir des échantillons, mais ne pas pousser le vendeur à augmenter son activité criminelle.
+
+**Infiltrer un groupe comme membre actif**. Réservé aux forces de l'ordre avec mandat judiciaire. Un analyste privé qui « infiltrerait » un groupe criminel dépasse largement le cadre légal.
+
+#### 22.4 L'éthique professionnelle
+
+Au-delà de la légalité stricte, plusieurs principes éthiques s'appliquent.
+
+**Minimisation**. Collecter le minimum nécessaire à la mission. Ne pas stocker plus que ce qu'on exploite. Supprimer après exploitation.
+
+**Non-prolifération**. Ne pas rediffuser les données collectées au-delà du cercle justifié. Un dump contenant des données personnelles ne se partage pas lightly, même entre analystes.
+
+**Non-exploitation abusive**. Les données volées peuvent contenir des informations sensibles (vie privée, communications intimes, données médicales). L'analyste ne les exploite qu'au strict nécessaire à la mission, pas par curiosité.
+
+**Transparence hiérarchique**. Les choix d'investigation sensibles (contact vendeur, paiement, téléchargement) sont documentés et autorisés par la hiérarchie.
+
+**Respect des victimes**. Les victimes de breach sont des personnes. Contact avec elles doit respecter leur dignité — ni sensationnaliser, ni exploiter leur détresse.
+
+**Coopération avec autorités**. Si l'investigation révèle des infractions graves (trafic humain, CSAM, terrorisme), signalement obligatoire aux autorités compétentes. Le secret professionnel n'est pas absolu.
+
+#### 22.5 La sécurité personnelle de l'analyste
+
+L'investigation dark web expose à plusieurs risques **personnels**.
+
+**Risque technique**. Compromission du poste d'investigation via malware piégé. Les fichiers téléchargés, les liens cliqués, les sites visités peuvent contenir des exploits ciblant les analystes. Mesures : machine dédiée, VM jetables (Whonix + VM d'exécution), pas de comptes personnels sur la machine.
+
+**Risque d'identification par les cibles**. Les acteurs malveillants font de la contre-surveillance. Un analyste qui utilise ses accès personnels, qui lit systématiquement les posts d'un vendeur spécifique, qui pose des questions révélatrices — peut être identifié comme investigateur. Conséquences : ciblage du compte d'investigation, tentative d'identification réelle (dox), voire menaces physiques dans les cas extrêmes.
+
+**Risque juridique transfrontalier**. Un analyste français qui interagit avec un vendeur russe via un forum hébergé aux Pays-Bas peut techniquement tomber sous multiple juridictions. En pratique, si l'activité est légale en France et dans le cadre d'une mission professionnelle, le risque est faible, mais pas nul.
+
+**Risque de manipulation psychologique**. L'immersion dans l'écosystème dark web expose à des contenus difficiles (violences, CSAM accidentellement croisé, narratifs extrêmes). L'analyste doit être soutenu par son organisation — debriefing psychologique, rotation des missions, limitation de l'exposition aux contenus traumatisants.
+
+**Risque de compromission éthique**. Dérive possible — un analyste exposé longtemps à l'écosystème peut développer de l'empathie pour les cibles, se laisser tenter par des relations personnelles avec des sources, perdre la distance professionnelle. Supervision hiérarchique et rotation atténuent.
+
+#### 22.6 Fil rouge — DARKSTREAM : encadrement légal
+
+> **🌐 DARKSTREAM — Épisode 12 : cadrage DGSI**
+>
+> Lucas prépare son premier contact avec aero_source. Avant action, validation DGSI obligatoire.
+>
+> Réunion avec l'officier DGSI référent. Points validés :
+> - **Contact OK** sous persona « mapletech » — acheteur technologique intéressé par specs aéronautiques. Légende crédible.
+> - **Pas d'engagement ferme d'achat** — Lucas peut exprimer intérêt, demander échantillons, négocier indirectement, mais jamais confirmer la transaction. La DGSI précise : « ne provoquez pas la vente, cherchez à comprendre ».
+> - **Pas de téléchargement de l'intégralité** — échantillons acceptés pour authentification, le dump complet non.
+> - **Remontée bi-hebdomadaire** : Lucas briefe la DGSI tous les 3-4 jours sur l'évolution.
+> - **Arrêt immédiat** si Lucas perçoit un risque d'exposition (persona identifiée comme analyste, menaces, contre-enquête).
+> - **Pas d'achat** des données. Si aero_source impose paiement pour les échantillons (rare), arrêt de l'investigation de ce côté.
+>
+> Tous les échanges XMPP sont archivés (logs chiffrés chez Athéna, accessibles DGSI). Capture d'écran au fur et à mesure. Hash des fichiers téléchargés. Documentation exhaustive du cheminement d'investigation.
+>
+> Cette rigueur procédurale est **la condition de l'utilisabilité** de ce que Lucas produira. Un rapport sans chain of custody documentée n'a aucune valeur judiciaire. Un rapport trop fondé sur des actions juridiquement douteuses peut être écarté.
+
+---
+
+### Chapitre 23 — OPSEC opérationnelle de l'investigation
+
+L'**OPSEC** (Operations Security) de l'analyste dark web est le pilier de la réussite d'une investigation. Une OPSEC défaillante expose l'analyste, compromet la mission, et peut mettre en danger les sources coopératives ou les collègues.
+
+#### 23.1 La séparation des univers
+
+Principe fondamental : **séparation totale** entre l'univers personnel de l'analyste, son univers professionnel hors investigation, et son univers d'investigation.
+
+**Machines séparées**. Ordinateur dédié à l'investigation dark web. Jamais utilisé pour activités personnelles (réseaux sociaux, emails, banque), jamais pour activités professionnelles générales (mails corporate, documents, visioconférences). Configuration minimale : OS dédié (Whonix, Tails), navigateur Tor Browser uniquement, outils strictement nécessaires.
+
+**Comptes séparés**. Emails jetables (protonmail, ctemplar, services .onion) pour les comptes d'investigation. Jamais de lien avec emails corporate ou personnels.
+
+**Identités séparées**. Les personas d'investigation (pseudonymes, handles Telegram, JID XMPP) sont **strictement cloisonnées** de l'identité réelle de l'analyste. Aucune réutilisation d'un pseudo entre personas. Aucun lien traçable entre les personas et l'identité réelle.
+
+**Financier séparé**. Wallets crypto dédiés à l'investigation, financés par un circuit professionnel (exchange corporate avec KYC de l'entreprise, pas de l'analyste personnellement). Transactions tracées par l'entreprise pour audit.
+
+**Temporel séparé**. L'investigation se fait dans des créneaux dédiés. Le mélange entre activités dark web et tâches personnelles dans le même créneau temporel crée des risques de contamination (oubli de fermer Tor Browser avant d'ouvrir son email personnel, etc.).
+
+#### 23.2 La persona
+
+Une **persona** est un personnage fictif construit pour l'investigation. Elle doit être **crédible** et **cohérente**.
+
+**Éléments de la persona** :
+- **Pseudonyme** : unique, ne ressemble pas à d'autres pseudonymes utilisés par l'analyste (pas de pattern identifiable).
+- **Histoire** : d'où vient-elle ? quel métier ? quelles compétences ? quels intérêts ?
+- **Langue** : style d'écriture cohérent avec l'origine prétendue. Un analyste français qui joue un persona russophone doit maîtriser les codes linguistiques russophones — sinon se cantonne à l'anglais.
+- **Niveau technique** : si persona « script kiddie » prétend avoir peu de skills, elle ne doit pas poser des questions trop sophistiquées. Si persona « pro » doit comprendre les concepts avancés.
+- **Activité historique** : la persona a-t-elle des posts dans des forums parallèles ? Une présence sur Telegram ? Un historique crédible ?
+- **Infrastructure cohérente** : serveur XMPP utilisé, méthodes de paiement préférées, heures d'activité.
+
+**Construction préalable**. Une persona utilisable pour une investigation sérieuse prend **3-6 mois** à construire — inscription sur un forum, posts graduels, participation communautaire, construction d'une histoire minimale. Les personas « jetables » (créées le jour, utilisées le lendemain) sont facilement identifiables comme non-authentiques.
+
+**Maintenance**. Une persona doit être **active** même quand pas utilisée sur une investigation active. Posts occasionnels, participation à des discussions générales. Une persona inactive pendant 6 mois puis réactivée pour une enquête ciblée déclenche la méfiance.
+
+**Burnability**. Accepter qu'une persona peut être brûlée. En ce cas, ne pas chercher à la « sauver » — l'abandonner, en construire une nouvelle. Toute tentative de réactiver une persona suspecte aggrave l'exposition.
+
+#### 23.3 La sécurité technique
+
+**Tor Browser en mode Safest**. JavaScript désactivé. Beaucoup de fonctionnalités cassées, mais pas d'exécution de code exploitable. Certains sites nécessitent JS — évaluer le risque au cas par cas, activer temporairement si site considéré sûr.
+
+**VM isolée**. Toute interaction au-delà de la simple navigation (téléchargements, fichiers exécutables) dans une VM jetable. Snapshot avant action, restauration après. Ne jamais exposer l'OS hôte à du contenu dark web non-simple-HTML.
+
+**Pas de JavaScript actif sur sites suspects**. Les NIT (Network Investigative Techniques) et les exploits navigateur exploitent JS (Ch.30). Mode Safest le bloque ; si on l'active, on doit comprendre les risques.
+
+**Pas de WebRTC**. Tor Browser désactive WebRTC ; ne pas l'activer manuellement. WebRTC peut leaker l'IP réelle.
+
+**Pas de plugins**. Flash, Java, PDF readers intégrés — désactivés ou absents. Tor Browser configure ça par défaut.
+
+**Vérification des .onion**. Les adresses .onion sont longues (56 caractères v3). Les scammers créent des adresses similaires via vanity generation. **Toujours vérifier l'adresse complète**, via source fiable (site officiel du service, post établi sur forum réputé, backup en dur pré-validé).
+
+**Hashing des fichiers**. Tout fichier téléchargé est hashé (SHA-256 minimum) avant ouverture. Le hash sert de référence pour la chain of custody et pour vérifier que le fichier n'a pas été altéré entre collecte et analyse.
+
+**Pas de métadonnées**. Les screenshots sont pris puis **strippés de métadonnées** (exiftool). Les documents créés pendant l'investigation (notes, rapports) ne doivent pas contenir de métadonnées personnelles (nom d'auteur dans Word, etc.).
+
+#### 23.4 Les erreurs classiques
+
+**Réutilisation de pseudonymes**. Un analyste qui utilise le même pseudo sur plusieurs enquêtes risque la corrélation. Les forums observent les patterns — un pseudo qui demande des échantillons de données industrielles aerospace sur un forum et des échantillons bancaires sur un autre est soit un acheteur éclectique, soit un investigateur.
+
+**Corrélation temporelle**. Pseudo actif aux heures ouvrables françaises systématiquement. Indique fuseau horaire Europe occidentale, incompatible avec un persona prétendument russophone.
+
+**Fuites linguistiques**. Expressions françaises dans un persona anglophone, conventions de dates françaises (DD/MM) dans un persona américain (MM/DD), traduction littérale d'idiomes français.
+
+**Over-sharing**. Par nervosité ou tentative de crédibilité, l'analyste donne trop d'infos sur sa « persona » — détails sur son entreprise fictive, anecdotes personnelles vérifiables. Chaque détail est une surface d'attaque pour la contre-investigation.
+
+**Accès depuis infrastructure corporate**. L'analyste qui accède à Tor depuis l'IP corporate de son bureau (même via VPN Tor) expose son organisation. Poste dédié dans un réseau isolé recommandé.
+
+**Comptes personnels sur la machine d'investigation**. Un analyste qui check ses emails personnels sur la machine dark web compromet tout le cloisonnement.
+
+**Documentation défaillante**. Une investigation sans logs précis de chaque action (heure, URL visitée, fichier téléchargé, hash, pseudonyme utilisé) ne produit pas de preuves utilisables.
+
+**Abandon de prudence sur la durée**. Au début de l'enquête, OPSEC rigoureuse. Après 3 mois, fatigue, relâchement. L'erreur survient plus tard, pas au début.
+
+#### 23.5 Le programme OPSEC d'équipe
+
+Pour une équipe CTI, l'OPSEC doit être **institutionnelle**, pas individuelle.
+
+**Procédures documentées**. Playbook formalisé : comment créer une persona, comment ouvrir un compte, comment gérer les paiements, comment capturer les preuves, comment documenter.
+
+**Peer review**. Chaque action sensible (création de persona, premier contact vendeur, téléchargement d'échantillon) est validée par un pair ou la hiérarchie.
+
+**Supervision**. Un responsable CTI a visibilité sur les investigations en cours, alloue les personas, valide les escalades.
+
+**Formation continue**. L'OPSEC évolue (nouvelles techniques de dé-anonymisation, nouveaux pièges). Formation périodique, veille sur les techniques offensives utilisées contre les analystes.
+
+**Incident response OPSEC**. Plan d'action en cas de compromission de persona — quoi abandonner, quoi sauvegarder, qui prévenir, comment communiquer.
+
+**Débriefing psychologique**. Les missions longues dans l'écosystème dark web sont éprouvantes. Sessions régulières avec psychologue ou pair expérimenté.
+
+---
+
+### Chapitre 24 — Naviguer et collecter : méthodes, outils, limites
+
+Aspect pratique : comment on navigue effectivement sur le dark web, quels outils on utilise, et quelles sont les limites techniques et méthodologiques.
+
+#### 24.1 L'outillage de base
+
+**Tor Browser** : navigateur de référence. Basé sur Firefox ESR, hardened, en mode Safest pour l'investigation. À télécharger **uniquement** depuis torproject.org (ou ses miroirs officiels).
+
+**Tails** : distribution Linux live. Démarre sur clé USB, ne laisse aucune trace sur la machine. Recommandée pour les investigations les plus sensibles.
+
+**Whonix** : architecture en deux VM (Gateway + Workstation). Isolation forte. Recommandée pour setup permanent d'investigation.
+
+**Qubes OS** : système d'exploitation avec isolation par VM (AppVMs). Très sécurisé mais courbe d'apprentissage plus raide.
+
+**VM dédiée dans VMware/VirtualBox** : alternative accessible si Whonix est trop lourd. Clone de l'OS avant chaque session, restauration post-session.
+
+**Outils complémentaires** :
+- **curl / wget via Tor** (torify) : récupération en ligne de commande.
+- **OnionScan** : audit automatique de services .onion pour failles OPSEC.
+- **tsocks / proxychains** : chaînage de proxies.
+- **Aquatone, Eyewitness** : capture automatisée de screenshots en masse.
+- **Hunchly** : outil commercial de capture structurée d'investigation (horodatage, archivage, notes).
+- **Maltego** : graphing des relations entre entités (avec transformations spécifiques dark web).
+
+#### 24.2 Les sources et points d'entrée
+
+**Comment trouve-t-on des .onion** ?
+
+**Listes communautaires**. The Hidden Wiki (multiple instances, pas toutes fiables), Dark.fail, Tor.taxi. Ces listes sont **partielles et partiellement scam-compromised** — ne jamais cliquer aveuglément.
+
+**Moteurs de recherche .onion**. Ahmia, Torch, Haystak, Excavator. Indexation **très partielle** du contenu .onion. Utile pour des recherches spécifiques, mais rarement exhaustif.
+
+**Cross-references depuis forums**. Les forums mentionnent d'autres forums, marchés, canaux. Documentation par ce biais — plus fiable que les listes car vouchées par la communauté.
+
+**Canaux Telegram**. Beaucoup d'acteurs postent leurs adresses .onion sur Telegram, ce qui les rend plus facilement découvrables. Surveiller les canaux pertinents.
+
+**Services de monitoring commerciaux**. Recorded Future, SOCRadar, Flashpoint, Flare, Intel471, DarkOwl, Cybersixgill — tous maintiennent des bases d'entités dark web crawlées. Accès via abonnement entreprise.
+
+**OSINT public**. Articles de presse, papers académiques, rapports vendors — regorgent de mentions d'adresses .onion qui ont fait l'actualité.
+
+#### 24.3 La collecte structurée
+
+**Capture vs simple navigation**. La collecte doit être **structurée**, pas simple navigation. Capturer systématiquement :
+- **URL complète** visitée.
+- **Horodatage précis** (timestamp avec seconde, fuseau horaire).
+- **Capture d'écran** du contenu.
+- **HTML source** sauvegardé.
+- **Hash** du contenu sauvegardé.
+- **Pseudonyme utilisé** pour la session.
+
+**Archivage**. Plusieurs options :
+- **Hunchly** : outil commercial qui automatise capture + organisation + horodatage.
+- **Archivage manuel** : dossiers structurés, nommage convention (YYYYMMDD-HHMMSS-source-description), fichiers immutables.
+- **Container cryptographiquement signé** : après collecte, générer un hash global du dossier, horodater, signer (GPG), stocker en immutable.
+
+**Organisation**. Par cas d'investigation, par source, par date. Éviter le « one big folder » — impossible à remonter après 6 mois.
+
+#### 24.4 Les challenges techniques
+
+**Lenteur du réseau Tor**. Navigation 5-10× plus lente que clearnet. Planifier des sessions d'investigation longues, éviter la multitâche excessive.
+
+**Disponibilité intermittente des .onion**. Un site .onion peut être down pour heures ou jours. Tenter plusieurs fois, utiliser des mirrors (si connus), noter les patterns de disponibilité.
+
+**DDoS permanents**. Les grands forums sont régulièrement DDoSés. Les pages chargent lentement, partiellement, ou pas du tout. Les meilleures heures d'investigation sont souvent les créneaux nocturnes (fuseau horaire attaquant).
+
+**CAPTCHA pervasifs**. Pour limiter le scraping, beaucoup de sites .onion implémentent CAPTCHAs difficiles, parfois impossibles pour des outils automatisés.
+
+**Protections anti-scraping**. Limites de requêtes, défis JS, tokens de session, fingerprinting — rendent la collecte automatisée complexe.
+
+**Sites éphémères**. Un forum peut déménager d'adresse .onion sans préavis. Une capture d'il y a 6 mois peut pointer vers un site disparu. Les archives ont donc une valeur disproportionnée sur le dark web.
+
+#### 24.5 Les limites méthodologiques
+
+**Biais de survivance**. Ce qu'on observe est ce qui existe actuellement. Les acteurs qui disparaissent ne sont plus observables. Les forums saisis ne sont plus accessibles (sauf archives). L'image du dark web à un instant T est partielle et biaisée vers les survivants.
+
+**Biais de visibilité**. Les acteurs les plus sophistiqués sont souvent les moins visibles. Un APT étatique n'a pas besoin d'un leak site flashy — il opère discrètement. Les acteurs observables sur forums publics sont majoritairement de profil intermédiaire.
+
+**Biais de représentation**. L'analyste observe à travers les forums qu'il connaît. L'écosystème russophone, chinois, arabophone, persan ont chacun leurs dynamiques propres, partiellement accessibles selon les compétences linguistiques de l'équipe.
+
+**Biais de fraîcheur**. Les données anciennes disparaissent. Un forum actif il y a 2 ans peut être invisible aujourd'hui. L'histoire du dark web est partiellement perdue.
+
+**Biais d'accès**. Les zones premium des forums (souvent les plus intéressantes analytiquement) nécessitent paiement, vouching, tenure. Un analyste privé n'a pas toujours les moyens d'accéder à toutes les zones utiles.
+
+#### 24.6 Automatisation et échelle
+
+**Scraping automatisé** : possible mais difficile. Les protections anti-bot sont fortes. Nécessite infrastructure (plusieurs instances Tor, rotation d'identités), résilience (retry logic, gestion erreurs), légalité (certains ToS interdisent scraping même sur sites criminels).
+
+**Plateformes commerciales** : outils SaaS qui font le crawling à grande échelle et exposent les résultats via API. Recorded Future, DarkOwl, Flare, Intel471, Cybersixgill. Coût : 50 k - 500 k USD/an selon scale.
+
+**Open source** : quelques projets open source (OnionScan, TorBot, Dark-Scrape) mais moins robustes que solutions commerciales.
+
+**Approche hybride** : scraping ciblé sur sources prioritaires + plateforme commerciale pour couverture large + veille humaine pour les signaux faibles.
+
+#### 24.7 Fil rouge — DARKSTREAM : l'accès à IndustrialLeaks
+
+> **🌐 DARKSTREAM — Épisode 13 : setup et navigation**
+>
+> Lucas utilise son environnement Whonix avec Tor Browser Safest. Accès initial à IndustrialLeaks via l'adresse .onion communiquée par le partenaire vouching. Vérification de l'adresse : 56 caractères, cross-check sur 2 sources indépendantes (mention dans un post Recorded Future + mention sur un forum russophone peer).
+>
+> Navigation lente — 2-3 secondes par clic. Le forum affiche un CAPTCHA proof-of-work (JS requis à minima pour le CAPTCHA). Lucas active JS **uniquement pour la page de login**, puis le désactive après. Session de navigation active, avec Hunchly en background pour capture systématique.
+>
+> Exploration structurée :
+> 1. Captures de toutes les catégories publiques (arborescence du forum).
+> 2. Lecture et capture du post aero_source + tous les posts du même user.
+> 3. Navigation aux autres vendeurs du mois, pour profiling comparatif.
+> 4. Règles du forum (capture).
+> 5. Statistiques visibles (nombre de membres, posts, transactions).
+>
+> Cycle de 3 heures. 147 pages capturées, structurées par dossier. Hash du corpus calculé. Persona « mapletech » affiche activité cohérente (quelques réponses en threads, aucun message offensif, aucune tentative de solliciter info sensible au-delà de ce qui est publiquement affiché).
+>
+> Post-session, Lucas produit un **mémo d'observations** : architecture du forum, profils de vendeurs actifs, posts d'intérêt, observations sur aero_source. Ce mémo alimente le dossier DARKSTREAM et permet aux autres membres de l'équipe Athéna d'orienter leurs propres recherches sans re-naviguer manuellement.
