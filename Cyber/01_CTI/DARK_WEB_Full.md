@@ -2030,19 +2030,19 @@ Au-delà des produits (données, credentials), le dark web est un marché de **s
 
 **Ransomware-as-a-Service (RaaS)**. Modèle dominant de l'écosystème ransomware. L'opérateur développe et maintient le malware + l'infrastructure (leak site, portail de négociation). Les **affiliés** déploient le ransomware chez des victimes, moyennant partage des gains (typiquement 70/30 affilié/opérateur, parfois 80/20). Ce modèle a industrialisé le ransomware : LockBit, ALPHV, Conti historique, Black Basta, Play, RansomHub actuels.
 
-**Initial Access-as-a-Service (IAaaS)**. Les IAB (Initial Access Brokers) compromettent et **vendent l'accès** préqualifié. Modèle spécialisé : l'IAB ne ransomware pas lui-même, il vend à un opérateur ransomware (ou autre acheteur) un accès déjà installé. Prix : 500-50 000 USD selon la cible (CA, secteur, niveau de privilèges). Délai de monétisation : plus rapide que développer une intrusion soi-même.
+**Initial Access-as-a-Service (IAaaS)**. Les IAB compromettent et **vendent l'accès** préqualifié. Modèle spécialisé : l'IAB ne ransomware pas lui-même, il vend à un opérateur ransomware (ou autre acheteur) un accès déjà installé. Prix : 500-50 000 USD selon la cible (CA, secteur, niveau de privilèges). Délai de monétisation : plus rapide que développer une intrusion soi-même.
 
-**Phishing-as-a-Service (PhaaS)**. Kits de phishing prêts à l'emploi, avec interface de gestion, templates, hosting. LabHost (démantelé avril 2024), EvilProxy, Evilginx (open source mais utilisé massivement). PhaaS a popularisé le **AiTM** (Adversary-in-the-Middle) qui contourne le MFA en capturant cookies de session.
+**Phishing-as-a-Service (PhaaS)**. Kits de phishing prêts à l'emploi, avec interface de gestion, templates, hosting. LabHost (démantelé avril 2024), EvilProxy, Evilginx (open source mais utilisé massivement). PhaaS a popularisé l'**AiTM** (Adversary-in-the-Middle) qui contourne le MFA en capturant cookies de session.
 
 **Malware-as-a-Service (MaaS)**. Location de malware — infostealers (Lumma, RedLine mensuel), loaders, RAT, cryptominers.
 
 **DDoS-as-a-Service**. Booters et stressers. De quelques dollars par attaque à plusieurs centaines pour attaques soutenues.
 
-**Hosting bulletproof**. Infrastructure pour héberger contenu illicite. Ch.9.
+**Hosting bulletproof**. Infrastructure pour héberger contenu illicite (Ch.9).
 
-**Cryptage / Obfuscation-as-a-Service**. Crypters et obfuscateurs pour rendre malware FUD (Fully Undetected). Service essentiel pour les opérateurs malware.
+**Cryptage / Obfuscation-as-a-Service**. Crypters et obfuscateurs pour rendre malware FUD. Service essentiel pour les opérateurs malware.
 
-**Money laundering-as-a-Service**. Services de blanchiment crypto. Commissions 10-30%. Ch.21.
+**Money laundering-as-a-Service**. Services de blanchiment crypto. Commissions 10-30% (Ch.21).
 
 **Account checker / cracking services**. Vérification en masse de combo lists contre des services cibles (valider quels credentials marchent réellement).
 
@@ -2050,10 +2050,214 @@ Au-delà des produits (données, credentials), le dark web est un marché de **s
 
 #### 16.2 Profils d'acteurs typiques
 
-**L'opérateur RaaS**. Figure centrale. Développe le malware, opère l'infrastructure, gère les affiliés, négocie les rançons. Équipe typique : 5-20 personnes. Revenu : plusieurs millions à dizaines de millions USD/an pour les groupes dominants. Exemples (noms publics) : Dmitry Khoroshev / LockBitSupp (LockBit), autres en grande partie anonymes.
+**L'opérateur RaaS**. Figure centrale. Développe le malware, opère l'infrastructure, gère les affiliés, négocie les rançons. Équipe typique : 5-20 personnes. Revenu : plusieurs millions à dizaines de millions USD/an pour les groupes dominants. Exemple public : Dmitry Khoroshev / LockBitSupp (LockBit), autres en grande partie anonymes.
 
 **L'affilié RaaS**. Exécutant opérationnel. Achète l'accès (via IAB ou compromet lui-même), déploie le ransomware, reçoit sa part des gains. Peut être indépendant ou partie d'une équipe. Skills : persistance, lateral movement, AD domination, parfois exfiltration. Turnover élevé — les affiliés changent de groupe selon conditions et opportunités.
 
 **L'Initial Access Broker (IAB)**. Spécialisé dans la compromission initiale. Sources d'accès : exploitation d'edge devices (VPN, RDP exposés, vulnérabilités publiques), phishing, achat de logs, social engineering. Vend l'accès après qualification (confirmation des privilèges, cartographie minimale). Actifs connus : marées de posts sur XSS, Exploit, parfois accès de premier plan sur BreachForums.
 
-**Le developer malware**. Écrit le code. Profil technique pur. Peut travailler pour un groupe, en freelance, ou vendre son malware comme produit. Certains devs sont très réputés dans l'écosystème
+**Le developer malware**. Écrit le code. Profil technique pur. Peut travailler pour un groupe, en freelance, ou vendre son malware comme produit. Certains devs sont très réputés dans l'écosystème pour des familles de malware spécifiques.
+
+**Le courtier (broker) de données**. Collecte des données (achat, récupération de breaches publiés) et revend en les repackageant. Spécialisation par type (fullz, credentials bancaires, dossiers médicaux).
+
+**Le money mule et le launderer**. Deux profils distincts. Le **mule** prête son compte bancaire ou son wallet crypto pour faire transiter des fonds — souvent recruté sous prétexte d'un emploi légitime, parfois consentant. Le **launderer** est professionnel, structure des opérations de blanchiment sophistiquées (multi-hop crypto, mixers, conversions off-chain).
+
+**Le carder**. Spécialisé fraude cartes bancaires. Achète des dumps, les teste, les monétise (achats de biens revendables, cash advance, autres).
+
+**Le script kiddie**. Amateur avec skills limités, utilise outils achetés. Majoritaire en nombre, minoritaire en impact. Dans les forums sérieux, traités avec condescendance.
+
+**Le hacktiviste**. Motivation idéologique plus que financière. Opère souvent via canaux Telegram publics, moins sur forums .onion fermés. Anonymous historique, KillNet, Cyber Av3ngers, IT Army of Ukraine, etc. (Ch.38).
+
+**L'agent étatique**. Opérateur qui utilise le dark web comme cover ou comme canal d'acquisition. APT29 a historiquement acheté des accès sur forums. La DPRK utilise le dark web pour vendre des données volées (Lazarus). Ces acteurs n'ont pas de « profil » simple — ils adaptent à chaque opération.
+
+**L'analyste défensif / force de l'ordre / journaliste**. Observateur légitime (avec mandat). Se présente généralement comme lurker, parfois sous couverture avec persona active (Ch.22, Ch.23, Ch.30).
+
+#### 16.3 La chaîne de valeur d'une compromission moderne
+
+Comprendre les acteurs permet de reconstituer la chaîne typique d'une attaque enterprise 2024-2026.
+
+**Étape 1 — Vol initial de credentials**. Un utilisateur télécharge un logiciel crack piégé, son poste personnel est infecté par un infostealer (Lumma), ses credentials (y compris son compte pro utilisé sur le poste perso) sont exfiltrés.
+
+**Étape 2 — Vente en bulk**. L'opérateur de stealer vend les logs en lot sur Russian Market. Log basique : 15 USD.
+
+**Étape 3 — Achat par IAB**. Un IAB achète des logs en volume, les trie pour identifier ceux avec accès corporate intéressants (VPN, Citrix, tokens cloud).
+
+**Étape 4 — Qualification par IAB**. L'IAB utilise les credentials pour entrer dans le SI cible, vérifier les privilèges, cartographier l'environnement, identifier les cibles de valeur (DC, fileservers, backups).
+
+**Étape 5 — Vente à affilié RaaS**. L'IAB poste l'accès sur un forum : « Access RDP + AD domain admin, EU manufacturing company, CA 500M USD, 2 000 endpoints, backup Veeam visible ». Prix : 25 000 USD.
+
+**Étape 6 — Déploiement ransomware**. L'affilié achète l'accès, déploie le ransomware du groupe (Black Basta, par exemple). Exfiltre d'abord 800 Go de données sensibles (double extorsion), puis chiffre.
+
+**Étape 7 — Négociation et rançon**. La victime est contactée via portail de négociation. Rançon demandée : 3 M USD. Négociation éventuelle. Paiement en Bitcoin.
+
+**Étape 8 — Partage des gains**. Affilié reçoit 70% (2,1 M USD), opérateur RaaS 30% (0,9 M USD). Transferts crypto vers wallets opérationnels.
+
+**Étape 9 — Blanchiment**. Les fonds passent par mixers, swaps Monero, exchanges non-KYC, OTC desks. Après 3-6 mois de chaînes, partie des fonds est convertie en fiat utilisable.
+
+**Étape 10 — Publication partielle ou totale si non-paiement**. Si la victime ne paie pas, le groupe RaaS publie tout ou partie des données sur son leak site. Certaines données valorisables peuvent être revendues en parallèle.
+
+Toute cette chaîne — de l'infection initiale au blanchiment — peut prendre **3 à 6 mois**. Chaque étape est opérée par un acteur spécialisé, avec ses skills et ses marchés. La cybercriminalité est une **industrie structurée**, pas une activité individuelle.
+
+Pour le défenseur, chaque étape de cette chaîne est une **opportunité d'interruption** : détecter le stealer avant l'exfiltration, le log avant l'achat par IAB, l'accès IAB avant la vente, l'affilié avant le déploiement, l'exfiltration avant le chiffrement, la rançon avant le paiement. Plus la détection est précoce, plus l'impact est limité.
+
+#### 16.4 Fil rouge — DARKSTREAM : la chaîne reconstituée
+
+> **🌐 DARKSTREAM — Épisode 10 : cartographie de la chaîne**
+>
+> Au terme de 2 semaines d'investigation, Lucas reconstitue la chaîne probable de compromission Vectris.
+>
+> **Étape 1** — Infection initiale : un ingénieur R&D (VECTRIS-RD-112) a téléchargé un outil CAD crackéé depuis un site de warez. Infostealer Lumma déployé. Log exfiltré fin 2025.
+>
+> **Étape 2** — Vente du log sur Russian Market fin 2025, ~120 USD (tier « corporate VPN + tokens actifs », premium).
+>
+> **Étape 3** — Achat par un IAB russophone (pseudonyme identifié partiellement : **magnit_ru**, actif sur XSS Forum). Qualification : vérification que les credentials VPN fonctionnent, exploration réseau, identification que Vectris est un groupe industriel aerospace.
+>
+> **Étape 4** — Revente. magnit_ru poste l'accès sur XSS début 2026 : « Access aerospace EU, R&D network, defense programs ». Prix demandé : ~35 000 USD.
+>
+> **Étape 5** — Achat par aero_source (ou un commanditaire derrière lui). Hypothèse Lucas : aero_source est soit (a) un opérateur individuel qui a acheté l'accès et a exfiltré les 420 Go lui-même, soit (b) le front d'une équipe plus grande, soit (c) un revendeur qui a acheté le dump à un acteur qui lui a fait l'exfiltration.
+>
+> **Étape 6** — Exfiltration : ~12 semaines d'activité sur le réseau Vectris (traces cohérentes avec les logs Mandiant), 420 Go extraits, focus sur R&D propulsion et dossiers fournisseurs défense.
+>
+> **Étape 7** — Vente sur IndustrialLeaks : post public il y a 11 jours à 65 000 USDT.
+>
+> La chaîne implique donc **au moins 3 acteurs distincts** : opérateur Lumma (infection initiale, revente bulk), magnit_ru (IAB), aero_source (exfiltration ou revente finale). Complexifie l'attribution mais multiplie les angles d'investigation. Identifier un seul de ces acteurs précisément pourrait suffire à remonter la chaîne.
+
+---
+
+### Chapitre 17 — Marché des 0-day et chaîne exploit → attaque
+
+Les **0-day** — vulnérabilités non connues de l'éditeur et donc non patchées — sont l'apex de l'écosystème offensif. Leur marché est structurant pour le dark web, avec des particularités qui distinguent ce segment du reste de la cybercriminalité.
+
+#### 17.1 Qu'est-ce qu'un 0-day
+
+Terminologie précise.
+
+**Vulnérabilité** : faille dans un logiciel, une configuration, un protocole permettant potentiellement une exploitation malveillante.
+
+**0-day (zero-day)** : vulnérabilité non encore connue publiquement et non patchée par l'éditeur. Son exploitation est potentiellement **surprise** — aucune signature ne la détecte, aucune mitigation connue ne la bloque.
+
+**N-day** : vulnérabilité récemment rendue publique et patchée, mais pas encore déployée largement. Les attaquants exploitent les N-day pendant la fenêtre entre publication du patch et déploiement généralisé.
+
+**Exploit** : code qui exploite une vulnérabilité. Peut être théorique (proof-of-concept), fonctionnel (weaponisé), ou en production (stable, compatible multi-environnements).
+
+**Exploit chain** : chaîne de plusieurs exploits combinés pour atteindre un objectif plus ambitieux (par exemple : escape sandbox navigateur + escalation privilèges kernel → RCE avec privilèges système).
+
+#### 17.2 Le marché légal : bug bounty et brokers
+
+L'écosystème des vulnérabilités n'est pas uniquement illégal. Un marché légal existe, structuré.
+
+**Bug bounty programs**. Les grands éditeurs (Google, Microsoft, Apple, Mozilla, Meta, Samsung, etc.) offrent des récompenses pour la déclaration responsable de vulnérabilités. Montants : de quelques centaines de dollars pour des bugs mineurs à plusieurs millions pour des chaînes d'exploits complètes sur iOS ou Android. **Apple Security Bounty** : jusqu'à 2 M USD pour une chaîne avec persistance sur iOS. **Google Vulnerability Reward Program** : jusqu'à 1,5 M USD pour certains cas Android.
+
+**Plateformes bug bounty** : HackerOne, Bugcrowd, Intigriti, YesWeHack (français), Synack. Hébergent les programmes de dizaines de milliers d'organisations.
+
+**Pwn2Own** : compétition annuelle (ZDI / Trend Micro, plusieurs éditions par an dans différentes villes) où des chercheurs exploitent des logiciels cibles pour des récompenses publiques. Moyen médiatisé de révéler des vulnérabilités.
+
+**ZDI (Zero Day Initiative)** : programme de rachat de vulnérabilités par Trend Micro. Paye les chercheurs, travaille avec les éditeurs pour patch, publie les advisories.
+
+**Brokers commerciaux** : entreprises qui achètent des vulnérabilités à des chercheurs et revendent à des clients (souvent gouvernementaux). **Zerodium** est la référence historique — prix publics depuis des années, jusqu'à 2,5 M USD pour des chaînes Android. **Crowdfense** : concurrent. **Intrepidus / ERNW / Vupen historique** : prédécesseurs. Ces brokers opèrent **légalement**, vendant à des gouvernements de démocraties (ou présentés comme tels — débats existent sur certains clients effectifs).
+
+#### 17.3 Le marché gris et noir
+
+En parallèle du marché légal, un marché **gris** (légalité ambiguë) et **noir** (clairement illégal) existe.
+
+**Marché gris** : vente à des gouvernements de régimes autoritaires, ou à des entreprises de surveillance. Le 0-day lui-même n'est pas illégal — la vulnérabilité est juste de l'information technique. Mais son usage ultérieur peut être problématique. NSO Group (Pegasus), Candiru, Intellexa / Predator achètent des 0-day et les intègrent dans leurs outils de surveillance. Leurs clients incluent parfois des États qui ciblent journalistes et dissidents.
+
+**Marché noir** : vente à des acteurs cybercriminels ou à des services de renseignement hostiles qui exploitent pour opérations offensives. Moins médiatisé, moins structuré, mais actif. Les prix peuvent rivaliser avec le marché légal pour les vulnérabilités les plus précieuses.
+
+**Disruption** : les 0-day disparaissent du marché après publication. Leur valeur chute de 90%+ dans les semaines suivant un patch public. Les acteurs du marché noir cherchent donc à acheter des 0-day avec **exclusivité** et à les utiliser **rapidement** avant découverte et patching.
+
+#### 17.4 Prix indicatifs
+
+Sources : Zerodium price list publique, Crowdfense, rapports Atlantic Council, observations marché noir.
+
+| Cible | Marché légal bug bounty | Marché broker (Zerodium, Crowdfense) | Marché gris/noir |
+|---|---|---|---|
+| Chrome RCE | 250 k USD (Google VRP) | 500 k - 1,5 M USD | 500 k - 2 M USD |
+| iOS complete chain avec persistance | 2 M USD (Apple) | 2 - 2,5 M USD | 5 - 10 M USD (rumeurs) |
+| Android complete chain | 1,5 M USD (Google) | 1,5 - 2,5 M USD | 3 - 8 M USD |
+| WhatsApp RCE 1-click | N/A | 1,5 M USD | Plus |
+| Windows LPE | ~30 k USD | ~80 k - 200 k USD | Comparable |
+| Exchange Server RCE | ~30 k USD | ~100 k USD | Plus |
+| Safari RCE | 100 k USD | ~300 k USD | Plus |
+| Tor Browser exploit | — | Jusqu'à 1 M USD | Demande forte renseignement |
+
+Variation par :
+- **Fiabilité** : exploit stable qui marche à 100% vaut plus qu'un exploit probabiliste.
+- **Fraîcheur** : exploit qui vient d'être découvert vs exploit avec risque de découverte imminente.
+- **Contexte d'exploitation** : nécessite interaction utilisateur vs fully remote, 1-click vs 0-click.
+- **Persistance** : survit aux reboot ou non.
+- **Compatibilité** : fonctionne sur multiple versions du logiciel cible.
+
+#### 17.5 La chaîne 0-day → attaque
+
+Comment un 0-day devient une attaque concrète.
+
+**Étape 1 — Découverte**. Un chercheur identifie une vulnérabilité. Peut venir de fuzzing automatisé (AFL, libFuzzer), de reverse engineering de patches (« 1-day research » — étudier un patch pour identifier la vuln qu'il corrige), d'audit manuel de code source.
+
+**Étape 2 — Weaponisation**. Développement d'un exploit fonctionnel. Fiabilisation, test sur multiples versions, contournement des mitigations (ASLR, DEP, CFI, PAC, etc.). Peut prendre des semaines à des mois.
+
+**Étape 3 — Décision économique**. Le chercheur choisit un canal : responsible disclosure (bug bounty, gratuit jusqu'à 2 M USD chez Apple), broker légal (Zerodium), broker gris, vente privée à un acteur offensif.
+
+**Étape 4 — Intégration dans un outil**. L'acheteur intègre l'exploit dans son framework. NSO l'intègre dans Pegasus ; un APT l'intègre dans sa toolchain ; un opérateur ransomware l'intègre dans son loader.
+
+**Étape 5 — Déploiement**. L'outil est utilisé contre des cibles. La vulnérabilité commence à être exploitée dans la nature.
+
+**Étape 6 — Détection**. Tôt ou tard, un défenseur détecte l'attaque. Peut prendre des jours (attaque bruyante, nombreuses victimes) ou des années (opération ciblée discrète, peu de victimes).
+
+**Étape 7 — Publication / patching**. Après détection, l'éditeur est notifié (par le défenseur, par un chercheur ayant découvert indépendamment, par le vendor observant les attaques), patche, publie l'advisory. La vuln devient N-day.
+
+**Étape 8 — Exploitation N-day**. Fenêtre de quelques jours à semaines où le patch existe mais pas partout. Acteurs moins sophistiqués exploitent massivement.
+
+**Étape 9 — Oubli**. La vuln devient partie de l'histoire. Son usage continue longtemps contre les systèmes non patchés (certains systèmes hérités jamais patchés sont vulnérables à des bugs découverts il y a 10 ans).
+
+#### 17.6 Les vagues récentes exploitant des 0-day
+
+Illustrations récentes de la chaîne 0-day → attaque dans la nature.
+
+**MOVEit Transfer (mai-juin 2023)** — Cl0p exploite CVE-2023-34362 (0-day SQL injection dans MOVEit) massivement, impacte des milliers d'organisations (santé, gouvernements, entreprises) via leurs prestataires utilisant MOVEit.
+
+**Citrix Bleed (CVE-2023-4966, octobre 2023)** — vulnérabilité Citrix Netscaler exploitée par LockBit, autres acteurs. Permet bypass MFA via leak de sessions.
+
+**Ivanti Connect Secure (CVE-2023-46805, CVE-2024-21887, janvier 2024)** — exploitation par Volt Typhoon (Chine, APT) et d'autres.
+
+**Palo Alto GlobalProtect (CVE-2024-3400, avril 2024)** — exploité par UTA0218 (possible APT).
+
+**Oracle EBS (2025)** — exploité par Cl0p comme continuation de leur stratégie d'exploitation edge devices.
+
+Ces vagues illustrent une tendance : les APT et groupes ransomware sophistiqués ont progressivement adopté l'exploitation de 0-day sur edge devices comme vecteur privilégié — plus discret qu'un phishing (qui génère des alertes), plus scalable qu'une intrusion manuelle, et ciblant des dispositifs souvent dépourvus de visibilité défensive.
+
+#### 17.7 Les ventes de 0-day sur forums
+
+Sur les forums cybercriminels, les ventes de 0-day sont **rares publiquement** mais existent. Patterns observés :
+
+**Posts discrets**. Annonce sur XSS ou Exploit avec minimum d'info publique, négociation en privé. L'annonce mentionne classe de vulnérabilité (RCE, LPE, sandbox escape), cible (Chrome, Firefox, iOS, Android, produit spécifique), prix plancher.
+
+**Escrow par forum**. Les forums sérieux proposent un escrow qualifié pour ces transactions — admin prend la clé du buyer et du seller, valide l'exploit fonctionne, libère après validation.
+
+**Réputation extrême**. Seuls les vendeurs les plus établis font des ventes visibles — un nouveau compte qui prétend vendre un iOS 0-day est presque certainement scammer.
+
+**Screenshots de démonstration**. Certains vendeurs fournissent preuve de fonctionnement (vidéo, screenshot) sous NDA avant achat. D'autres refusent toute démo sans paiement préalable (difficile à contourner mais classique).
+
+**Clients typiques forums** : affiliés RaaS, APT moins dotés, acteurs étatiques moyens — pas les grands (qui ont leurs propres canaux).
+
+#### 17.8 Investigation et renseignement sur les 0-day
+
+Pour un analyste CTI défensif.
+
+**Veille des annonces**. Monitoring de XSS, Exploit, BreachForums pour posts liés à des 0-day cibles (produits utilisés par son organisation). Alerting sur mots-clés.
+
+**Détection des exploitations dans la nature**. Anomalies comportementales sur les edge devices (VPN, firewalls, serveurs exposés) même sans signature existante. Threat hunting proactif sur les produits historiquement ciblés.
+
+**Collaboration avec éditeurs**. Remontée rapide à l'éditeur en cas de détection d'exploitation suspecte, pour accélérer potentiel patching.
+
+**Analyse de patches**. Étude des patches publiés pour identifier les vulns patchées (1-day research en usage défensif) et anticiper les exploitations massives dans la fenêtre N-day.
+
+#### 17.9 Fil rouge — DARKSTREAM : pas de 0-day impliqué
+
+> **🌐 DARKSTREAM — Épisode 11 : angle 0-day écarté**
+>
+> Lucas a initialement envisagé que la compromission Vectris aurait pu impliquer un 0-day (cible industrielle de valeur). Son investigation croisée (forensics Mandiant côté Vectris, observations dark web) confirme : **pas de 0-day**. Le vecteur était un **stealer log** classique, un accès VPN corporate acheté sur Russian Market, exploité sur plusieurs semaines pour cartographier et exfiltrer.
+>
+> Cette absence de 0-day est en soi un renseignement important. Elle place l'attaquant dans la catégorie **« cybercriminel sophistiqué avec moyens limités »** plutôt que **« APT étatique avec capacités offensives haut de gamme »**. Un APT étatique ciblant Vectris pour ses secrets aerospace/défense aurait probablement utilisé un vecteur plus discret (0-day sur edge device, spear-phishing sophistiqué), pas une chaîne commoditisée stealer log → IAB → exfiltrateur.
+>
+> Conséquence pour le rapport final : l'attribution pointe vers **criminalité organisée à motivation financière** plutôt que **espionnage étatique**. La DGSI confirme cette lecture. Les données exfiltrées pourraient finir entre les mains d'un acteur étatique in fine (si elles sont achetées sur IndustrialLeaks par un acheteur intermédiaire), mais le vol initial et sa commercialisation sont de profil cybercriminel.
