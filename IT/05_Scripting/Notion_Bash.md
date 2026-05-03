@@ -1019,6 +1019,18 @@
         echo "Nombre de fichiers traités : $fichiers"
         ```
         
+        ```bash
+        #!/bin/bash
+        
+        tab_name=("Camille" "Maya" "Manco" "Billal" "Alex")
+        compteur=0
+        
+        for name in "${tab_name[@]}"; do
+            echo "$compteur $name "
+            ((compteur++))
+        done
+        ```
+        
 - Calcul décimal pour nombres virgules avec bc
     
     ```bash
@@ -1202,6 +1214,25 @@
     else
         echo "Tu es un senior."
     fi
+    ```
+    
+    ```bash
+    if [[ $# -eq 0 ]]; then
+        echo "Utilisation : $0 <chemin1> [chemin2] ..." >&2
+        exit 1
+    fi
+    
+    for chemin in "$@"; do
+        if [[ -f "$chemin" ]]; then
+            taille=$(wc -c < "$chemin")
+            echo "✓ $chemin — fichier ($taille octets)"
+        elif [[ -d "$chemin" ]]; then
+            nb=$(ls "$chemin" | wc -l)
+            echo "✓ $chemin — dossier ($nb éléments)"
+        else
+            echo "✗ $chemin — n'existe pas"
+        fi
+    done
     ```
     
     ```bash
@@ -1519,7 +1550,7 @@
     ```
     
 
-### Boucles : répètent des actions, deux façons de penser:
+### Boucles : répètent des actions, deux façons de penser: [while, pause, sleep]
 
 - for : répéter sur liste d’éléments : for var in X; do … done / for var in {1..10..2}; do … done
     - Forme générale
@@ -1675,6 +1706,149 @@
             done < fichier.txt
             ```
             
+- ✅ boucle while true = faire menu (remplace select), clear
+    - Intéressant de clear pour rester exclusivement sur menu
+    
+    ```jsx
+    while true; do
+        clear
+        echo "---------------------------------"
+    		echo "	     M A I N - M E N U"
+    		echo "---------------------------------"
+        echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+        echo "2. Compter le nombre de lignes dans un fichier donné"
+        echo "3. Quitter"
+        echo "---------------------------------"
+        read -r -p "Quel est votre choix ? " choix
+    
+        case $choix in
+            -l|lister|1) liste_all_txt ;;
+            -n|number|2) compter_nbr_lignes ;;
+            -q|quit|3) echo "Au revoir." ; break ;;
+        esac
+    done
+    ```
+    
+- sleep : ralentir pour afficher résultat et ne pas disparaître à cause de while
+    
+    ```bash
+    sleep .5 # Waits 0.5 second.
+    sleep 5  # Waits 5 seconds.
+    sleep 5s # Waits 5 seconds.
+    sleep 5m # Waits 5 minutes.
+    sleep 5h # Waits 5 hours.
+    sleep 5d # Waits 5 days.
+    ```
+    
+    ```bash
+    liste_all_txt(){
+    
+        list=$(find . -type f -name "*.txt" 2>/dev/null)
+    
+        if [[ -z "$list" ]]; then
+            echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+        else
+            echo -e "Voici la liste des fichiers .txt \n "$list""
+        fi
+        sleep 60s
+    }
+    [...]
+    while true; do
+        # Affiche menu
+        clear
+        echo "---------------------------------"
+    	echo "	     M A I N - M E N U"
+    	echo "---------------------------------"
+        echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+        echo "2. Compter le nombre de lignes dans un fichier donné"
+        echo "3. Quitter"
+        echo "---------------------------------"
+        read -r -p "Quel est votre choix ? " choix
+    
+        
+        case $choix in
+            -l|lister|1) liste_all_txt ;;
+            -n|number|2) compter_nbr_lignes ;;
+            -q|quit|3) echo "Au revoir." ; break ;;
+        esac
+    done
+    
+    ```
+    
+- Faire un “pause” pour rester dans résultat et attendre retour utilisateur
+    - Syntaxe simple, faire une fonction pause
+    
+    ```bash
+    pause(){
+    
+    	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+        
+    }
+    ```
+    
+    - Usage dans boucle while
+    
+    ```bash
+    pause(){
+    
+    	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+        
+    }
+    
+    liste_all_txt(){
+        local list
+    
+        list=$(find . -type f -name "*.txt" 2>/dev/null)
+    
+        if [[ -z "$list" ]]; then
+            echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+        else
+            echo -e "Voici la liste des fichiers .txt \n "$list""
+        fi
+        pause
+    
+    }
+    
+    compter_nbr_lignes(){
+        local file
+        local file_lignes
+    
+        read -p "Quel fichier voulez-vous analyser ? " file
+    
+        if [[ -z "$file" ]]; then
+            echo "Veuillez renseigner un fichier"
+        elif [[ ! -f "$file" ]]; then
+            echo "Erreur : ce fichier n'existe pas"
+        else
+            file_lignes=$(<"$file" wc -l)
+            echo -e "Nombre de ligne(s) dans "$file" : "$file_lignes"" 
+        fi
+        pause
+    
+    }
+    
+    while true; do
+        # Affiche menu
+        clear
+        echo "---------------------------------"
+    	echo "	     M A I N - M E N U"
+    	echo "---------------------------------"
+        echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+        echo "2. Compter le nombre de lignes dans un fichier donné"
+        echo "3. Quitter"
+        echo "---------------------------------"
+        read -r -p "Quel est votre choix ? " choix
+    
+        
+        case $choix in
+            -l|lister|1) liste_all_txt ;;
+            -n|number|2) compter_nbr_lignes ;;
+            -q|quit|3) echo "Au revoir." ; break ;;
+            *) echo "Sélectionnez votre choix"; pause ;;
+        esac
+    done
+    ```
+    
 - Boucle until : inverse de while : boucle tant que la condition est fause
     - En pratique, while est beaucoup plus courant, until est juste une autre façon d’écrire certaines boucles
     
@@ -1962,65 +2136,6 @@
     fi
     ```
     
-- Faire un choix parmi possibilités : case
-    - Forme générale de case
-        - Si rien ne correspond, prend le *
-        
-        ```bash
-        case variable in
-            motif1)
-                commandes ;;
-            motif2)
-                commandes ;;
-            *)
-                commandes ;;
-        esac
-        ```
-        
-    - **Notes :**
-        - `esac` c'est `case` à l'envers (fermeture du bloc)
-        - Chaque bloc se termine par `;;`
-        - est le cas par défaut (si rien d'autre ne correspond)
-        - `|` sépare plusieurs patterns pour le même bloc
-    - Ex :
-        
-        ```bash
-        case $1 in
-            oui|o|yes|y)      
-                echo "Tu as dit oui." ;;
-            non|n|no)
-                echo "Tu as dit non." ;;
-            *)
-                echo "Réponse non reconnue." ;;
-        esac
-        ```
-        
-        ```bash
-        case $1 in
-            start)
-                echo "Démarrage" ;;
-            stop)
-                echo "Arrêt" ;;
-            restart)
-                echo "Redémarrage" ;;
-            *)
-                echo "Commande inconnue" ;;
-        esac
-        ```
-        
-        ```bash
-        case $1 in
-            jpg|jpeg)
-                echo "Image JPEG" ;;
-            png)
-                echo "Image PNG" ;;
-            gif)
-                echo "Image GIF" ;;
-            *)
-                echo "Extension inconnue" ;;
-        esac
-        ```
-        
 - ❎ Fonction + case
     - Case choisit quoi faire + fonction contient bloc d’action
     
@@ -2089,7 +2204,7 @@
             case $choix in
                 "Lister les fichiers") ls ;;
                 "Afficher la date") date ;;
-                "Quitter") echo "Au revoir." ; break ;;
+                "Quitter") echo "Au revoir." "Compter les lignes d'un fichier"; break ;;
                 *) echo "Choix invalide." ;;
             esac
         done
@@ -2262,14 +2377,885 @@
     ```
     
 
-**Autonome :** Crée un script `outil.sh` avec les options `-l` (lister les fichiers), `-d` (afficher la date), `-u` (afficher l'utilisateur) en utilisant `case` et des fonctions.
+### Chaînes de caractères
 
-Crée un script `gestion.sh` qui :
+- Vérifier longueur d’une chaîne ${#mot}
+    
+    ```bash
+    mot:="Bonjour"
+    echo ${mot}
+    ```
+    
+    - Utilité concrète : Vérifier si saisie est trop courte/longue, vérifier saisie user, vérifier qu’un arg n’est pas vide, tester format minimal
+    - Exemple :
+        - Demande mot de passer ou pseudo
+        
+        ```bash
+        mdp="abc123"
+        
+        if [[ ${#mdp} -lt 8 ]]; then
+            echo "Mot de passe trop court"
+        fi
+        ```
+        
+- Concaténation : Construire noms de fichiers, fabriquer paths, créer msg dynamiques result=$var1$var2
+    
+    ```bash
+    debut="Bon"
+    fin="jour"
+    mot=$debut$fin
+    echo "$mot"        # → Bonjour
+    ```
+    
+    - Utilité concrète : construire un texte, un chemin, un nom de fichier, un message
+    - Ex :
+        - Créer un fichier de rapport avec date
+        
+        ```bash
+        nom="rapport"
+        date_jour="2026-03-30"
+        fichier="${nom}_${date_jour}.txt"
+        
+        echo "$fichier"
+        
+        # résultat
+        rapport_2026-03-30.txt
+        ```
+        
+- Extraire une sous-chaîne : Récup préfixe, découper date, extraire partie d’un nom / code echo “${phrase:0:4}”
+    
+    ```bash
+    phrase="Bash est génial"
+    echo "${phrase:0:4}"     # → Bash     (4 caractères depuis la position 0)
+    echo "${phrase:5:3}"     # → est      (3 caractères depuis la position 5)
+    echo "${phrase:9}"       # → génial   (tout depuis la position 9)
+    ```
+    
+    - **Rappel :** les positions commencent à 0.
+    - Ex :
+        - Obtenir 4 premiers caractères d’un identifiant
+        
+        ```bash
+        id="ABCDEF1234"
+        echo "${id:0:4}"
+        
+        # Resultat
+        ABCD
+        ```
+        
+        - Récupérer date
+        
+        ```bash
+        date_du_jour="2026-03-30"
+        annee="${date_du_jour:0:4}"
+        mois="${date_du_jour:5:2}"
+        jour="${date_du_jour:8:2}"
+        
+        echo "$jour/$mois/$annee"
+        
+        # Resultat
+        30/03/2026
+        ```
+        
+- Remplacer dans une chaîne : Modifier texte sans tout réécrire, transformer extension, adapter chemin echo “${var/pris/transformé}”
+    
+    ```bash
+    phrase="J'adore les pommes"
+    
+    # Remplacer la première occurrence
+    echo "${phrase/pommes/bananes}"
+    # → J'adore les bananes
+    
+    # Remplacer TOUTES les occurrences (double slash)
+    tel="01-23-45-67-89"
+    echo "${tel//-/.}"
+    # → 01.23.45.67.89
+    ```
+    
+    - Ex :
+        - Transformer une extension
+            
+            ```bash
+            fichier="rapport.txt"
+            echo "${fichier/.txt/.pdf}"
+            
+            # Résultat 
+            rapport.pdf
+            ```
+            
+        - Adapter chemin
+            
+            ```bash
+            chemin="/home/kali/Documents"
+            echo "${chemin/Documents/Desktop}"
+            
+            # Résultat
+            /home/kali/Desktop
+            ```
+            
+- Supprimer dans une chaine : Nettoyer valeur, retirer séparateur, préparer valeur pour script, normaliser nom de fichier : echo "${var//pris/}" / echo "${var//pris/_}"
+    - Par défaut, remplace par rien
+    
+    ```bash
+    tel="01-23-45-67-89"
+    
+    # Supprimer tous les tirets
+    echo "${tel//-/}"
+    # → 0123456789
+    ```
+    
+    - Ex :
+        - Supprimer espaces ou symboles
+            
+            ```bash
+            nom_fichier="rapport final.txt"
+            echo "${nom_fichier// /_}"
+            
+            # Résultat 
+            rapport_final.txt
+            ```
+            
+        - Nettoyer numéro
+            
+            ```bash
+            port=":8080"
+            echo "${port//:/}"
+            
+            # Résultat 
+            8080
+            ```
+            
+- Majuscules / minuscules : Normaliser écriture d’un texte : echo "${nom^^}" : tout MAJ, echo "${NOM,,}" tout MIN, echo "${nom^}"  1st mot MAJ
+    
+    ```bash
+    nom="alice dupont"
+    NOM="ALICE DUPONT"
+    
+    echo "${nom^^}"          # → ALICE DUPONT  (tout en majuscules)
+    echo "${NOM,,}"          # → alice dupont  (tout en minuscules)
+    echo "${nom^}"           # → Alice dupont  (première lettre en majuscule)
+    ```
+    
+    - Ex :
+        - Uniformiser réponses utilisateur
+            
+            ```bash
+            reponse="oui"
+            echo "${reponse^^}"
+            
+            # Résultat
+            OUI
+            ```
+            
+        - Mettre prenom en forme
+            
+            ```bash
+            prenom="camille"
+            echo "${prenom^}"
+            
+            # Résultat
+            Camille
+            ```
+            
+- Mini cas pratiques
+    - Tester si une chaîne est vide
+        
+        ```bash
+        nom=""
+        [[ -z "$nom" ]] && echo "Nom est vide"       # → Nom est vide
+        
+        autre="Alice"
+        [[ -n "$autre" ]] && echo "Autre n'est pas vide"  # → Autre n'est pas vide
+        ```
+        
+    - Extraire extension d’un fichier
+        
+        ```bash
+        fichier="rapport.tar.gz"
+        echo "${fichier##*.}"    # → gz (tout après le dernier .)
+        echo "${fichier%.*}"     # → rapport.tar (tout avant le dernier .)
+        ```
+        
+    - Renommer rapport
+        
+        ```bash
+        fichier="rapport.txt"
+        nouveau="${fichier/.txt/.pdf}"
+        echo "$nouveau"
+        ```
+        
+    - Renommer un rapport
+        
+        ```bash
+        fichier="rapport.txt"
+        nouveau="${fichier/.txt/.pdf}"
+        echo"$nouveau"
+        ```
+        
+    - Vérifier un mot de passe trop court
+        
+        ```bash
+        mdp="abc123"
+        if [[${#mdp}-lt8 ]];then
+        echo"Trop court"
+        fi
+        ```
+        
+    - Nettoyer un nom de fichier
+        
+        ```bash
+        nom="mon rapport final.txt"
+        echo"${nom// /_}"
+        ```
+        
+    - Mettre un prénom proprement
+        
+        ```bash
+        prenom="camille"
+        echo"${prenom^}"
+        ```
+        
 
-1. Propose un menu avec `case` : 1) Lister les fichiers .txt, 2) Compter les lignes d'un fichier, 3) Quitter
-2. Chaque option appelle une fonction dédiée
-3. La boucle `while true` permet de revenir au menu après chaque action
-4. L'option "Quitter" utilise `break` pour sortir
+| Syntaxe | Effet |
+| --- | --- |
+| `${#var}` | Longueur |
+| `${var:pos:len}` | Extraire une sous-chaîne |
+| `${var/ancien/nouveau}` | Remplacer la 1ère occurrence |
+| `${var//ancien/nouveau}` | Remplacer toutes les occurrences |
+| `${var//ancien/}` | Supprimer toutes les occurrences |
+| `${var^^}` | Tout en majuscules |
+| `${var,,}` | Tout en minuscules |
+| `${var^}` | 1ère lettre en majuscule |
+
+### Tableaux
+
+- Créer tableau : tableau stocke plusieurs valeurs dans une seule variable, chaque valeur a index qui commence à 0. var=(”valeur1” “valeur2” “valeur3”) donc val1=index0 …
+    
+    Un tableau stocke **plusieurs valeurs** dans une seule variable. Chaque valeur a un index qui commence à 0.
+    
+    ```bash
+    fruits=("pomme" "banane" "cerise")
+    ```
+    
+    ```
+    Index :     0         1         2
+             ┌─────┐  ┌──────┐  ┌──────┐
+             │pomme│  │banane│  │cerise│
+             └─────┘  └──────┘  └──────┘
+    ```
+    
+- Accéder aux éléments : echo “${var[X]}”  / echo "${fruits[0]}"  peut @ = tout / tous index ${!var[@]}
+    
+    ```bash
+    fruits=("pomme" "banane" "cerise")
+    
+    echo "${fruits[0]}"      # → pomme
+    echo "${fruits[1]}"      # → banane
+    echo "${fruits[@]}"      # → pomme banane cerise (tout)
+    echo "${#fruits[@]}"     # → 3 (le nombre d'éléments)
+    			`${!tab[@]}`       # Tous les index (0 1 2 3 4 ...)
+    ```
+    
+- Ajouter élément / récup tous args : var+=(”valeur_ajout”) / fruits+=("kiwi") / var_tab=(”$@”)
+    
+    ```bash
+    fruits+=("kiwi")
+    echo "${fruits[@]}"      # → pomme banane cerise kiwi
+    ```
+    
+    - Récupérer tous arguments dans tableau
+        
+        ```bash
+        tab_names=("$@")
+        
+        tab_names=("$@")
+        compteur=1
+        
+        for name in "${tab_names[@]}"; do
+            echo "$compteur : $name"
+            ((compteur++))
+        done
+        ```
+        
+- Modifier élément : var[X]=”nouvelle_valeur” / fruits[1]="fraise”
+    
+    ```bash
+    fruits[1]="fraise"
+    echo "${fruits[@]}"      # → pomme fraise cerise kiwi
+    ```
+    
+- Supprimer élément : unset var[X]
+    
+    ```bash
+    unset fruits[1]
+    echo "${fruits[@]}"      # → pomme cerise kiwi
+    ```
+    
+- Parcourir un tableau : boucle for var_tab in “${var_tab[@]}”; do echo “Valeurs : $var_tab” done
+    
+    ```bash
+    fruits=("pomme" "banane" "cerise" "kiwi")
+    
+    for fruit in "${fruits[@]}"; do
+        echo "Fruit : $fruit"
+    done
+    ```
+    
+    ```bash
+    tab_name=("Camille" "Maya" "Manco" "Billal" "Alex")
+    compteur=1
+    
+    for name in "${tab_name[@]}"; do
+        echo "$compteur : $name"
+        ((compteur++))
+    done
+    ```
+    
+    ```bash
+    #!/bin/bash
+    
+    tab_names=("$@")
+    compteur=1
+    
+    for name in "${tab_names[@]}"; do
+        echo "$compteur : $name"
+        ((compteur++))
+    done
+    ```
+    
+- Parcourir avec les index for var_index in “${var_tab[@]}”; do echo “Index $var_index : ${var_tab[$var_index]}” done
+    
+    ```bash
+    for i in "${!fruits[@]}"; do
+        echo "Index $i : ${fruits[$i]}"
+    done
+    ```
+    
+    ```bash
+    for var_index in “${var_tab[@]}”; do 
+    	echo “Index $var_index : ${var_tab[$var_index]}” 
+    done
+    ```
+    
+- Parcourir index de plusieurs tableaux pour associer :  for var_index in “${var_tab_1[@]}”; do echo “Tab1 : “${var_tab_1[var_index]}" - Tab2 : "${var_tab_2[var_index]}” done
+    
+    ```bash
+    var_tab_1=...
+    var_tab_2=...
+    
+    for var_index in “${var_tab_1[@]}”; do 
+        echo “Tab1 : "${var_tab_1[var_index]}" - Tab2 : "${var_tab_2[var_index]}” 
+    done
+    ```
+    
+    ```bash
+    noms=("Alice" "Bob" "Charlie")
+    emails=("alice@mail.com" "bob@mail.com" "charlie@mail.com")
+    
+    for i in "${!noms[@]}"; do
+        echo "Nom : "${noms[i]}" -- Emails : "${emails[i]}""
+    done
+    ```
+    
+    - Dans menu, faire choix :
+        
+        ```bash
+        case $choix in
+                1|2|3)
+                    index=$((choix - 1))
+                    echo "Nom : ${noms[index]} -- Email : ${emails[index]}"
+                    pause
+                    ;;
+                4) 
+                    echo "Vous quittez le script"
+                    break 
+                    ;;
+                "") 
+                    echo "Veuillez indiquer la personne souhaitée"; 
+                    pause 
+                    ;;
+                *) echo "Sélectionnez votre choix"; pause ;;
+            esac
+        ```
+        
+        ```bash
+        #!/bin/bash
+        
+        noms=("Alice" "Bob" "Charlie")
+        emails=("alice@mail.com" "bob@mail.com" "charlie@mail.com")
+        
+        pause() {
+            read -p "Appuyez sur la touche [Enter] pour continuer..." key
+        }
+        
+        associer() {
+        
+        clear 
+        
+        for i in "${!noms[@]}"; do
+            echo "Nom : "${noms[i]}" -- Emails : "${emails[i]}""
+        done
+        pause
+        
+        }
+        
+        while true; do
+            clear
+            echo "---------------------------------"
+        	echo "	     Find the mail"
+        	echo "---------------------------------"
+            echo "1. Alice"
+            echo "2. Bob"
+            echo "3. Charlie"
+            echo "4. Lister l'ensemble des agents"
+            echo "5. Quitter script"
+            echo "---------------------------------"
+            read -r -p "L'adresse mail de quel agent souhaitez-vous ? " choix
+        
+            case $choix in
+                1|2|3)
+                    index=$((choix - 1))
+                    echo "Nom : ${noms[index]} -- Email : ${emails[index]}"
+                    pause
+                    ;;
+                4) 
+                    associer 
+                    ;;
+                5) 
+                    echo "Vous quittez le script"
+                    break 
+                    ;;
+                "") 
+                    echo "Veuillez indiquer la personne souhaitée"; 
+                    pause 
+                    ;;
+                *) echo "Sélectionnez votre choix"; pause ;;
+            esac
+        done
+        
+        ```
+        
+- Trier tableau avec sort : printf "%s\n" "${tab_names[@]}" | sort / boucle for done | sort
+    
+    ```bash
+    tab_names=("$@")    #Récupérer tous arguments
+    printf "%s\n" "${tab_names[@]}" | sort
+    ```
+    
+    - Boucle for : done | sort
+        
+        ```bash
+        tab_names=("$@")
+            for name in "${tab_names[@]}"; do
+                echo "$name"
+            done | sort
+        ```
+        
+- Tableaux multi-types : Valeurs de types différents
+    
+    ```bash
+    infos=("Alice" 25 "Paris" "admin")
+    
+    echo "Nom  : ${infos[0]}"
+    echo "Âge  : ${infos[1]}"
+    echo "Ville: ${infos[2]}"
+    echo "Rôle : ${infos[3]}"
+    ```
+    
+- Tableaux associatifs (dictionnaires) : utilisent clés nommées au lieu d’index numériques. Chaque mot (clé) a une définition (valeur) : mot_clé[def_valeur]=”contenu”  mails[Alice]="alice@mail.com” …
+    
+    ```bash
+    declare -A mails
+    
+    mails[Alice]="alice@mail.com"
+    mails[Bob]="bob@mail.com"
+    mails[Charlie]="charlie@mail.com"
+    
+    for names in "${!mails[@]}"; do
+        echo -e "Nom : "$names" — Email : "${mails[$names]}""
+    done
+    ```
+    
+    ```bash
+    declare -A capitales
+    
+    capitales[France]="Paris"
+    capitales[Allemagne]="Berlin"
+    capitales[Espagne]="Madrid"
+    
+    echo "${capitales[France]}"       # → Paris
+    echo "${!capitales[@]}"           # → France Allemagne Espagne (les clés)
+    
+    # Parcourir
+    for pays in "${!capitales[@]}"; do
+        echo "La capitale de $pays est ${capitales[$pays]}"
+    done
+    ```
+    
+
+| Syntaxe | Effet |
+| --- | --- |
+| `tab=("a" "b" "c")` | Créer un tableau |
+| `${tab[0]}` | Accéder à l'élément 0 |
+| `${tab[@]}` | Tous les éléments |
+| `${#tab[@]}` | Nombre d'éléments |
+| `${!tab[@]}` | Tous les index |
+| `tab+=("d")` | Ajouter un élément |
+| `tab[1]="x"` | Modifier un élément |
+| `unset tab[1]` | Supprimer un élément |
+
+### Déboguer et écrire scripts propres
+
+- Vérifier syntaxe avant exéc bash -n script.sh
+    
+    Ça ne lance pas le script, ça vérifie juste la syntaxe.
+    
+    Pourquoi en premier :
+    
+    - si un `fi`, `then`, `do`, `done` manque
+    - tu le vois tout de suite
+    - sans te mélanger avec d’autres bugs
+    
+    ```bash
+    bash -n script_bug.sh
+    ```
+    
+- echo de debug : echo "[DEBUG] fichier = '$fichier'”
+    - Ajouter des echos pour voir les valeurs en cours de route
+    
+    ```bash
+    fichier=$1
+    echo "[DEBUG] fichier = '$fichier'"
+    
+    if [[ -f "$fichier" ]]; then
+        echo "[DEBUG] Le fichier existe"
+        nb_lignes=$(wc -l < "$fichier")
+        echo "[DEBUG] nb_lignes = '$nb_lignes'"
+    fi
+    ```
+    
+    - Astuce : Utiliser préfixe [DEBUG] pour retrouver facilement messages et supprimer une fois bug corrigé
+        - Utiliser echo pour voir ce que contient une variable, suivre exéc d’un script…
+- Mode trace avec : bash -x [script.sh](http://script.sh) : Affiche chaque commande avant exéc
+    - -x affiche chaque commande avant de l’exéc, avec les var remplacées par leurs valeurs :
+        
+        ```bash
+        bash -x mon_script.sh
+        ```
+        
+    - Peut aussi l’activer/désactiver dans le script
+        
+        ```bash
+        set -x          # Active la trace
+        echo "Ceci sera tracé"
+        nombre=$((5 + 3))
+        set +x          # Désactive la trace
+        echo "Ceci ne sera plus tracé"
+        ```
+        
+        ```bash
+        # Sortie 
+        
+        + echo 'Ceci sera tracé'
+        Ceci sera tracé
+        + nombre=8
+        + set +x
+        Ceci ne sera plus tracé
+        ```
+        
+- Vérifier arguments en début de script : if [[ $# -lt 1 ]]; then…
+    
+    ```bash
+    if [[ $# -lt 1 ]]; then
+        echo "Erreur : argument manquant" >&2
+        echo "Utilisation : $0 <fichier>" >&2
+        exit 1
+    fi
+    ```
+    
+    - **Note :** `>&2` envoie le message vers stderr (la sortie d'erreur). C'est la bonne pratique pour les messages d'erreur.
+- set -e : arrêt sur erreur / set -u : erreur si variable non définie / combinaison set -euo pipefail : eu + si pipe échoue dans commande
+    - set -e
+        - Par défaut, Bash continue même quand commande échoue, set -e change ça
+        
+        ```bash
+        set -e
+        
+        echo "Étape 1"
+        cd /dossier_inexistant     # ← Erreur ! Le script s'arrête ici
+        echo "Étape 2"             # ← Jamais exécuté
+        ```
+        
+    - set - u : Va vérifier si variable a une liason
+        - Mettre au début du script puis lancer avec bash -x
+        
+        ```bash
+        set -u
+        
+        echo "Mon nom est $nom"    # ← Erreur ! $nom n'est pas défini
+        ```
+        
+    - set -euo pipefail
+        - e : arrêt sur erreur
+        - u : erreur si variable non définie
+        - o pipefail : un pipe échoue si n'importe quelle commande du pipe échoue
+        
+        ```bash
+        set -euo pipefail
+        ```
+        
+- Erreurs les plus fréquentes : espace autour de =, then/fi oublié, do/done oublié, guillemets oubliés…
+    
+    
+    | Erreur | Message | Solution |
+    | --- | --- | --- |
+    | Espaces autour de `=` | `command not found` | `var="valeur"` (pas d'espace) |
+    | `then` ou `fi` oublié | `syntax error` | Vérifie chaque `if` a son `then` et son `fi` |
+    | `do` ou `done` oublié | `syntax error` | Vérifie chaque boucle a son `do` et son `done` |
+    | Guillemets oubliés | `unary operator expected` | Mets `"$var"` au lieu de `$var` |
+    | `-eq` confondu avec `==` | Résultat inattendu | `-eq` pour nombres, `==` pour texte |
+- Checklist de tests
+    
+    ```bash
+    bash -n script_bug.sh
+    bash script_bug.sh
+    bash script_bug.sh inexistant.txt
+    echo "bonjour" > test.txt
+    bash script_bug.sh test.txt
+    bash -x script_bug.sh test.txt
+    ```
+    
+    - d’abord voir si le script est lisible par Bash
+    - ensuite tester les cas d’erreur évidents
+    - ensuite tester le cas normal
+    - ensuite déboguer finement
+    
+    Règle à retenir
+    
+    Quand tu débugges un script Bash, demande-toi toujours :
+    
+    - est-ce qu’il **se lit** correctement ? (`bash -n`)
+    - est-ce qu’il **reçoit bien** ses arguments ?
+    - est-ce qu’il **entre dans la bonne branche** (`if/else`) ?
+    - est-ce que les **variables contiennent bien ce que j’attends** ?
+    - est-ce que la **commande produit bien ce que je crois** ?
+- Structurer avec des fonctions
+    
+    ```bash
+    # ❌ Script monolithique de 200 lignes
+    
+    # ✅ Script structuré
+    verifier_arguments() { ... }
+    traiter_fichier() { ... }
+    generer_rapport() { ... }
+    
+    verifier_arguments "$@"
+    traiter_fichier "$1"
+    generer_rapport
+    ```
+    
+- Toujours mettre variables entre guillemets
+    
+    ```bash
+    cat $fichier       # ❌ Dangereux si $fichier contient des espaces
+    cat "$fichier"     # ✅ Sûr
+    ```
+    
+
+### Cas pratique et automatisation
+
+- Planifier avec cron
+    - Editer crontab
+        
+        ```bash
+        crontab -e     # Ouvrir l'éditeur
+        crontab -l     # Lister les tâches
+        ```
+        
+    - Syntaxe cron
+        
+        ```bash
+        ┌───────── minute (0-59)
+        │ ┌─────── heure (0-23)
+        │ │ ┌───── jour du mois (1-31)
+        │ │ │ ┌─── mois (1-12)
+        │ │ │ │ ┌─ jour de la semaine (0-7, 0 et 7 = dimanche)
+        │ │ │ │ │
+        * * * * * commande
+        ```
+        
+        ```bash
+        # Tous les jours à minuit
+        0 0 * * * /home/user/scripts/backup.sh
+        
+        # Toutes les 6 heures
+        0 */6 * * * /home/user/scripts/check_disk.sh
+        
+        # Tous les lundis à 8h
+        0 8 * * 1 /home/user/scripts/rapport.sh
+        ```
+        
+        - Penser à rediriger sortie vers un log
+            
+            ```bash
+            0 0 * * * /home/user/scripts/backup.sh >> /home/user/logs/backup.log 2>&1
+            ```
+            
+- Penser comme un automaticien, avant d’écrire un script, se poser trois questions :
+    1. Qu'est-ce que je fais à la main régulièrement ?
+    2. Est-ce que c'est toujours les mêmes étapes ?
+    3. Est-ce que ça pourrait tourner tout seul ?
+- Journaliser et accueillir
+    - Script simple permettant de journaliser les conexions :
+        
+        ```bash
+        #!/bin/bash
+        
+        LOG="$HOME/connexions.log"
+        
+        utilisateur=$(whoami)
+        date_heure=$(date '+%Y-%m-%d %H:%M:%S')
+        
+        echo "Bienvenue, $utilisateur !"
+        echo "[$date_heure] Connexion de $utilisateur" >> "$LOG"
+        echo "Connexion enregistrée dans $LOG"
+        ```
+        
+- Tester des fichiers/dossiers
+    
+    ```bash
+    #!/bin/bash
+    
+    if [[ $# -eq 0 ]]; then
+        echo "Utilisation : $0 <chemin1> [chemin2] ..." >&2
+        exit 1
+    fi
+    
+    for chemin in "$@"; do
+        if [[ -f "$chemin" ]]; then
+            taille=$(wc -c < "$chemin")
+            echo "✓ $chemin — fichier ($taille octets)"
+        elif [[ -d "$chemin" ]]; then
+            nb=$(ls "$chemin" | wc -l)
+            echo "✓ $chemin — dossier ($nb éléments)"
+        else
+            echo "✗ $chemin — n'existe pas"
+        fi
+    done
+    ```
+    
+- Sauvegarder des dossiers
+    
+    ```bash
+    #!/bin/bash
+    
+    # --- Configuration ---
+    dossiers=("/etc" "/home")
+    destination="/tmp/backups"
+    date_du_jour=$(date +%Y-%m-%d)
+    
+    # --- Préparation ---
+    mkdir -p "$destination"
+    
+    echo "=== Sauvegarde du $date_du_jour ==="
+    
+    for dossier in "${dossiers[@]}"; do
+        nom_archive=$(echo "$dossier" | tr '/' '_')
+        fichier="${destination}/${nom_archive}-${date_du_jour}.tar.gz"
+    
+        echo -n "Sauvegarde de $dossier ... "
+    
+        if tar -czf "$fichier" "$dossier" 2>/dev/null; then
+            taille=$(du -h "$fichier" | cut -f1)
+            echo "OK ($taille)"
+        else
+            echo "ERREUR" >&2
+        fi
+    done
+    
+    echo "=== Terminé ==="
+    ```
+    
+- Renommer fichiers en masse
+    - Renommer tous les .jpeg en .jpg
+        - **Explication :** `${fichier%.jpeg}` supprime `.jpeg` à la fin de la chaîne
+    
+    ```bash
+    #!/bin/bash
+    
+    dossier=${1:-.}
+    compteur=0
+    
+    for fichier in "$dossier"/*.jpeg; do
+        [[ -f "$fichier" ]] || continue
+    
+        nouveau="${fichier%.jpeg}.jpg"
+        mv "$fichier" "$nouveau"
+        echo "Renommé : $fichier → $nouveau"
+        ((compteur++))
+    done
+    
+    echo "Total : $compteur fichier(s) renommé(s)."
+    ```
+    
+- Créer archive avec nommage par date
+    
+    ```bash
+    # --- Configuration ---
+    dossiers="$1"
+    destination="/tmp/backups"
+    date_du_jour=$(date +%Y%m%d)
+    archive="$destination/${date_du_jour}_${dossiers}.tar.gz"
+    
+    # --- Préparation ---
+    mkdir -p "$destination"
+    
+    echo "=== Sauvegarde du $date_du_jour ==="
+    
+    tar -czf "$archive" "$dossiers"
+    cd "$destination" && ls
+    
+    echo "=== Fin de la sauvegarde de "$dossiers" ==="
+    ```
+    
+- Template
+    
+    ```bash
+    #!/bin/bash
+    # =============================================================================
+    # Nom        : mon_script.sh
+    # Description : [Ce que fait le script]
+    # Utilisation : ./mon_script.sh [options] <arguments>
+    # =============================================================================
+    
+    # --- Fonctions ---
+    afficher_aide() {
+        echo "Utilisation : $0 [options] <argument>"
+        echo "  -h    Afficher cette aide"
+    }
+    
+    log() {
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    }
+    
+    # --- Vérification des arguments ---
+    if [[ $# -lt 1 ]]; then
+        afficher_aide
+        exit 1
+    fi
+    
+    case $1 in
+        -h|--help) afficher_aide ; exit 0 ;;
+    esac
+    
+    # --- Programme principal ---
+    log "Début du script"
+    
+    # ... ton code ici ...
+    
+    log "Fin du script"
+    ```
+    
 
 ### Workflow divers [ { echo … echo … } >]
 
@@ -2365,7 +3351,316 @@ Crée un script `gestion.sh` qui :
         echo "Le produit de vos deux nombres est : $(($1 * $2))"
         ```
         
-
+- Faire menus différents types while true, select, case
+    - While true
+        - Exploiter différentes commandes
+            
+            ```bash
+            #!/bin/bash
+            
+            pause(){
+            
+            	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+                
+            }
+            
+            liste_all_txt(){
+                local list
+            
+                list=$(find . -type f -name "*.txt" 2>/dev/null)
+            
+                if [[ -z "$list" ]]; then
+                    echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+                else
+                    echo -e "Voici la liste des fichiers .txt \n "$list""
+                fi
+                pause
+            
+            }
+            
+            compter_nbr_lignes(){
+                local file
+                local file_lignes
+            
+                read -p "Quel fichier voulez-vous analyser ? " file
+            
+                if [[ -z "$file" ]]; then
+                    echo "Veuillez renseigner un fichier"
+                elif [[ ! -f "$file" ]]; then
+                    echo "Erreur : ce fichier n'existe pas"
+                else
+                    file_lignes=$(<"$file" wc -l)
+                    echo -e "Nombre de ligne(s) dans "$file" : "$file_lignes"" 
+                fi
+                pause
+            
+            }
+            
+            while true; do
+                # Affiche menu
+                clear
+                echo "---------------------------------"
+            	echo "	     M A I N - M E N U"
+            	echo "---------------------------------"
+                echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+                echo "2. Compter le nombre de lignes dans un fichier donné"
+                echo "3. Quitter"
+                echo "---------------------------------"
+                read -r -p "Quel est votre choix ? " choix
+            
+                
+                case $choix in
+                    -l|lister|1) liste_all_txt ;;
+                    -n|number|2) compter_nbr_lignes ;;
+                    -q|quit|3) echo "Au revoir." ; break ;;
+                    *) echo "Sélectionnez votre choix"; pause ;;
+                esac
+            done
+            ```
+            
+        - Associer tableaux et chercher dans index
+            
+            ```bash
+            #!/bin/bash
+            
+            noms=("Alice" "Bob" "Charlie")
+            emails=("alice@mail.com" "bob@mail.com" "charlie@mail.com")
+            
+            pause() {
+                read -p "Appuyez sur la touche [Enter] pour continuer..." key
+            }
+            
+            associer() {
+            
+            clear 
+            
+            for i in "${!noms[@]}"; do
+                echo "Nom : "${noms[i]}" -- Emails : "${emails[i]}""
+            done
+            pause
+            
+            }
+            
+            while true; do
+                clear
+                echo "---------------------------------"
+            	echo "	     Find the mail"
+            	echo "---------------------------------"
+                echo "1. Alice"
+                echo "2. Bob"
+                echo "3. Charlie"
+                echo "4. Lister l'ensemble des agents"
+                echo "5. Quitter script"
+                echo "---------------------------------"
+                read -r -p "L'adresse mail de quel agent souhaitez-vous ? " choix
+            
+                case $choix in
+                    1|2|3)
+                        index=$((choix - 1))
+                        echo "Nom : ${noms[index]} -- Email : ${emails[index]}"
+                        pause
+                        ;;
+                    4) 
+                        associer 
+                        ;;
+                    5) 
+                        echo "Vous quittez le script"
+                        break 
+                        ;;
+                    "") 
+                        echo "Veuillez indiquer la personne souhaitée"; 
+                        pause 
+                        ;;
+                    *) echo "Sélectionnez votre choix"; pause ;;
+                esac
+            done
+            
+            ```
+            
+    - Select
+        
+        ```bash
+        #!/bin/bash
+        
+        liste_all_txt(){
+        
+            list=$(find . -type f -name "*.txt" 2>/dev/null)
+        
+            if [[ -z "$list" ]]; then
+                echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+            else
+                echo -e "Voici la liste des fichiers .txt \n\t "$list""
+            fi
+        }
+        
+        compter_nbr_lignes(){
+            local file
+        
+            read -p "Quel fichier voulez-vous analyser ? " file
+        
+            file_lignes=$(wc -l "$file")
+            if [[ -z "$file" ]]; then
+                echo "Veuillez renseigner un fichier"
+            else
+                echo -e "Nombre de ligne(s) dans "$file" : "$file_lignes"" 
+            fi
+        }
+        
+        echo "Que veux-tu faire ?"
+        select choix in "Lister les fichiers .txt" "Compter les lignes d'un fichier" "Quitter"; do
+            case $choix in
+                "Lister les fichiers .txt") liste_all_txt ;;
+                "Compter les lignes d'un fichier") compter_nbr_lignes ;;
+                "Quitter") echo "Au revoir." ; break ;;
+                *) echo "choix invalide" ;;
+            esac
+        done   
+        ```
+        
+- Modifier format date : date_heure=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    ```bash
+    $(date +%Y%m%d) # 20120902 
+    date_heure=$(date '+%Y-%m-%d %H:%M:%S') # [2026-05-03 15:18:39]
+    
+    # Par défaut : [dim. 03 mai 2026 15:17:59 CEST]
+    ```
+    
+- Enregistrer dans destination précise destination="/tmp/backups"
+    - Ecrire variable avec destination souhaitée
+    
+    ```bash
+    destination="$HOME/nom_dossier"
+    ```
+    
+    ```bash
+    destination="/tmp/backups"
+    ```
+    
+- Contruire nom dossier / archive
+    
+    ```bash
+    # --- Configuration ---
+    dossiers="$1"
+    destination="/tmp/backups"
+    date_du_jour=$(date +%Y%m%d)
+    archive="$destination/${date_du_jour}_${dossiers}.tar.gz"
+    
+    # --- Préparation ---
+    mkdir -p "$destination"
+    
+    echo "=== Sauvegarde du $date_du_jour ==="
+    
+    tar -czf "$archive" "$dossiers"
+    cd "$destination" && ls
+    
+    echo "=== Fin de la sauvegarde de "$dossiers" ==="
+    ```
+    
+    - nom_archive=… : remplace les / par _ dans nom du dossier
+        - si `dossier="/home/kali/Documents"`
+        - alors `nom_archive="_home_kali_Documents"`
+    - fichier=… construit chemin final de l’archive
+        - /tmp/backups/_home_kali_Documents-2026-05-03.tar.gz
+    
+    ```bash
+    nom_archive=$(echo "$dossier" | tr '/' '_')
+    fichier="${destination}/${nom_archive}-${date_du_jour}.tar.gz"
+    ```
+    
+    - Construire nom de fichier dynamiquement
+        
+        ```bash
+        tar czf ~/www_backups/$(date +%Y%m%d-%H%M%S).tar.gz 
+        ```
+        
+    - Construire archive avec date
+        
+        ```bash
+        archive="$destination/$(date +%Y%m%d-%H%M%S).tar.gz"
+        ```
+        
+    - Récupérer nom dossier propre
+        
+        ```bash
+        nom_dossier=$(basename "$dossier")
+        archive="$destination/${date_du_jour}_${nom_dossier}.tar.gz"
+        ```
+        
+- Faire un “pause” pour rester dans résultat et attendre retour utilisateur
+    - Syntaxe simple, faire une fonction pause
+    
+    ```bash
+    pause(){
+    
+    	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+        
+    }
+    ```
+    
+    - Usage dans boucle while
+    
+    ```bash
+    pause(){
+    
+    	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+        
+    }
+    
+    liste_all_txt(){
+        local list
+    
+        list=$(find . -type f -name "*.txt" 2>/dev/null)
+    
+        if [[ -z "$list" ]]; then
+            echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+        else
+            echo -e "Voici la liste des fichiers .txt \n "$list""
+        fi
+        pause
+    
+    }
+    
+    compter_nbr_lignes(){
+        local file
+        local file_lignes
+    
+        read -p "Quel fichier voulez-vous analyser ? " file
+    
+        if [[ -z "$file" ]]; then
+            echo "Veuillez renseigner un fichier"
+        elif [[ ! -f "$file" ]]; then
+            echo "Erreur : ce fichier n'existe pas"
+        else
+            file_lignes=$(<"$file" wc -l)
+            echo -e "Nombre de ligne(s) dans "$file" : "$file_lignes"" 
+        fi
+        pause
+    
+    }
+    
+    while true; do
+        # Affiche menu
+        clear
+        echo "---------------------------------"
+    	echo "	     M A I N - M E N U"
+    	echo "---------------------------------"
+        echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+        echo "2. Compter le nombre de lignes dans un fichier donné"
+        echo "3. Quitter"
+        echo "---------------------------------"
+        read -r -p "Quel est votre choix ? " choix
+    
+        
+        case $choix in
+            -l|lister|1) liste_all_txt ;;
+            -n|number|2) compter_nbr_lignes ;;
+            -q|quit|3) echo "Au revoir." ; break ;;
+            *) echo "Sélectionnez votre choix"; pause ;;
+        esac
+    done
+    ```
+    
 - Entrainement divers
     - Script laisse choix avec argument (fonction+case)
         
@@ -2599,3 +3894,71 @@ Crée un script `gestion.sh` qui :
         cat rapport.txt
         
         ```
+        
+    - Menu boucle while, pause, fonctions
+        
+        ```bash
+        #!/bin/bash
+        
+        pause(){
+        
+        	read -p "Appuyer sur la touche [Enter] pour continuer..." key
+            
+        }
+        
+        liste_all_txt(){
+            local list
+        
+            list=$(find . -type f -name "*.txt" 2>/dev/null)
+        
+            if [[ -z "$list" ]]; then
+                echo "Il n'y a aucun fichier .txt dans le répertoire actuel ni dans les sous-dossiers"
+            else
+                echo -e "Voici la liste des fichiers .txt \n "$list""
+            fi
+            pause
+        
+        }
+        
+        compter_nbr_lignes(){
+            local file
+            local file_lignes
+        
+            read -p "Quel fichier voulez-vous analyser ? " file
+        
+            if [[ -z "$file" ]]; then
+                echo "Veuillez renseigner un fichier"
+            elif [[ ! -f "$file" ]]; then
+                echo "Erreur : ce fichier n'existe pas"
+            else
+                file_lignes=$(<"$file" wc -l)
+                echo -e "Nombre de ligne(s) dans "$file" : "$file_lignes"" 
+            fi
+            pause
+        
+        }
+        
+        while true; do
+            # Affiche menu
+            clear
+            echo "---------------------------------"
+        	echo "	     M A I N - M E N U"
+        	echo "---------------------------------"
+            echo "1. Lister tous les fichiers .txt dans le répertoire courant et en-dessous"
+            echo "2. Compter le nombre de lignes dans un fichier donné"
+            echo "3. Quitter"
+            echo "---------------------------------"
+            read -r -p "Quel est votre choix ? " choix
+        
+            
+            case $choix in
+                -l|lister|1) liste_all_txt ;;
+                -n|number|2) compter_nbr_lignes ;;
+                -q|quit|3) echo "Au revoir." ; break ;;
+                *) echo "Sélectionnez votre choix"; pause ;;
+            esac
+        done
+        ```
+        
+
+[cours_bash_v2.1](https://www.notion.so/cours_bash_v2-1-3263297e159780e290aae30a0564f18e?pvs=21)
