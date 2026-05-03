@@ -1731,16 +1731,16 @@ autre="Alice"
 
 ### Récapitulatif
 
-| Syntaxe | Effet |
-|---------|-------|
-| `${#var}` | Longueur |
-| `${var:pos:len}` | Extraire une sous-chaîne |
-| `${var/ancien/nouveau}` | Remplacer la 1ère occurrence |
+| Syntaxe                  | Effet                            |
+| ------------------------ | -------------------------------- |
+| `${#var}`                | Longueur                         |
+| `${var:pos:len}`         | Extraire une sous-chaîne         |
+| `${var/ancien/nouveau}`  | Remplacer la 1ère occurrence     |
 | `${var//ancien/nouveau}` | Remplacer toutes les occurrences |
-| `${var//ancien/}` | Supprimer toutes les occurrences |
-| `${var^^}` | Tout en majuscules |
-| `${var,,}` | Tout en minuscules |
-| `${var^}` | 1ère lettre en majuscule |
+| `${var//ancien/}`        | Supprimer toutes les occurrences |
+| `${var^^}`               | Tout en majuscules               |
+| `${var,,}`               | Tout en minuscules               |
+| `${var^}`                | 1ère lettre en majuscule         |
 
 ## Bonus
 
@@ -1880,16 +1880,16 @@ echo "Rôle : ${infos[3]}"
 
 ### Récapitulatif
 
-| Syntaxe | Effet |
-|---------|-------|
-| `tab=("a" "b" "c")` | Créer un tableau |
-| `${tab[0]}` | Accéder à l'élément 0 |
-| `${tab[@]}` | Tous les éléments |
-| `${#tab[@]}` | Nombre d'éléments |
-| `${!tab[@]}` | Tous les index |
-| `tab+=("d")` | Ajouter un élément |
-| `tab[1]="x"` | Modifier un élément |
-| `unset tab[1]` | Supprimer un élément |
+| Syntaxe             | Effet                 |
+| ------------------- | --------------------- |
+| `tab=("a" "b" "c")` | Créer un tableau      |
+| `${tab[0]}`         | Accéder à l'élément 0 |
+| `${tab[@]}`         | Tous les éléments     |
+| `${#tab[@]}`        | Nombre d'éléments     |
+| `${!tab[@]}`        | Tous les index        |
+| `tab+=("d")`        | Ajouter un élément    |
+| `tab[1]="x"`        | Modifier un élément   |
+| `unset tab[1]`      | Supprimer un élément  |
 
 ## Bonus
 
@@ -2019,13 +2019,13 @@ Ceci ne sera plus tracé
 
 ### Les 5 erreurs de débutant les plus fréquentes
 
-| Erreur | Message | Solution |
-|--------|---------|----------|
-| Espaces autour de `=` | `command not found` | `var="valeur"` (pas d'espace) |
-| `then` ou `fi` oublié | `syntax error` | Vérifie chaque `if` a son `then` et son `fi` |
-| `do` ou `done` oublié | `syntax error` | Vérifie chaque boucle a son `do` et son `done` |
-| Guillemets oubliés | `unary operator expected` | Mets `"$var"` au lieu de `$var` |
-| `-eq` confondu avec `==` | Résultat inattendu | `-eq` pour nombres, `==` pour texte |
+| Erreur                   | Message                   | Solution                                       |
+| ------------------------ | ------------------------- | ---------------------------------------------- |
+| Espaces autour de `=`    | `command not found`       | `var="valeur"` (pas d'espace)                  |
+| `then` ou `fi` oublié    | `syntax error`            | Vérifie chaque `if` a son `then` et son `fi`   |
+| `do` ou `done` oublié    | `syntax error`            | Vérifie chaque boucle a son `do` et son `done` |
+| Guillemets oubliés       | `unary operator expected` | Mets `"$var"` au lieu de `$var`                |
+| `-eq` confondu avec `==` | Résultat inattendu        | `-eq` pour nombres, `==` pour texte            |
 
 ## Très utile en pratique
 

@@ -48,30 +48,30 @@ Ce cours **n’est pas** un cours de programmation PowerShell. Les variables, bo
 
 ## Glossaire — Les mots à connaître
 
-|Terme                       |Définition simple                                                                       |
-|----------------------------|----------------------------------------------------------------------------------------|
-|**Terminal**                |La fenêtre où tu tapes des commandes texte                                              |
-|**Shell**                   |Le programme qui lit et exécute tes commandes (CMD et PowerShell sont des shells)       |
-|**Commande**                |Une instruction que le shell sait exécuter (`dir`, `ping`, `Get-Process`…)              |
-|**Argument**                |Une info que tu donnes à une commande (`ping 8.8.8.8` — `8.8.8.8` est l’argument)       |
-|**Option / Flag**           |Un modificateur qui change le comportement d’une commande (`dir /s` — `/s` est l’option)|
-|**Prompt**                  |Le texte affiché par le terminal qui attend ta commande (`C:\Users\Lea>`)               |
-|**Chemin (path)**           |L’adresse d’un fichier ou dossier dans le système (`C:\Users\Lea\Documents`)            |
-|**Variable d’environnement**|Une information système stockée sous un nom (`%USERNAME%`, `$env:COMPUTERNAME`)         |
-|**Processus**               |Un programme en cours d’exécution                                                       |
-|**Service**                 |Un programme qui tourne en arrière-plan, souvent sans fenêtre visible                   |
-|**Registre**                |La base de données de configuration de Windows                                          |
-|**Tâche planifiée**         |Une action programmée pour s’exécuter automatiquement (au démarrage, à une heure…)      |
-|**Journal d’événements**    |Les logs de Windows — ce qui s’est passé sur la machine                                 |
-|**Event ID**                |Un numéro qui identifie un type d’événement dans les journaux Windows                   |
-|**PID**                     |Process ID — le numéro unique d’un processus en cours d’exécution                       |
-|**Port**                    |Un numéro qui identifie un service réseau sur une machine (80 = web, 443 = HTTPS…)      |
-|**DNS**                     |Le système qui traduit les noms de domaine en adresses IP (`google.com` → `142.250.x.x`)|
-|**Cmdlet**                  |Une commande PowerShell native, nommée `Verbe-Nom` (`Get-Process`, `Set-Location`)      |
-|**Pipeline**                |Le mécanisme qui envoie la sortie d’une commande vers une autre, avec le caractère `    |
-|**Redirection**             |Envoyer la sortie d’une commande dans un fichier au lieu de l’écran (`>`, `>>`)         |
-|**Batch (.bat)**            |Un fichier contenant des commandes CMD exécutées dans l’ordre                           |
-|**Remoting**                |La capacité d’exécuter des commandes sur une machine distante                           |
+| Terme                        | Définition simple                                                                        |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| **Terminal**                 | La fenêtre où tu tapes des commandes texte                                               |
+| **Shell**                    | Le programme qui lit et exécute tes commandes (CMD et PowerShell sont des shells)        |
+| **Commande**                 | Une instruction que le shell sait exécuter (`dir`, `ping`, `Get-Process`…)               |
+| **Argument**                 | Une info que tu donnes à une commande (`ping 8.8.8.8` — `8.8.8.8` est l’argument)        |
+| **Option / Flag**            | Un modificateur qui change le comportement d’une commande (`dir /s` — `/s` est l’option) |
+| **Prompt**                   | Le texte affiché par le terminal qui attend ta commande (`C:\Users\Lea>`)                |
+| **Chemin (path)**            | L’adresse d’un fichier ou dossier dans le système (`C:\Users\Lea\Documents`)             |
+| **Variable d’environnement** | Une information système stockée sous un nom (`%USERNAME%`, `$env:COMPUTERNAME`)          |
+| **Processus**                | Un programme en cours d’exécution                                                        |
+| **Service**                  | Un programme qui tourne en arrière-plan, souvent sans fenêtre visible                    |
+| **Registre**                 | La base de données de configuration de Windows                                           |
+| **Tâche planifiée**          | Une action programmée pour s’exécuter automatiquement (au démarrage, à une heure…)       |
+| **Journal d’événements**     | Les logs de Windows — ce qui s’est passé sur la machine                                  |
+| **Event ID**                 | Un numéro qui identifie un type d’événement dans les journaux Windows                    |
+| **PID**                      | Process ID — le numéro unique d’un processus en cours d’exécution                        |
+| **Port**                     | Un numéro qui identifie un service réseau sur une machine (80 = web, 443 = HTTPS…)       |
+| **DNS**                      | Le système qui traduit les noms de domaine en adresses IP (`google.com` → `142.250.x.x`) |
+| **Cmdlet**                   | Une commande PowerShell native, nommée `Verbe-Nom` (`Get-Process`, `Set-Location`)       |
+| **Pipeline**                 | Le mécanisme qui envoie la sortie d’une commande vers une autre, avec le caractère `     |
+| **Redirection**              | Envoyer la sortie d’une commande dans un fichier au lieu de l’écran (`>`, `>>`)          |
+| **Batch (.bat)**             | Un fichier contenant des commandes CMD exécutées dans l’ordre                            |
+| **Remoting**                 | La capacité d’exécuter des commandes sur une machine distante                            |
 
 -----
 
@@ -191,7 +191,7 @@ Certaines commandes nécessitent des **droits administrateur** (gérer les servi
 - Menu Démarrer → tape “cmd” ou “powershell” → clic droit → **Exécuter en tant qu’administrateur**
 - Ou dans Windows Terminal : clic droit sur l’onglet → **Ouvrir en tant qu’administrateur**
 
-> **Comment savoir si tu es admin ?** Le titre de la fenêtre indique souvent “Administrateur”. Pour être sûr, certaines commandes système renverront “Accès refusé” si le terminal n’est pas élevé. Une astuce simple : lance `net session` — si la commande renvoie “Accès refusé”, le terminal n’est pas en mode administrateur.
+> **Comment savoir si tu es admin ?** Le titre de la fenêtre indique souvent “Administrateur”. Pour être sûr, certaines commandes système renverront “Accès refusé” si le terminal n’est pas élevé. Une astuce simple : lance `net session`. Si la commande renvoie “Accès refusé”, ton terminal n’est généralement pas lancé en administrateur.
 
 ### Comprendre le prompt
 
@@ -283,17 +283,6 @@ Si tu ne l’as pas : cherche “Windows Terminal” dans le Microsoft Store (gr
 # → La ligne de commande ne fait rien que tu ne lui demandes. Si tu ne tapes rien,
 #   il ne se passe rien. Tu peux explorer sans risque.
 ```
-
-## ✅ Tu sais maintenant…
-
-- La différence entre interface graphique et ligne de commande
-- Les deux outils : CMD (ancien, simple) et PowerShell (moderne, puissant)
-- Ouvrir un terminal (Menu Démarrer, Win+R, Windows Terminal)
-- Exécuter en tant qu’administrateur (et pourquoi c’est nécessaire pour certaines commandes)
-- Lire le prompt (il te dit où tu es)
-- Tes premières commandes : `whoami`, `hostname`, `cls`
-
------
 
 # Chapitre 2 — Naviguer dans le système de fichiers
 
@@ -444,16 +433,6 @@ REM Astuce : cd /d fait les deux d'un coup
 cd /d D:\Donnees             REM ✅ Change de lecteur ET de dossier en une commande
 ```
 
-## ✅ Tu sais maintenant…
-
-- L’arborescence Windows (C:, Users, Windows, Program Files)
-- Chemin absolu vs chemin relatif
-- Naviguer avec `cd` (CMD et PowerShell), `dir` / `Get-ChildItem` pour lister
-- L’auto-complétion avec Tab
-- L’historique des commandes (flèches, `doskey /history`, `Get-History`)
-
------
-
 # Chapitre 3 — Obtenir de l’aide et devenir autonome
 
 ## Le minimum à savoir
@@ -560,15 +539,6 @@ grep                    # ❌ Utilise Select-String ou findstr
 ifconfig                # ❌ Utilise ipconfig (CMD) ou Get-NetIPAddress (PowerShell)
 ```
 
-## ✅ Tu sais maintenant…
-
-- Obtenir l’aide d’une commande CMD avec `/?`
-- Le trio PowerShell : `Get-Help`, `Get-Command`, `Get-Member`
-- Les alias et comment les retrouver (`Get-Alias`)
-- La démarche pour trouver n’importe quelle commande par soi-même
-
------
-
 # PARTIE II — MANIPULER FICHIERS, TEXTE ET VARIABLES
 
 -----
@@ -652,15 +622,6 @@ del *.*                        REM ❌ Supprime TOUT dans le dossier courant
 REM → Toujours vérifier avec dir avant de supprimer
 ```
 
-## ✅ Tu sais maintenant…
-
-- Créer des dossiers (`mkdir`) et des fichiers (`echo >`)
-- Lire un fichier (`type`)
-- Copier (`copy`, `xcopy`, `robocopy`), déplacer (`move`), renommer (`ren`), supprimer (`del`, `rmdir`)
-- Que la suppression en CLI ne passe pas par la corbeille
-
------
-
 # Chapitre 5 — Gérer les fichiers et dossiers avec PowerShell
 
 ## Le minimum à savoir
@@ -740,15 +701,6 @@ Get-Acl fichier.txt                  # Affiche les permissions
 
 > **Note :** dans ce cours, on apprend à **lire** les permissions. La modification (`Set-Acl`, `icacls /grant`) est un sujet d’administration avancé.
 
-## ✅ Tu sais maintenant…
-
-- Les cmdlets de gestion de fichiers (`New-Item`, `Get-Content`, `Set-Content`, `Copy-Item`, `Remove-Item`…)
-- `-WhatIf` pour simuler et `-Confirm` pour demander confirmation
-- `-Force` pour les fichiers cachés, `-Recurse` pour les sous-dossiers
-- Lire les permissions avec `icacls` (CMD) et `Get-Acl` (PowerShell)
-
------
-
 # Chapitre 6 — Rechercher des fichiers et du contenu
 
 ## Le minimum à savoir
@@ -801,14 +753,6 @@ Select-String -Path *.log -Pattern "error|warning"    # Recherche avec regex
 > **📋 FIL ROUGE — Épisode 4**
 > 
 > Léa doit trouver tous les fichiers de logs contenant le mot “critical” dans `C:\Logs`. Un `findstr /s "critical" C:\Logs\*.log` lui donne la liste en 2 secondes.
-
-## ✅ Tu sais maintenant…
-
-- Chercher des fichiers par nom (`dir /s`, `Get-ChildItem -Filter -Recurse`)
-- Localiser un exécutable (`where`)
-- Chercher du texte dans des fichiers (`findstr` en CMD, `Select-String` en PowerShell)
-
------
 
 # Chapitre 7 — Variables d’environnement, PATH et repères système
 
@@ -878,15 +822,6 @@ setx MON_VAR "valeur"
 ```
 
 > **⚠️ Attention :** `setx` modifie la variable de manière **permanente** dans le profil utilisateur. Utilise avec prudence, surtout pour le PATH.
-
-## ✅ Tu sais maintenant…
-
-- Ce qu’est une variable d’environnement
-- Les variables essentielles (`USERNAME`, `USERPROFILE`, `TEMP`, `PATH`)
-- Les afficher en CMD (`set`, `echo %VAR%`) et PowerShell (`$env:VAR`)
-- Ce que fait le PATH et pourquoi une commande peut être “introuvable”
-
------
 
 # Chapitre 8 — Redirections, pipes et sorties de commandes
 
@@ -961,14 +896,6 @@ tasklist | findstr chrome            REM CMD : filtre du TEXTE
 Get-Process | Where-Object Name -eq "chrome"   REM PowerShell : filtre des OBJETS
 ```
 
-## ✅ Tu sais maintenant…
-
-- Rediriger la sortie vers un fichier (`>`, `>>`, `Out-File`)
-- Rediriger les erreurs (`2>`)
-- Ignorer la sortie (`NUL`)
-- Enchaîner des commandes avec le pipe (`|`)
-- Exporter en CSV et JSON avec PowerShell
-
 -----
 
 # PARTIE III — ADMINISTRER ET DIAGNOSTIQUER
@@ -1035,11 +962,6 @@ Get-Process | Sort-Object CPU -Descending | Select-Object Name, Id, CPU -First 5
 
 > **En pratique :** utilise CMD pour les commandes réseau classiques et les tâches ponctuelles rapides. Utilise PowerShell pour tout ce qui nécessite de filtrer, trier, exporter ou automatiser.
 
-## ✅ Tu sais maintenant…
-
-- CMD = texte brut, PowerShell = objets structurés
-- CMD est encore utile (réseau, compatibilité, rapidité)
-- PowerShell est préférable pour l’administration, le filtrage et l’export
 
 -----
 
@@ -1110,12 +1032,6 @@ wmic logicaldisk get name,size,freespace
 > 
 > Le responsable IT demande un état des lieux rapide du serveur de fichiers. Léa lance `systeminfo` et note : Windows Server 2022, 32 Go de RAM, uptime de 45 jours, 12 hotfixes installés. Elle vérifie l’espace disque avec `Get-CimInstance Win32_LogicalDisk` : il reste 15 Go libres sur 500 — c’est peut-être la cause des problèmes.
 
-## ✅ Tu sais maintenant…
-
-- Identifier la machine (`whoami`, `hostname`, `ver`, `systeminfo`)
-- Les informations détaillées avec `systeminfo` (OS, RAM, uptime, patchs)
-- L’accès aux informations système via `Get-CimInstance` en PowerShell
-- Vérifier l’espace disque
 
 -----
 
@@ -1168,6 +1084,7 @@ Un processus peut être suspect si :
 - Il consomme anormalement le CPU ou la RAM
 - Il est lancé depuis un chemin inhabituel (`C:\Temp\`, `%APPDATA%\...`)
 - Il ouvre des connexions réseau vers des adresses inconnues
+> **Attention :** un chemin hors `System32` n’est pas automatiquement suspect. C’est seulement un indice à croiser avec le nom du processus, sa signature, son comportement réseau et son contexte.
 
 ```powershell
 # Voir le chemin de l'exécutable d'un processus
@@ -1178,13 +1095,6 @@ Get-Process | Select-Object Name, Id, Path | Where-Object Path -notlike "*System
 > 
 > Un poste est anormalement lent. Léa lance `tasklist` puis `Get-Process | Sort-Object CPU -Descending`. Un processus `update_service.exe` consomme 95% du CPU depuis `C:\Users\dupont\AppData\Local\Temp`. Suspect. Elle vérifie qu’il ne correspond à aucun logiciel connu, note le PID, et le tue avec `taskkill /PID 4567 /F`.
 
-## ✅ Tu sais maintenant…
-
-- Ce qu’est un processus et un PID
-- Lister les processus (`tasklist`, `Get-Process`)
-- Filtrer et trier par CPU ou mémoire
-- Arrêter un processus (`taskkill`, `Stop-Process`)
-- Les signes d’un processus suspect
 
 -----
 
@@ -1249,12 +1159,6 @@ Les services sont importants en cybersécurité pour détecter :
 > 
 > Le spooler d’impression est arrêté — les utilisateurs ne peuvent plus imprimer. Léa vérifie avec `Get-Service Spooler`, constate qu’il est “Stopped”, le redémarre avec `Start-Service Spooler`, et vérifie qu’il passe bien en “Running”.
 
-## ✅ Tu sais maintenant…
-
-- Ce qu’est un service Windows
-- Lister les services (`sc query`, `Get-Service`)
-- Démarrer, arrêter, redémarrer un service (nécessite les droits admin)
-- Pourquoi les services sont importants en sécurité
 
 -----
 
@@ -1302,12 +1206,6 @@ Get-LocalGroupMember Administrators  # Qui est administrateur ?
 
 La création d’utilisateurs (`New-LocalUser`), l’ajout à des groupes (`Add-LocalGroupMember`), et la suppression sont des opérations d’administration qui nécessitent des droits élevés et de la prudence. Elles sont couvertes en détail dans les cours d’administration Windows et Active Directory.
 
-## ✅ Tu sais maintenant…
-
-- Identifier l’utilisateur courant (`whoami`)
-- Lister les utilisateurs (`net user`, `Get-LocalUser`)
-- Lister les groupes et leurs membres (`net localgroup`, `Get-LocalGroupMember`)
-- L’importance de savoir qui est administrateur
 
 -----
 
@@ -1348,11 +1246,6 @@ Get-ScheduledTask | Where-Object State -eq "Ready"    # Tâches actives
 
 > **Note :** la création et la suppression de tâches planifiées (`Register-ScheduledTask`, `Unregister-ScheduledTask`) sont des opérations d’administration couvertes dans le cours PowerShell.
 
-## ✅ Tu sais maintenant…
-
-- Ce qu’est une tâche planifiée et à quoi elle sert
-- Lister les tâches (`schtasks`, `Get-ScheduledTask`)
-- Pourquoi c’est pertinent en sécurité (persistance)
 
 -----
 
@@ -1409,12 +1302,6 @@ Get-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
 
 > **⚠️ Dans ce cours, on apprend à LIRE le registre.** La modification du registre peut casser une configuration Windows si elle est mal faite. La modification est un sujet d’administration avancé.
 
-## ✅ Tu sais maintenant…
-
-- Ce qu’est le registre et ses ruches principales (HKLM, HKCU)
-- Lire le registre avec CMD (`reg query`) et PowerShell (`Get-ChildItem HKCU:\`)
-- Vérifier les programmes au démarrage via les clés `Run`
-- Pourquoi le registre est pertinent en sécurité
 
 -----
 
@@ -1491,13 +1378,6 @@ Get-WinEvent -FilterHashtable @{LogName="Security"; Id=4625} -MaxEvents 10    # 
 > 
 > Suspicion d’activité anormale sur un poste. Léa consulte les logs de sécurité : `Get-WinEvent -FilterHashtable @{LogName="Security"; Id=4625} -MaxEvents 20`. Elle trouve 47 échecs de connexion en 10 minutes sur le compte “admin” — c’est une tentative de brute-force. Elle note l’adresse IP source et remonte l’information à l’équipe sécurité.
 
-## ✅ Tu sais maintenant…
-
-- Ce que sont les journaux Windows et pourquoi ils sont importants
-- Les journaux principaux (System, Application, Security)
-- Lire les événements avec `Get-WinEvent`
-- Filtrer par niveau (Error) ou par Event ID
-- Les Event IDs clés (4624, 4625, 7045, 1102)
 
 -----
 
@@ -1627,15 +1507,6 @@ Get-NetFirewallRule | Select-Object DisplayName, Direction, Action, Enabled -Fir
 > 1. `ping 192.168.1.1` (passerelle) → pas de réponse
 > 1. Vérification physique : le câble réseau était débranché. Problème résolu.
 
-## ✅ Tu sais maintenant…
-
-- Voir la configuration IP (`ipconfig`, `Get-NetIPConfiguration`)
-- Tester la connectivité (`ping`, `Test-Connection`)
-- Interroger le DNS (`nslookup`, `Resolve-DnsName`)
-- Tracer le chemin réseau (`tracert`, `Test-NetConnection -TraceRoute`)
-- Tester un port (`Test-NetConnection -Port`)
-- Voir les connexions actives (`netstat -ano`, `Get-NetTCPConnection`)
-- Relier un port à un processus
 
 -----
 
@@ -1680,11 +1551,6 @@ Invoke-WebRequest https://example.com -OutFile page.html   # Télécharger
 |404      |Page non trouvée |
 |500      |Erreur serveur   |
 
-## ✅ Tu sais maintenant…
-
-- Tester l’accès à un site web (`curl.exe`, `Invoke-WebRequest`)
-- Télécharger un fichier depuis la ligne de commande
-- Lire un code HTTP
 
 -----
 
@@ -1810,12 +1676,6 @@ Le batch est encore utile pour les tâches simples et la compatibilité, mais il
 
 **PowerShell remplace le batch pour tout ce qui dépasse 10-15 lignes.** Le batch reste utile pour les scripts de démarrage, les tâches très simples, et la compatibilité avec des environnements anciens.
 
-## ✅ Tu sais maintenant…
-
-- Créer et exécuter un fichier `.bat`
-- Les bases : `@echo off`, `echo`, `pause`, `set`, `%1`
-- Les conditions (`if exist`) et boucles (`for`) simples
-- Les limites du batch et pourquoi PowerShell le remplace
 
 -----
 
@@ -1875,12 +1735,6 @@ Get-Process | Out-File process.txt
 Get-Service | Export-Csv services.csv -NoTypeInformation
 ```
 
-## ✅ Tu sais maintenant…
-
-- La différence entre une commande et un script `.ps1`
-- Créer et exécuter un mini-script PowerShell
-- La politique d’exécution (`Get-ExecutionPolicy`, `Set-ExecutionPolicy`)
-- Exporter des résultats en fichier texte et CSV
 
 -----
 
@@ -1961,6 +1815,13 @@ Get-NetTCPConnection | Where-Object State -eq "Established" |
 
 # Identifier le processus derrière une connexion
 Get-Process -Id (Get-NetTCPConnection | Where-Object RemotePort -eq 4444).OwningProcess
+
+# Port `4444` souvent utilisé dans exemples de sécurité, mais port seul ne suffit jamais à conclure qu’une activité est malveillante. Elle fonctionne si une seule connexion correspond. Si plusieurs connexions correspondent, ou aucune, ça peut être moins propre. Préferer :
+
+Get-NetTCPConnection | Where-Object RemotePort -eq 4444 |
+ForEach-Object {
+    Get-Process -Id $_.OwningProcess
+}
 ```
 
 ### Aperçu Sysinternals
@@ -1981,19 +1842,12 @@ Les **Sysinternals** sont une suite d’outils Microsoft gratuits, essentiels po
 > 
 > Un fichier suspect `update_service.exe` a été trouvé sur un poste. Léa vérifie :
 > 
-> 1. `Get-FileHash` → elle envoie le hash sur VirusTotal → 35 détections. C’est un malware.
-> 1. `Get-AuthenticodeSignature` → “NotSigned”. Pas signé.
-> 1. Elle vérifie les clés `Run` → le fichier est présent dans la clé de démarrage.
-> 1. Elle vérifie `Get-NetTCPConnection` → le processus ouvre une connexion vers une IP étrangère sur le port 4444.
+> 1. `Get-FileHash` →  Elle vérifie le hash dans un outil de réputation ou une base IOC autorisée par son organisation. (Par exemple : Elle vérifie le hash sur VirusTotal, si la politique de l’organisation l’autorise) → 35 détections. C’est un malware.
+> 2. `Get-AuthenticodeSignature` → “NotSigned”. Pas signé.
+> 3. Elle vérifie les clés `Run` → le fichier est présent dans la clé de démarrage.
+> 4. Elle vérifie `Get-NetTCPConnection` → le processus ouvre une connexion vers une IP étrangère sur le port 4444.
 >    Conclusion : compromission confirmée. Elle isole le poste du réseau et remonte l’incident.
 
-## ✅ Tu sais maintenant…
-
-- L’objectif du triage (collecte rapide d’informations)
-- Les commandes de collecte de base (identité, réseau, processus, services, utilisateurs)
-- Vérifier un fichier suspect (hash, signature, métadonnées)
-- Vérifier les mécanismes de persistance (registre Run, tâches planifiées, services)
-- L’existence des outils Sysinternals
 
 -----
 
@@ -2029,7 +1883,7 @@ Invoke-Command -ComputerName SERVEUR01, SERVEUR02, SERVEUR03 -ScriptBlock {
     Get-CimInstance Win32_OperatingSystem | Select-Object Caption, LastBootUpTime
 }
 ```
-
+> **Important :** ces commandes ne fonctionnent que si PowerShell Remoting / WinRM est activé et autorisé sur la machine distante. En entreprise, cette configuration est souvent gérée par GPO ou par l’équipe infrastructure.
 ### La sécurité du remoting
 
 PowerShell Remoting s’appuie sur **WinRM** (Windows Remote Management).
@@ -2043,12 +1897,6 @@ PowerShell Remoting s’appuie sur **WinRM** (Windows Remote Management).
 
 > **Note :** la configuration avancée du remoting (JEA, CredSSP, certificats, TrustedHosts hors domaine) est un sujet d’administration avancé, couvert dans les cours d’infrastructure.
 
-## ✅ Tu sais maintenant…
-
-- Pourquoi le remoting est essentiel en administration Windows
-- `Enter-PSSession` pour une session interactive
-- `Invoke-Command` pour exécuter des commandes à distance (y compris sur plusieurs machines)
-- Que le remoting est sécurisé et journalisé
 
 -----
 
