@@ -1,3 +1,10 @@
+<aside>
+💡
+
+https://tldp.org/LDP/Bash-Beginners-Guide/html/index.html
+
+</aside>
+
 ### Introduction [Glossaire, penser un script]
 
 - Glossaire
@@ -250,6 +257,19 @@
     echo "Il y a $nb_fichiers éléments dans ce dossier"
     ```
     
+    - Voir les 20 derniers caractères
+        
+        ```bash
+        last_20=$(echo "$var" | tail -c 20)
+        echo "$last_20"
+        ```
+        
+    
+    ```bash
+    if [[ $counter -eq 35 ]]; then
+        longueur=$(echo "$var" | wc -m)  
+    ```
+    
     - A retenir : $(commande) exécuter la commande et renvoie son résultat. Fonctionnalités les plus puissantes de bash.
 - Variables d’environnement : Variables déjà définies : env
     - Connaitre var env :
@@ -372,7 +392,7 @@
         ./saluer.sh Bob     # -> Bonjour, Bob !
         ```
         
-- Variables spéciales : $0 (Nom script), $1/$2/… (arguments par position), $# (nombre d’arguments), $@ (tous arguments (séparément)), $? (code de sortie de dernière commande)
+- ⚠️ Variables spéciales : $0 (Nom script), $1/$2/… (arguments par position), $# (nombre d’arguments), $@ (tous arguments (séparément)), $? (code de sortie de dernière commande)
     - Special variables use the [Internal Field Separator](https://bash.cyberciti.biz/guide/$IFS) (`IFS`) to identify when an argument ends and the next begins.
     
     | Variable | Contenu | Description |
@@ -383,6 +403,7 @@
     | $@ | Tous les arguments (séparément) | Permet de récupérer tous les arguments en ligne de commande, chacun traité séparément. |
     | $? | Le code de sortie de la dernière commande | Contient le code de retour de la dernière commande (0 = succès, autre valeur = erreur). |
     | $$ | PID du processus | Contient l’identifiant (PID) du processus en cours d’exécution. |
+    | $n | Récup arg en fonction de sa position | Chaque argument peut être récupéré sélectivement en fonction de sa position.  |
     - Exemple :
         
         ```bash
@@ -417,7 +438,7 @@
         fi
         ```
         
-- ⚠️ Vérifier que argument fourni : if [[ -z … ]]; then … exit 1 fi, if [[ ! -d … ]]; then…
+- Vérifier que argument fourni : if [[ -z … ]]; then … exit 1 fi, if [[ ! -d … ]]; then…
     - Script qui attend argument devrait toujours vérifiés qu’il a été donné :
         - -z : Chaîne vide
         
@@ -818,6 +839,25 @@
     ```
     
 - Tee : Afficher / sauvegarder en même temps : ls -la | tee log.txt
+    - Syntaxe tee
+        - **Voir et garder** :
+        
+        ```
+        commande | tee fichier.txt
+        ```
+        
+        - **Ajouter sans écraser** :
+        
+        ```
+        commande | tee-a fichier.txt
+        ```
+        
+        ```bash
+        tee fichier # Ecrit dans fichier en écrasant son contenu
+        
+        tee -a fichier # Ajoute à la fin du fichier sans effacer ce qu'il y a déjà
+        ```
+        
     
     ```bash
     # Affiche à l'écran ET écrit dans log.txt
@@ -825,6 +865,11 @@
     
     # Ajouter au fichier (au lieu d'écraser)
     date | tee -a journal.log
+    
+    # Prend ce qu'il reçoit, l'affiche à l'écran et l'écrit dans un fichier
+    hosts=$(host $domain | grep "has address" | cut -d" " -f4 | tee discovered_hosts.txt)
+    
+    netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
     ```
     
 - Rediriger l’entrée avec < : commande < fichier : wc -l < fichier
@@ -901,7 +946,7 @@
         fi
         ```
         
-- Opérateurrs arithmétiques : +, -, *, /, %, **
+- Opérateurs arithmétiques : +, -, *, /, %, **
     
     
     | Opérateur | Signification | Exemple | Résultat |
@@ -912,6 +957,57 @@
     | `/` | Division entière | `$((5 / 3))` | `1` |
     | `%` | Modulo (reste) | `$((5 % 3))` | `2` |
     | `**` | Puissance | `$((2 ** 3))` | `8` |
+    | `variable++` | incrémentation valeur de la variable par 1 |  |  |
+    | variable— | décrémentation valeur de la variable par 1 |  |  |
+    - En bash, les calculs prennent souvent la forme suivante :
+        
+        ```bash
+        $(( ... ))
+        
+        echo $((10 + 10))
+        ```
+        
+    - Ex :
+        
+        ```bash
+        increase=1
+        decrease=1
+        
+        echo "Addition: 10 + 10 = $((10 + 10))"
+        echo "Subtraction: 10 - 10 = $((10 - 10))"
+        echo "Multiplication: 10 * 10 = $((10 * 10))"
+        echo "Division: 10 / 10 = $((10 / 10))"
+        echo "Modulus: 10 % 4 = $((10 % 4))"
+        
+        ((increase++))
+        echo "Increase Variable: $increase"
+        
+        ((decrease--))
+        echo "Decrease Variable: $decrease"
+        ```
+        
+    - Le modulo `%`
+        
+        ```
+        $((10 % 4))
+        ```
+        
+        donne :
+        
+        - reste de la division de 10 par 4
+        - donc `2`
+        
+        ### Utilité concrète
+        
+        Très utile pour :
+        
+        - pair / impair
+        - cycles
+        - répétitions périodiques
+        
+        Exemple :
+        
+        - un nombre est pair si `nombre % 2 == 0`
 - Stocker résultat : nom_var=$(var1 opérateur var2), prix_final=$((prix - reduction))
     
     ```bash
@@ -933,13 +1029,271 @@
         fi
         ```
         
-- Opérateurs logiques : && (ET, les conditions doivent être vraies), \|\| (OU, au moins une doit être vraie), ! (NON, inverse condition)
+- Opérateurs chaînes de caractères : = ou == (identiques), ≠ (! = différentes), -z (chaïne vide), -n (chaïne n’est pas vide)
+    
+    
+    | Opérateur | Signification |
+    | --- | --- |
+    | `=` ou `==` | Les chaînes sont identiques |
+    | `!=` | Les chaînes sont différentes |
+    | `-z` | La chaîne est vide |
+    | `-n` | La chaîne n'est pas vide |
+    | < | Plus petit dans alphabet ASCII |
+    | > | Plus grand dans alphabet ASCII |
+    
+    ```bash
+    nom="Alice"
+    [[ "$nom" == "Alice" ]]    # Vrai
+    [[ "$nom" != "Bob" ]]      # Vrai
+    [[ -z "$nom" ]]            # Faux (pas vide)
+    ```
+    
+    - Ex :
+        - Tester si variable contient contenus d’une autre variable
+            
+            ```bash
+            var="8dm7KsjU28B7v621Jls" 
+            value="ERmFRMVZ0U2paTlJYTkxDZz09Cg" 
+            
+            if [[ "$var" == *"$value"* ]]; then 
+            	echo "La variable "var" contient le même contenu que "value"" 
+            fi 
+            ```
+            
+        
+        ```bash
+        prenom="Camille"
+        
+        if [[ "$prenom" == "Camille" ]]; then
+            echo "Bonjour Camille"
+        fi
+        ```
+        
+        ```bash
+        nom=""
+        
+        [[ -z "$nom" ]] && echo "Le nom est vide"
+        [[ -n "$nom" ]] && echo "Le nom n'est pas vide"
+        ```
+        
+        ```bash
+        # Check the given argument
+        if [ "$1" != "HackTheBox" ]
+        then
+            echo -e "You need to give 'HackTheBox' as argument."
+            exit 1
+        
+        elif [ $# -gt 1 ]
+        then
+            echo -e "Too many arguments given."
+            exit 1
+        
+        else
+            domain=$1
+            echo -e "Success!"
+        fi
+        ```
+        
+    - Table ASCII
+        
+        
+        | **Decimal** | **Hexadecial** | **Character** | **Description** |
+        | --- | --- | --- | --- |
+        | 0 | 00 | NUL | End of a string |
+        | ... | ... | ... | ... |
+        | 65 | 41 | A | Capital A |
+        | 66 | 42 | B | Capital B |
+        | 67 | 43 | C | Capital C |
+        | 68 | 44 | D | Capital D |
+        | ... | ... | ... | ... |
+        | 127 | 7F | DEL | Delete |
+- Opérateurs sur les nombres : -eq (égal), -ne (différent), -lt (inférieur), -le (inférieur ou égal), -gt (supérieur), -ge (supérieur ou égal)
+    
+    
+    | Opérateur | Signification | Moyen mnémotechnique |
+    | --- | --- | --- |
+    | -eq | Égal | **eq**ual |
+    | -ne | Différent | **n**ot **e**qual |
+    | -lt | Inférieur | **l**ess **t**han |
+    | -le | Inférieur ou égal | **l**ess or **e**qual |
+    | -gt | Supérieur | **g**reater **t**han |
+    | -ge | Supérieur ou égal | **g**reater or **e**qual |
+    
+    ```bash
+    age=25
+    [[ $age -ge 18 ]]    # Est-ce que 25 ≥ 18 ? → Vrai
+    [[ $age -eq 30 ]]    # Est-ce que 25 = 30 ? → Faux
+    ```
+    
+    - Ex
+        - Vérifier si variable à plus de n caractères
+            
+            ```bash
+            if [[ ${#var} -gt 113450 ]]; then
+            ```
+            
+        
+        ```bash
+        if [ $# -eq 0 ]
+        then
+            echo -e "You need to specify the target domain.\n"
+            echo -e "Usage:"
+            echo -e "\t$0 <domain>"
+            exit 1
+        else
+            domain=$1
+        fi
+        ```
+        
+        ```bash
+        if [ $# -lt 1 ]
+        then
+            echo -e "Number of given arguments is less than 1"
+            exit 1
+        
+        elif [ $# -gt 1 ]
+        then
+            echo -e "Number of given arguments is greater than 1"
+            exit 1
+        
+        else
+            domain=$1
+            echo -e "Number of given arguments equals 1"
+        fi
+        ```
+        
+        ```bash
+        age=25
+        
+        if [[ $age -ge 18 ]]; then
+            echo "Majeur"
+        fi
+        ```
+        
+        ```bash
+        tentatives=5
+        
+        if [[ $tentatives -gt 3 ]]; then
+            echo "Trop de tentatives"
+        fi
+        ```
+        
+- Opérateur sur les fichiers : Test fichiers/dossiers : -e (fichier existe), -f (fichier normal), -d (c’est dossier), -s (fichier pas vide), -r (fichier est lisible), -w (fichier est modifiable), -x
+    
+    
+    | Opérateur | Signification |
+    | --- | --- |
+    | `-e fichier` | Le fichier existe |
+    | `-f fichier` | C'est un fichier normal |
+    | `-d fichier` | C'est un dossier |
+    | `-s fichier` | Le fichier n'est pas vide |
+    | `-r fichier` | Le fichier est lisible |
+    | `-w fichier` | Le fichier est modifiable |
+    | `-x fichier` | Le fichier est exécutable |
+    | -s fichier | Taille > 0 |
+    
+    ```bash
+    [[ -f "/etc/passwd" ]]    # Vrai (le fichier existe)
+    [[ -d "/home" ]]          # Vrai (c'est un dossier)
+    [[ ! -d $1 ]]             # $1 n'est pas un dossier
+    ```
+    
+    - Ex :
+        - -e : existe
+            
+            ```bash
+            if [[-e"notes.txt" ]];then
+            echo"Le fichier existe"
+            fi
+            ```
+            
+            ```bash
+            [[ -e "$1" && -r "$1" ]]
+            ```
+            
+        - -f : fichier normal
+            
+            ```bash
+            if [[ -f "notes.txt" ]]; then
+                echo "C'est un fichier"
+            fi
+            ```
+            
+        - -d : dossier
+            
+            ```bash
+            if [[ -d "/home/kali" ]]; then
+                echo "C'est un dossier"
+            fi
+            ```
+            
+        - -s : pas vide
+            
+            ```bash
+            if [[ -s "rapport.txt" ]]; then
+                echo "Le fichier contient quelque chose"
+            fi
+            ```
+            
+        - -r : lisible
+            
+            ```bash
+            if [[ -r "/etc/passwd" ]]; then
+                echo "Le fichier est lisible"
+            fi
+            ```
+            
+        - -w : modifiable
+            
+            ```bash
+            if [[ -w "rapport.txt" ]]; then
+                echo "Je peux écrire dedans"
+            fi
+            ```
+            
+        - -x : exécutable
+            
+            ```bash
+            if [[ -x "script.sh" ]]; then
+                echo "Le script est exécutable"
+            fi
+            ```
+            
+        - Combiner plusieurs
+            
+            ```bash
+            chemin="$1"
+            
+            if [[ -z "$chemin" ]]; then
+                echo "Erreur : vous devez indiquer un chemin"
+                exit 1
+            elif [[ ! -e "$chemin" ]]; then
+                echo "Erreur : $chemin n'existe pas"
+                exit 1
+            elif [[ -f "$chemin" ]]; then
+                echo "$chemin est un fichier"
+            
+                [[ -r "$chemin" ]] && echo "Le fichier est lisible" || echo "Le fichier n'est pas lisible"
+                [[ -w "$chemin" ]] && echo "Le fichier est modifiable" || echo "Le fichier n'est pas modifiable"
+                [[ -x "$chemin" ]] && echo "Le fichier est exécutable" || echo "Le fichier n'est pas exécutable"
+            
+            elif [[ -d "$chemin" ]]; then
+                echo "$chemin est un dossier"
+                nbr_elements=$(ls "$chemin" | wc -l)
+                echo "Il y a $nbr_elements éléments dans le dossier"
+            
+            else
+                echo "$chemin existe, mais ce n'est ni un fichier ni un dossier"
+            fi
+            ```
+            
+- Boléens et opérateurs logiques : && (ET, les conditions doivent être vraies), \|\| (OU, au moins une doit être vraie), ! (NON, inverse condition)
     
     
     | Opérateur | Signification |
     | --- | --- |
     | `&&` | ET — les deux conditions doivent être vraies |
-    | `\|\|` | OU — au moins une doit être vraie |
+    | `\|\|` / `||` | OU — au moins une doit être vraie |
     | `!` | NON — inverse la condition |
     
     ```bash
@@ -953,6 +1307,10 @@
     ```
     
     - Ex :
+        
+        ```bash
+        [[ -e "$1" && -r "$1" ]]
+        ```
         
         ```bash
         age=25
@@ -973,6 +1331,29 @@
         ```bash
         if [[ ! -d "$1" ]]; then
             echo "Ce n'est pas un dossier"
+        fi
+        ```
+        
+        ```bash
+        # Check if the specified file exists and if we have read permissions
+        if [[ -e "$1" && -r "$1" ]]
+        then
+            echo -e "We can read the file that has been specified."
+            exit 0
+        
+        elif [[ ! -e "$1" ]]
+        then
+            echo -e "The specified file does not exist."
+            exit 2
+        
+        elif [[ -e "$1" && ! -r "$1" ]]
+        then
+            echo -e "We don't have read permission for this file."
+            exit 1
+        
+        else
+            echo -e "Error occured."
+            exit 5
         fi
         ```
         
@@ -1029,6 +1410,102 @@
             echo "$compteur $name "
             ((compteur++))
         done
+        ```
+        
+        - Compter combien d’hôtes rép, combien d’hôtes ont été testés, quand sortir de la boucle
+            
+            ```bash
+            ((stat--))
+            ((hosts_up++))
+            ((hosts_total++))
+            
+            # ------------ fin
+            
+            <SNIP>
+                echo -e "\nPinging host(s):"
+                for host in $cidr_ips
+                do
+                    stat=1
+                    while [ $stat -eq 1 ]
+                    do
+                        ping -c 2 $host > /dev/null 2>&1
+                        if [ $? -eq 0 ]
+                        then
+                            echo "$host is up."
+                            ((stat--))
+                            ((hosts_up++))
+                            ((hosts_total++))
+                        else
+                            echo "$host is down."
+                            ((stat--))
+                            ((hosts_total++))
+                        fi
+                    done
+                done
+            <SNIP>
+            ```
+            
+- Retrouver valeur dans compteur avec if
+    - Retrouver valeur d’un compteur
+        
+        ```bash
+        var="nef892na9s1p9asn2aJs71nIsm"
+        
+        for counter in {1..40}
+        do
+            var=$(echo "$var" | base64)
+        
+        if [[ $counter -eq 35 ]]; then
+            resultat_35="$var"
+        fi
+        done
+        
+        echo "$resultat_35"
+        ```
+        
+    - Retrouver nombre de caractères d’une valeur
+        
+        ```bash
+        var="nef892na9s1p9asn2aJs71nIsm"
+        
+        for counter in {1..40}
+        do
+            var=$(echo "$var" | base64)
+        if [[ $counter -eq 35 ]]; then
+            longueur=$(echo "$var" | wc -m)        
+        fi
+        done
+        
+        echo "$longueur"
+        ```
+        
+- Calculer la valeur d’une variable : echo ${#variable} puis l’attribuer à une autre variable
+    
+    ```bash
+    htb="HackTheBox"
+    
+    echo ${#htb}
+    ```
+    
+    - Calculer longueur d’une variable
+        
+        ```bash
+        longueur=$(echo "$var" | wc -m)
+        echo "$longueur"
+        ```
+        
+    - Calculer longueur puis définir résultat à une autre variable
+        
+        ```bash
+        for counter in {1..28}
+        do 
+            var=$(echo "$var" | base64)
+        if [[ $counter -eq 28 ]]; then
+            longueur=$(echo "$var" | wc -m)
+        fi
+        done
+        
+        salt="$longueur"
         ```
         
 - Calcul décimal pour nombres virgules avec bc
@@ -1201,6 +1678,56 @@
     
 - if … elif … else : Autant de elif que l’on veut, mais un seul else (à la fin), et un seul fi
     - Autant de elif que l’on veut, mais un seul else (à la fin), et un seul fi
+    - Syntaxe
+        - `if` = si
+        - `elif` = sinon si
+        - `else` = sinon
+        - `fi` = fin du bloc `if`
+        
+        ```bash
+        if [ condition ]
+        then
+            commandes
+        elif [ autre_condition ]
+        then
+            autres_commandes
+        else
+            commandes_par_defaut
+        fi
+        ```
+        
+    - Ex :
+    
+    ```bash
+    value=$1
+    
+    if [ $value -gt "10" ]
+    then
+        echo "Given argument is greater than 10."
+    elif [ $value -lt "10" ]
+    then
+        echo "Given argument is less than 10."
+    else
+        echo "Given argument is not a number."
+    fi
+    ```
+    
+    ```bash
+    # Check for given argument
+    if [ $# -eq 0 ]
+    then
+        echo -e "You need to specify the target domain.\n"
+        echo -e "Usage:"
+        echo -e "\t$0 <domain>"
+        exit 1
+    elif [ $# -eq 1 ]
+    then
+        domain=$1
+    else
+        echo -e "Too many arguments given."
+        exit 1
+    fi
+    ```
     
     ```bash
     age=$1
@@ -1341,6 +1868,24 @@
         
         [[ -z "$nom" ]] && echo "Le nom est vide"
         [[ -n "$nom" ]] && echo "Le nom n'est pas vide"
+        ```
+        
+        ```bash
+        # Check the given argument
+        if [ "$1" != "HackTheBox" ]
+        then
+            echo -e "You need to give 'HackTheBox' as argument."
+            exit 1
+        
+        elif [ $# -gt 1 ]
+        then
+            echo -e "Too many arguments given."
+            exit 1
+        
+        else
+            domain=$1
+            echo -e "Success!"
+        fi
         ```
         
 - Test sur fichiers & dossiers : -e (fichier existe), -f (fichier normal), -d (c’est dossier), -s (fichier pas vide), -r (fichier est lisible), -w (fichier est modifiable), -x (fichier est exec)
@@ -1553,6 +2098,9 @@
 ### Boucles : répètent des actions, deux façons de penser: [while, pause, sleep]
 
 - for : répéter sur liste d’éléments : for var in X; do … done / for var in {1..10..2}; do … done
+    - Pour parcourir : liste de mots, suite de nombres, fichiers, arguments d’un script
+    - Qu’est-ce qui change à chaque tour ? souvent la variable (fruit; fichier, i)
+    - Qu’est-ce qui arrête la boucle ? la liste est terminée
     - Forme générale
         
         ```bash
@@ -1561,9 +2109,28 @@
         done
         ```
         
-    - Pour parcourir : liste de mots, suite de nombres, fichiers, arguments d’un script
-    - Qu’est-ce qui change à chaque tour ? souvent la variable (fruit; fichier, i)
-    - Qu’est-ce qui arrête la boucle ? la liste est terminée
+        ```bash
+        for variable in 1 2 3 4
+        do
+            echo $variable
+        done
+        
+        ```
+        
+        ```bash
+        for variable in file1 file2 file3
+        do
+            echo $variable
+        done
+        ```
+        
+        ```bash
+        for ip in "10.10.10.170 10.10.10.174 10.10.10.175"
+        do
+            ping -c 1 $ip
+        done
+        ```
+        
     - Ex typiques
         - Parcourir tous les fichiers logs
             
@@ -1618,6 +2185,22 @@
             for i in {1..10}; do
                 echo "$1 x $i = $(($1 * $i))"
             done
+            ```
+            
+        - CIDR
+            
+            ```bash
+            # Identify Network range for the specified IP address(es)
+            function network_range {
+                for ip in $ipaddr
+                do
+                    netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
+                    cidr=$(whois $ip | grep "CIDR" | awk '{print $2}')
+                    cidr_ips=$(prips $cidr)
+                    echo -e "\nNetRange for $ip:"
+                    echo -e "$netrange"
+                done
+            }
             ```
             
     - ❌ Erreurs fréquentes
@@ -1861,6 +2444,17 @@
     ```
     
 - break & continue : sortir de la boucle / sauteur au tour suivant
+    
+    ```bash
+    if [ $counter == 2 ]
+    then
+        continue
+    elif [ $counter == 4 ]
+    then
+        break
+    fi
+    ```
+    
     - Break : sortir de la boucle
         
         ```bash
@@ -1930,6 +2524,18 @@
     # 2. L'appeler (juste son nom, sans parenthèses)
     saluer
     saluer
+    ```
+    
+    ```bash
+    function print_pars {
+        echo $1 $2 $3
+    }
+    
+    one="First parameter"
+    two="Second parameter"
+    three="Third parameter"
+    
+    print_pars "$one" "$two" "$three"
     ```
     
     - Règle : Définition doit apparaître avant l’appel dans le script
@@ -2136,8 +2742,125 @@
     fi
     ```
     
+    ```bash
+    function given_args {
+    
+            if [ $# -lt 1 ]
+            then
+                    echo -e "Number of arguments: $#"
+                    return 1
+            else
+                    echo -e "Number of arguments: $#"
+                    return 0
+            fi
+    }
+    
+    # No arguments given
+    given_args
+    echo -e "Function status code: $?\n"
+    
+    # One argument given
+    given_args "argument"
+    echo -e "Function status code: $?\n"
+    
+    # Pass the results of the funtion into a variable
+    content=$(given_args "argument")
+    
+    echo -e "Content of the variable: \n\t$content"
+    
+    # ------- shell
+    CamiiKazZ@htb[/htb]$ ./Return.sh
+    
+    Number of arguments: 0
+    Function status code: 1
+    
+    Number of arguments: 1
+    Function status code: 0
+    
+    Content of the variable:
+        Number of arguments: 1
+    ```
+    
+    | **Return Code** | **Description** |
+    | --- | --- |
+    | `1` | General errors |
+    | `2` | Misuse of shell builtins |
+    | `126` | Command invoked cannot execute |
+    | `127` | Command not found |
+    | `128` | Invalid argument to exit |
+    | `128+n` | Fatal error signal "`n`" |
+    | `130` | Script terminated by Control-C |
+    | `255\*` | Exit status out of range |
+- Switch case : case <expression> in pattern_1) .. ;; pattern_2) .. ;; esac
+    
+    ```bash
+    case <expression> in
+        pattern_1 ) statements ;;
+        pattern_2 ) statements ;;
+        pattern_3 ) statements ;;
+    esac
+    ```
+    
+    ```bash
+    # Available options
+    echo -e "Additional options available:"
+    echo -e "\t1) Identify the corresponding network range of target domain."
+    echo -e "\t2) Ping discovered hosts."
+    echo -e "\t3) All checks."
+    echo -e "\t*) Exit.\n"
+    
+    read -p "Select your option: " opt
+    
+    case $opt in
+        "1") network_range ;;
+        "2") ping_host ;;
+        "3") network_range && ping_host ;;
+        "*") exit 0 ;;
+    esac
+    ```
+    
 - ❎ Fonction + case
     - Case choisit quoi faire + fonction contient bloc d’action
+        - Fonction pour CIDR + case
+        
+        ```bash
+        # Identify Network range for the specified IP address(es)
+        function network_range {
+            for ip in $ipaddr
+            do
+                netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
+                cidr=$(whois $ip | grep "CIDR" | awk '{print $2}')
+                cidr_ips=$(prips $cidr)
+                echo -e "\nNetRange for $ip:"
+                echo -e "$netrange"
+            done
+        }
+        
+        <SNIP>
+        
+        # Identify IP address of the specified domain
+        hosts=$(host $domain | grep "has address" | cut -d" " -f4 | tee discovered_hosts.txt)
+        
+        <SNIP>
+        ```
+        
+        ```bash
+        echo -e "Additional options available:"
+        echo -e "\t1) Identify the corresponding network range of target domain."
+        echo -e "\t2) Ping discovered hosts."
+        echo -e "\t3) All checks."
+        echo -e "\t*) Exit.\n"
+        
+        read -p "Select your option: " opt
+        
+        case $opt in
+            "1") network_range ;;
+            "2") ping_host ;;
+            "3") network_range && ping_host ;;
+            "*") exit 0 ;;
+        esac
+        ```
+        
     
     ```bash
     afficher_aide() {
@@ -2644,7 +3367,25 @@
              └─────┘  └──────┘  └──────┘
     ```
     
+    ```bash
+    domains=(www.inlanefreight.com ftp.inlanefreight.com vpn.inlanefreight.com www2.inlanefreight.com)
+    ```
+    
+    - Attention, peut mettre plusieurs valeurs en une
+        - Valeurs individuelles
+        
+        ```bash
+        domains=(www.inlanefreight.com ftp.inlanefreight.com vpn.inlanefreight.com www2.inlanefreight.com)
+        ```
+        
+        - Plusieurs valeurs en une car dans même guillemets
+        
+        ```bash
+        domains=("www.inlanefreight.com ftp.inlanefreight.com vpn.inlanefreight.com" www2.inlanefreight.com)
+        ```
+        
 - Accéder aux éléments : echo “${var[X]}”  / echo "${fruits[0]}"  peut @ = tout / tous index ${!var[@]}
+    - Index commence par 0
     
     ```bash
     fruits=("pomme" "banane" "cerise")
@@ -2963,6 +3704,42 @@
         Ceci ne sera plus tracé
         ```
         
+- Mode verbeux combine avec trace : bash -x -v
+    - Permet de voir le code lu, puis les commandes exécutées avec valeurs réelles, plus bavard mais pratique
+    
+    ```bash
+    bash -x -v script.sh
+    
+    # -x : montre l'exécution réelle
+    # -v : montre le code lu
+    ```
+    
+    ```bash
+    CamiiKazZ@htb[/htb]$ bash -x -v CIDR.sh
+    
+    #!/bin/bash
+    
+    # Check for given argument
+    if [ $# -eq 0 ]
+    then
+        echo -e "You need to specify the target domain.\n"
+        echo -e "Usage:"
+        echo -e "\t$0 <domain>"
+        exit 1
+    else
+        domain=$1
+    fi
+    + '[' 0 -eq 0 ']'
+    + echo -e 'You need to specify the target domain.\n'
+    You need to specify the target domain.
+    
+    + echo -e Usage:
+    Usage:
+    + echo -e '\tCIDR.sh <domain>'
+        CIDR.sh <domain>
+    + exit 1
+    ```
+    
 - Vérifier arguments en début de script : if [[ $# -lt 1 ]]; then…
     
     ```bash
@@ -3216,6 +3993,91 @@
     cd "$destination" && ls
     
     echo "=== Fin de la sauvegarde de "$dossiers" ==="
+    ```
+    
+- CIDR
+    1. Va checker les arguments donnés car attend un domaine
+    2. Création d’une fonction qui va faire un whois et identifier le range réseau pour l’ip spécifiée
+    3. Va checker si l’hôte trouvé est atteignable et avec la boucle For, va ping toutes les IP du range et compter le résultat.
+    4. Identifier l’ip du domaine spécifié
+    
+    ```bash
+    #!/bin/bash
+    
+    # Check for given arguments
+    if [ $# -eq 0 ]
+    then
+        echo -e "You need to specify the target domain.\n"
+        echo -e "Usage:"
+        echo -e "\t$0 <domain>"
+        exit 1
+    else
+        domain=$1
+    fi
+    
+    # Identify Network range for the specified IP address(es)
+    function network_range {
+        for ip in $ipaddr
+        do
+            netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
+            cidr=$(whois $ip | grep "CIDR" | awk '{print $2}')
+            cidr_ips=$(prips $cidr)
+            echo -e "\nNetRange for $ip:"
+            echo -e "$netrange"
+        done
+    }
+    
+    # Ping discovered IP address(es)
+    function ping_host {
+        hosts_up=0
+        hosts_total=0
+        
+        echo -e "\nPinging host(s):"
+        for host in $cidr_ips
+        do
+            stat=1
+            while [ $stat -eq 1 ]
+            do
+                ping -c 2 $host > /dev/null 2>&1
+                if [ $? -eq 0 ]
+                then
+                    echo "$host is up."
+                    ((stat--))
+                    ((hosts_up++))
+                    ((hosts_total++))
+                else
+                    echo "$host is down."
+                    ((stat--))
+                    ((hosts_total++))
+                fi
+            done
+        done
+        
+        echo -e "\n$hosts_up out of $hosts_total hosts are up."
+    }
+    
+    # Identify IP address of the specified domain
+    hosts=$(host $domain | grep "has address" | cut -d" " -f4 | tee discovered_hosts.txt)
+    
+    echo -e "Discovered IP address:\n$hosts\n"
+    ipaddr=$(host $domain | grep "has address" | cut -d" " -f4 | tr "\n" " ")
+    
+    # Available options
+    echo -e "Additional options available:"
+    echo -e "\t1) Identify the corresponding network range of target domain."
+    echo -e "\t2) Ping discovered hosts."
+    echo -e "\t3) All checks."
+    echo -e "\t*) Exit.\n"
+    
+    read -p "Select your option: " opt
+    
+    case $opt in
+        "1") network_range ;;
+        "2") ping_host ;;
+        "3") network_range && ping_host ;;
+        "*") exit 0 ;;
+    esac
+    
     ```
     
 - Template
@@ -3661,6 +4523,127 @@
     done
     ```
     
+- Passer valeur en base64
+    - Il faut bien réutiliser la même variable pour qu’elle soit encodé !!
+    
+    ```bash
+    var="nef892na9s1p9asn2aJs71nIsm"
+    
+    for counter in {1..40}
+    do
+            var=$(echo $var | base64)
+    done
+    ```
+    
+- Tester si variable contient contenus d’une autre variable
+    
+    ```bash
+    var="8dm7KsjU28B7v621Jls" 
+    value="ERmFRMVZ0U2paTlJYTkxDZz09Cg" 
+    
+    if [[ "$var" == *"$value"* ]]; then 
+    	echo "La variable "var" contient le même contenu que "value"" 
+    fi 
+    ```
+    
+- Vérifier si variable à plus de n caractères
+    
+    ```bash
+    if [[ ${#var} -gt 113450 ]]; then
+    ```
+    
+- Récupérer les 20 derniers caractères
+    
+    ```bash
+    last_20=$(echo "$var" | tail -c 20)
+    echo "$last_20"
+    ```
+    
+- Sauvegarder sortie dans fichier tee
+    - Syntaxe simple
+        - **Voir et garder** :
+        
+        ```
+        commande | tee fichier.txt
+        ```
+        
+        - **Ajouter sans écraser** :
+        
+        ```
+        commande | tee-a fichier.txt
+        ```
+        
+    
+    ```bash
+    # Prend ce qu'il reçoit, l'affiche à l'écran et l'écrit dans un fichier
+    hosts=$(host $domain | grep "has address" | cut -d" " -f4 | tee discovered_hosts.txt)
+    
+    netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
+    ```
+    
+- Retrouver valeur dans compteur avec if
+    - Retrouver valeur d’un compteur
+        
+        ```bash
+        var="nef892na9s1p9asn2aJs71nIsm"
+        
+        for counter in {1..40}
+        do
+            var=$(echo "$var" | base64)
+        
+        if [[ $counter -eq 35 ]]; then
+            resultat_35="$var"
+        fi
+        done
+        
+        echo "$resultat_35"
+        ```
+        
+    - Retrouver nombre de caractères d’une valeur
+        
+        ```bash
+        var="nef892na9s1p9asn2aJs71nIsm"
+        
+        for counter in {1..40}
+        do
+            var=$(echo "$var" | base64)
+        if [[ $counter -eq 35 ]]; then
+            longueur=$(echo "$var" | wc -m)        
+        fi
+        done
+        
+        echo "$longueur"
+        ```
+        
+- Calculer la valeur d’une variable : echo ${#variable} puis l’attribuer à une autre variable
+    
+    ```bash
+    htb="HackTheBox"
+    
+    echo ${#htb}
+    ```
+    
+    - Calculer longueur d’une variable
+        
+        ```bash
+        longueur=$(echo "$var" | wc -m)
+        echo "$longueur"
+        ```
+        
+    - Calculer longueur puis définir résultat à une autre variable
+        
+        ```bash
+        for counter in {1..28}
+        do 
+            var=$(echo "$var" | base64)
+        if [[ $counter -eq 28 ]]; then
+            longueur=$(echo "$var" | wc -m)
+        fi
+        done
+        
+        salt="$longueur"
+        ```
+        
 - Entrainement divers
     - Script laisse choix avec argument (fonction+case)
         
@@ -3735,6 +4718,29 @@
             - Vérifier que `$ip_scan` n'est pas vide avant de lancer le scan
             - Proposer plusieurs types de scans (rapide, complet, UDP...)
             - Sauvegarder le résultat dans un fichier
+    - Faire un tableau avec plusieurs domaines à scanner
+        
+        ```bash
+        domains=(www.inlanefreight.com ftp.inlanefreight.com vpn.inlanefreight.com www2.inlanefreight.com)
+        echo ${domains[0]}
+        ```
+        
+    - Fonction identifier plage réseau pour ip donnée
+        
+        ```bash
+        # Identify Network range for the specified IP address(es)
+        function network_range {
+            for ip in $ipaddr
+            do
+                netrange=$(whois $ip | grep "NetRange\|CIDR" | tee -a CIDR.txt)
+                cidr=$(whois $ip | grep "CIDR" | awk '{print $2}')
+                cidr_ips=$(prips $cidr)
+                echo -e "\nNetRange for $ip:"
+                echo -e "$netrange"
+            done
+        }
+        ```
+        
     - Comparaison fichier
         
         ```bash
