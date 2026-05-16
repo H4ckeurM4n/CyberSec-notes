@@ -1,4 +1,4 @@
-# Privacy, OPSEC & Souveraineté numérique personnelle
+# OPSEC & Privacy : sécurité numérique personnelle, anonymat, compartimentation et réduction d’exposition
 
 *Manuel de sécurité numérique défensive pour journalistes d’investigation, sources, activistes, dirigeants, professionnels exposés et particuliers exigeants (2025-2026)*
 
