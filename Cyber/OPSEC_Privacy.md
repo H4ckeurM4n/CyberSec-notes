@@ -2205,11 +2205,13 @@ Sophie R., activiste, prépare une manifestation à risque d’arrestation. Conf
 
 -----
 
-### Chapitre 23 — Tracking web et fingerprinting : mécanismes profonds
+### Chapitre 23 — Tracking web et fingerprinting (empreinte numérique) : mécanismes profonds 
 
 #### 23.1 Le tracking n’est plus seulement les cookies
 
 L’ère des cookies tiers se ferme (Chrome retarde mais Safari et Firefox les bloquent par défaut). En parallèle, le fingerprinting est devenu massif. Et l’identifiant publicitaire mobile reste actif.
+Contrairement au cookie, qui est un fichier stocké localement et que l’utilisateur peut supprimer ou bloquer, le fingerprinting repose sur des caractéristiques plus structurelles de l’environnement : navigateur, système d’exploitation, résolution, paramètres régionaux, rendu graphique, configuration matérielle. L’utilisateur ne “supprime” donc pas son fingerprint comme il supprime un cookie ; il doit soit réduire les signaux collectables, soit se fondre dans un groupe d’utilisateurs au profil standardisé.
+Le retour du fingerprinting s’inscrit dans la recomposition de l’AdTech post-cookies tiers. À mesure que les navigateurs limitent les cookies tiers, certains acteurs publicitaires cherchent des signaux alternatifs plus difficiles à bloquer. Le risque est de remplacer un tracking visible, stocké localement et partiellement contrôlable par l’utilisateur, par un tracking plus diffus, plus passif et moins maîtrisable.
 
 #### 23.2 Fingerprinting : mécanique
 
@@ -2268,6 +2270,14 @@ D’où la règle : **ne pas personnaliser les paramètres anti-fingerprint sauf
 **Stratégie 2 : Block** : bloquer les scripts de tracking. uBlock Origin, Privacy Badger, etc. Bloque la majorité des trackers connus. Mais ne bloque pas le fingerprinting first-party (par le site lui-même), et certains trackers passent.
 
 Les deux stratégies sont complémentaires en théorie ; en pratique, Tor Browser/Mullvad Browser appliquent la première, et la seconde est utile pour navigateurs quotidiens.
+
+#### 23.8 Fingerprinting fonctionnel, antifraude et dérive publicitaire
+
+Le fingerprinting n’est pas toujours utilisé à des fins malveillantes. Certains signaux techniques sont nécessaires pour afficher correctement une page selon l’appareil, adapter une interface mobile, détecter une fraude bancaire ou produire des statistiques de crash applicatif. Le problème apparaît lorsque ces mêmes signaux, initialement collectés pour des raisons fonctionnelles, sont réutilisés pour identifier durablement un utilisateur, le suivre entre plusieurs sites ou enrichir un profil publicitaire.
+
+Cette ambiguïté rend le fingerprinting particulièrement problématique : la frontière entre fonctionnement légitime, sécurité antifraude et tracking publicitaire est souvent invisible pour l’utilisateur. Contrairement aux cookies, qui sont stockés localement et peuvent être supprimés, le fingerprint repose sur des caractéristiques plus structurelles : navigateur, système d’exploitation, résolution, rendu graphique, paramètres régionaux, polices, matériel, configuration réseau. L’utilisateur ne peut donc pas simplement “effacer” son fingerprint ; il doit soit limiter les signaux exposés, soit utiliser un navigateur conçu pour se fondre dans un groupe d’utilisateurs standardisé.
+
+Le véritable enjeu n’est donc pas seulement technique, mais aussi juridique et politique : le fingerprinting réduit le contrôle de l’utilisateur sur la collecte de ses données. Il peut être déclenché en arrière-plan, difficile à détecter, difficile à bloquer et parfois collecté avant même qu’un consentement clair ne soit exprimé. C’est ce qui en fait un outil particulièrement attractif pour l’AdTech dans un contexte de déclin des cookies tiers.
 
 -----
 
@@ -2342,6 +2352,8 @@ Le minimum viable :
 - **uBlock Origin** : bloqueur de trackers et publicités, gold standard. À ne pas remplacer par AdBlock Plus (modèle « acceptable ads »).
 
 Le reste est optionnel : NoScript pour contrôle granulaire JavaScript (mais lourd), HTTPS Everywhere (devenu inutile, HTTPS par défaut), Privacy Badger (utile en complément, parfois redondant avec uBlock).
+
+Une extension de protection peut bloquer certains trackers, mais elle devient elle-même un signal de fingerprinting si elle modifie le comportement du navigateur d’une manière rare. L’objectif n’est donc pas d’empiler les extensions, mais d’utiliser un profil cohérent et commun à d’autres utilisateurs.
 
 #### 24.9 Profils, containers, sessions séparées
 
