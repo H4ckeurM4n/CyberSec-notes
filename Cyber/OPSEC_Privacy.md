@@ -467,6 +467,8 @@ Un adversaire n’est pas un autre. Confondre les catégories conduit à mal cal
 
 **Acteurs** : data brokers (Acxiom, LexisNexis, Spokeo, Intelius, Whitepages), ad-tech (Google, Meta, The Trade Desk, Criteo), courtiers de localisation (X-Mode, Cuebiq, Veraset — souvent revendus à des agences gouvernementales).
 
+Une évolution préoccupante de ce modèle est l’ADINT (Advertising Intelligence) : l’exploitation des données et mécanismes publicitaires à des fins de renseignement. Des données initialement collectées pour le ciblage marketing — identifiants publicitaires, localisation, applications utilisées, signaux comportementaux — peuvent être revendues, agrégées ou exploitées pour suivre des individus, cartographier des groupes ou préparer des actions ciblées. L’ADINT illustre la porosité entre publicité, courtage de données, surveillance privée et renseignement étatique.
+
 **Capacités** : agrégation massive de données issues d’applications mobiles, de cookies, de programmes de fidélité, de fuites, de registres publics, de réseaux sociaux. Construction de profils détaillés vendus à des fins publicitaires, mais aussi à des fins de scoring (crédit, assurance), de vérification (background check), voire à des forces de l’ordre via achat plutôt que mandat.
 
 **Modèle** : profit par accumulation. Tu n’es pas la cible, tu es la marchandise.
@@ -1476,6 +1478,10 @@ Aucun durcissement ne compense l’usage d’un smartphone non sécurisé pour d
 - **Wi-Fi MAC, BT MAC** : adresses uniques, randomisées sur les OS modernes (Ch 22).
 - **Advertising ID** (IDFA iOS, AAID Android) : désactivables.
 
+Les identifiants publicitaires mobiles — IDFA sur iOS, AAID sur Android, plus généralement MAID — ne doivent pas être vus comme de simples paramètres marketing. Dans l’écosystème publicitaire, ils peuvent servir de pivots de corrélation entre applications, lieux, horaires et comportements. Dans une logique ADINT, un identifiant publicitaire peut devenir un quasi-identifiant de renseignement : il ne donne pas directement le nom civil de la personne, mais permet souvent de la réidentifier par ses routines, ses lieux de vie, ses lieux de travail et ses déplacements récurrents.
+
+Pour un téléphone sensible, la règle est simple : moins il contient d’applications financées par la publicité, moins il émet de signaux exploitables. Un téléphone destiné à une manifestation, un rendez-vous source, une mission terrain ou une réunion confidentielle ne devrait pas contenir d’applications grand public à SDK publicitaires.
+
 #### 15.3 Localisation
 
 Cinq sources, agrégées :
@@ -2247,7 +2253,101 @@ Sur iOS, l’IDFA (Identifier For Advertisers) était jusqu’en 2021 un identif
 
 Au-delà, le fingerprinting mobile mobilise : modèle exact, OS version, fuseau horaire, langue, applications installées, capteurs, accéléromètre. Les SDK publicitaires intégrés à des centaines d’apps remontent ces données en continu.
 
-#### 23.5 Critères d’efficacité d’un fingerprint
+#### 23.5 ADINT : quand la publicité devient une source de renseignement
+
+------ ajout 1 ------
+
+L’ADINT (Advertising Intelligence) désigne l’exploitation de l’écosystème publicitaire numérique comme source de renseignement. Là où la publicité en ligne classique vise officiellement à afficher le bon message au bon utilisateur, l’ADINT détourne les mêmes mécanismes pour identifier, suivre, profiler ou cibler des personnes ou des groupes.
+
+Le point central est que l’écosystème publicitaire moderne ne se limite pas à afficher des bannières. Il repose sur une circulation massive de signaux techniques et comportementaux : identifiants publicitaires, adresse IP, modèle d’appareil, système d’exploitation, localisation, centres d’intérêt supposés, applications utilisées, horaires, langue, contexte de navigation, données de géolocalisation et informations issues de courtiers de données. Ces signaux sont souvent présentés comme pseudonymes, mais ils peuvent devenir hautement identifiants lorsqu’ils sont croisés.
+
+RTB et bidstream data
+
+Le cœur technique de cette exposition est le RTB (Real-Time Bidding), ou enchères publicitaires en temps réel. Lorsqu’un utilisateur ouvre une application ou consulte une page web financée par la publicité, une enchère automatisée se déclenche en quelques millisecondes. Plusieurs annonceurs ou intermédiaires reçoivent alors des informations sur le profil publicitaire disponible afin de décider s’ils souhaitent afficher une publicité.
+
+Dans une logique marketing, ce mécanisme permet de cibler des segments : âge estimé, zone géographique, intérêts, type d’appareil, langue, etc. Dans une logique ADINT, ces mêmes signaux peuvent être utilisés comme une source de renseignement. L’objectif n’est plus de vendre un produit, mais de repérer un appareil, confirmer une présence, suivre une routine ou enrichir un profil.
+
+Les données qui circulent dans cet écosystème sont parfois appelées bidstream data : données générées ou transmises lors des appels d’enchères publicitaires. Leur sensibilité vient du fait qu’elles peuvent révéler, directement ou indirectement, où se trouve un appareil, quelles applications il utilise, à quels moments il est actif et dans quels contextes il apparaît.
+
+Le rôle central du MAID
+
+Sur mobile, l’un des pivots les plus importants est le MAID (Mobile Advertising ID), c’est-à-dire l’identifiant publicitaire mobile. Sur iOS, on parle historiquement d’IDFA ; sur Android, d’AAID. Ces identifiants sont conçus pour permettre le suivi publicitaire entre applications tout en évitant d’utiliser directement le nom civil de l’utilisateur.
+
+Mais cette pseudonymisation est fragile. Un identifiant publicitaire observé régulièrement la nuit dans une zone résidentielle, en journée dans un bâtiment professionnel, puis ponctuellement dans un lieu sensible — manifestation, lieu de culte, bâtiment administratif, base militaire, cabinet d’avocat, rédaction, ambassade — peut être rattaché à une personne avec un haut niveau de confiance.
+
+C’est l’un des points les plus importants à comprendre : une donnée pseudonyme n’est pas nécessairement anonyme. La répétition des lieux, des horaires et des usages peut suffire à réidentifier une personne.
+
+De la publicité au renseignement
+
+L’ADINT peut servir plusieurs finalités :
+
+géolocaliser ou suivre un appareil à partir de signaux publicitaires ;
+identifier les routines d’une personne : domicile, travail, déplacements, lieux fréquentés ;
+cartographier un groupe présent dans un lieu donné : institution, site militaire, événement politique, manifestation, lieu de culte ;
+déduire des attributs sensibles à partir des applications utilisées ou des lieux visités ;
+préparer une attaque ciblée en enrichissant un profil avant phishing, harcèlement, surveillance ou compromission ;
+diffuser une publicité piégée ou rediriger vers un site malveillant dans des cas de malvertising ou de watering hole.
+
+L’ADINT est donc à la croisée de plusieurs disciplines : OSINT, data brokerage, AdTech, renseignement géospatial, surveillance commerciale, cyberattaque ciblée et contre-ingérence.
+
+Profils particulièrement exposés
+
+Tous les utilisateurs sont concernés par l’ADINT, mais certains profils sont plus sensibles :
+
+journalistes d’investigation et sources ;
+diplomates, militaires, policiers, magistrats ;
+dirigeants d’entreprise et cadres exposés ;
+activistes et opposants politiques ;
+chercheurs en cybersécurité ;
+personnels d’ONG travaillant dans des zones sensibles ;
+personnes victimes de harcèlement ou d’un adversaire de proximité.
+
+Le risque est particulièrement critique lorsque l’appareil personnel est emporté dans des lieux sensibles. Un téléphone contenant des applications financées par la publicité peut devenir un traceur involontaire.
+
+Pourquoi l’ADINT est difficile à contrer
+
+L’ADINT est difficile à bloquer parce qu’il exploite un écosystème légal, massif et opaque. Les acteurs publicitaires légitimes collectent déjà ces données pour le ciblage commercial. Les acteurs ADINT s’insèrent dans cette chaîne comme annonceurs, intermédiaires, courtiers ou prestataires d’analyse.
+
+La difficulté ne vient donc pas seulement d’un malware ou d’une intrusion technique classique. Elle vient du modèle économique lui-même : des milliards d’enchères publicitaires, des milliers d’intermédiaires, des SDK intégrés dans les applications mobiles, des données revendues par des courtiers, et une faible visibilité pour l’utilisateur final.
+
+Il n’existe pas de bouton unique permettant de “désactiver l’ADINT”. Les contre-mesures sont forcément partielles et relèvent de la réduction de surface.
+
+Réduire son exposition ADINT
+
+Les mesures défensives consistent à limiter les signaux exploitables :
+
+désactiver ou limiter le suivi publicitaire sur iOS et Android ;
+réinitialiser régulièrement l’identifiant publicitaire ;
+refuser le tracking inter-applications ;
+limiter strictement la géolocalisation en arrière-plan ;
+supprimer les applications gratuites financées par la publicité lorsqu’elles ne sont pas indispensables ;
+privilégier les applications open source, payantes, ou sans SDK publicitaires ;
+éviter les applications météo, jeux gratuits, lampes torches, applications religieuses, communautaires ou de rencontre sur un téléphone sensible ;
+utiliser un navigateur avec blocage publicitaire et anti-tracking ;
+éviter d’emporter son téléphone personnel dans les lieux sensibles ;
+utiliser un appareil dédié pour les réunions confidentielles, manifestations, rendez-vous source ou déplacements à risque ;
+séparer les profils mobiles quand l’OS le permet, notamment avec GrapheneOS ;
+couper réellement les interfaces réseau, voire utiliser une pochette Faraday, dans les contextes à haut risque.
+
+Pour les profils très exposés, la meilleure protection reste souvent organisationnelle et physique : un téléphone sensible minimaliste, sans compte personnel, sans applications publicitaires, et un téléphone personnel laissé hors zone.
+
+Point clé : l’ADINT montre que le risque ne vient pas seulement de ce qu’un attaquant pirate. Il vient aussi de ce que l’économie publicitaire collecte déjà légalement, puis rend exploitable à grande échelle.
+
+------ ajout 2 ------
+
+L’ADINT (Advertising Intelligence) désigne l’exploitation de l’écosystème publicitaire comme source de renseignement. Là où le tracking publicitaire classique vise à profiler un utilisateur pour lui afficher une publicité, l’ADINT détourne les mêmes mécanismes pour surveiller, corréler ou caractériser une cible.
+
+Le cœur du problème vient de la publicité programmatique et des enchères en temps réel (Real-Time Bidding). Lorsqu’un utilisateur ouvre une application ou consulte une page financée par la publicité, de nombreux signaux peuvent être transmis à l’écosystème publicitaire : adresse IP, type d’appareil, système d’exploitation, identifiant publicitaire mobile, localisation approximative ou précise, langue, fuseau horaire, applications utilisées, contexte de navigation. Ces données ne contiennent pas nécessairement le nom civil de l’utilisateur, mais elles peuvent suffire à réidentifier une personne par corrélation.
+
+L’identifiant publicitaire mobile joue ici un rôle central. Sur iOS, l’IDFA ; sur Android, l’AAID ; plus largement, on parle souvent de MAID (Mobile Advertising ID). Théoriquement pseudonyme et réinitialisable, cet identifiant peut devenir un pivot de suivi lorsqu’il est associé à des lieux récurrents : domicile, bureau, lieux de culte, déplacements professionnels, réunions politiques, manifestations ou zones sensibles.
+
+L’ADINT illustre une idée importante : l’anonymat commercial est souvent illusoire. Même lorsqu’une donnée est présentée comme pseudonyme, la combinaison d’un identifiant stable, d’une localisation répétée et d’habitudes numériques suffit souvent à réidentifier une personne. Un appareil observé régulièrement la nuit à une adresse résidentielle, en journée dans un bâtiment professionnel et ponctuellement dans certains lieux sensibles peut être rattaché à un individu avec un haut niveau de confiance.
+
+Pour un profil exposé — journaliste, source, activiste, militaire, diplomate, dirigeant, chercheur sécurité, opposant politique — l’ADINT transforme l’AdTech en surface de renseignement. Le risque ne vient pas seulement des plateformes elles-mêmes, mais aussi des acteurs capables d’acheter, d’interroger ou d’exploiter les données générées par cet écosystème : courtiers de données, sociétés d’intelligence privée, prestataires de surveillance, voire acteurs étatiques ou paraétatiques.
+
+Les contre-mesures sont imparfaites, car l’ADINT exploite un écosystème structurellement opaque. Il est toutefois possible de réduire l’exposition : limiter les applications financées par la publicité, réinitialiser ou désactiver l’identifiant publicitaire, refuser le tracking inter-applications, restreindre la géolocalisation en arrière-plan, privilégier les applications payantes ou open source, utiliser des profils mobiles séparés, éviter d’emporter son téléphone personnel dans des lieux sensibles, et compartimenter les appareils selon les usages. Pour les profils à haut risque, le meilleur contrôle reste parfois physique : appareil dédié, sans compte personnel, sans applications publicitaires, et téléphone principal laissé hors zone sensible.
+
+#### 23.6 Critères d’efficacité d’un fingerprint
 
 Pour un tracker, un fingerprint utile doit être :
 
@@ -2257,13 +2357,13 @@ Pour un tracker, un fingerprint utile doit être :
 
 L’EFF avait montré dès 2010 (étude Panopticlick devenue Cover Your Tracks) que la quasi-totalité des navigateurs sont uniquement identifiables, ce qui rend le fingerprinting structurellement efficace.
 
-#### 23.6 Pourquoi personnaliser empire souvent
+#### 23.7 Pourquoi personnaliser empire souvent
 
 Intuition fausse : « si je change mon User-Agent pour celui de Chrome standard, je ressemble à plein de monde ». En réalité : Safari iOS est *intrinsèquement* peu identifiable (peu de variation hardware). Si tu changes ton User-Agent vers Chrome Windows mais que ton canvas fingerprint reste Safari iOS, tu deviens **plus** unique, pas moins.
 
 D’où la règle : **ne pas personnaliser les paramètres anti-fingerprint sauf si tu sais exactement ce que tu fais**. Utiliser des navigateurs conçus pour blend in (Ch 24).
 
-#### 23.7 Deux stratégies anti-fingerprint
+#### 23.8 Deux stratégies anti-fingerprint
 
 **Stratégie 1 : Blend in** : ressembler à la masse. Tor Browser et Mullvad Browser appliquent : tous les utilisateurs ont la même résolution écran (par redimensionnement), la même police, le même User-Agent, le même fuseau horaire (UTC), le même canvas (rendu uniformisé). Chaque utilisateur est interchangeable, donc non identifiable.
 
@@ -2271,7 +2371,7 @@ D’où la règle : **ne pas personnaliser les paramètres anti-fingerprint sauf
 
 Les deux stratégies sont complémentaires en théorie ; en pratique, Tor Browser/Mullvad Browser appliquent la première, et la seconde est utile pour navigateurs quotidiens.
 
-#### 23.8 Fingerprinting fonctionnel, antifraude et dérive publicitaire
+#### 23.9 Fingerprinting fonctionnel, antifraude et dérive publicitaire
 
 Le fingerprinting n’est pas toujours utilisé à des fins malveillantes. Certains signaux techniques sont nécessaires pour afficher correctement une page selon l’appareil, adapter une interface mobile, détecter une fraude bancaire ou produire des statistiques de crash applicatif. Le problème apparaît lorsque ces mêmes signaux, initialement collectés pour des raisons fonctionnelles, sont réutilisés pour identifier durablement un utilisateur, le suivre entre plusieurs sites ou enrichir un profil publicitaire.
 
@@ -4719,6 +4819,8 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 **A**
 
+**ADINT (Advertising Intelligence)** — Exploitation de l’écosystème publicitaire numérique comme source de renseignement. Utilise notamment le ciblage publicitaire, le RTB, les identifiants publicitaires mobiles, les données de localisation et les bidstream data pour profiler, suivre ou cibler des personnes ou groupes.
+
 **AFU (After First Unlock)** — État d’un appareil mobile après le premier déverrouillage depuis allumage. Beaucoup de clés sont en mémoire ; vulnérabilité forensique élevée par rapport à BFU.
 
 **Advanced Data Protection (ADP)** — Mode iCloud chiffrant en E2EE la majorité des données (Drive, photos, sauvegardes, notes, signets). Hors-périmètre : mail, contacts, calendrier. Nécessite tous les appareils Apple à jour et une clé de récupération.
@@ -4740,6 +4842,8 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 **B**
 
 **BFU (Before First Unlock)** — État d’un appareil après redémarrage, avant déverrouillage. La plupart des clés sont scellées. Forensiquement le plus protecteur.
+
+**Bidstream data** — Données transmises dans l’écosystème publicitaire lors des enchères en temps réel : appareil, IP, localisation, contexte, application, langue, horaires, segments d’intérêt, etc. Ces données peuvent être utilisées à des fins publicitaires, mais aussi détournées à des fins de renseignement.
 
 **BEC (Business Email Compromise)** — Fraude par usurpation d’identité d’un dirigeant pour demande de virement. Pertes mondiales en milliards.
 
@@ -4865,6 +4969,10 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 **MAC randomization** — Génération d’adresses MAC aléatoires par les OS modernes pour réduire le tracking Wi-Fi/BT.
 
+**MAID (Mobile Advertising ID)** — Identifiant publicitaire mobile. IDFA sur iOS, AAID sur Android. Conçu pour le ciblage publicitaire, mais exploitable comme pivot de corrélation dans des scénarios ADINT.
+
+**Malvertising** — Usage de publicités en ligne pour diffuser du contenu malveillant, rediriger vers un site piégé ou préparer une attaque ciblée.
+
 **Mandatory Access Control (MAC)** — Modèle de contrôle d’accès obligatoire (AppArmor, SELinux).
 
 **Matrix** — Protocole de messagerie fédérée open source.
@@ -4926,6 +5034,8 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 **Ring signature** — Primitive cryptographique de Monero pour masquer l’expéditeur.
 
 **RGPD** — Règlement Général sur la Protection des Données (UE).
+
+**RTB (Real-Time Bidding)** — Système d’enchères publicitaires en temps réel. Lorsqu’un utilisateur ouvre une page ou une application, des informations sur son profil publicitaire sont transmises à des annonceurs potentiels, qui enchérissent automatiquement pour afficher une publicité.
 
 **S**
 
