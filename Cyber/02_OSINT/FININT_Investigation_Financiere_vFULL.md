@@ -69,6 +69,7 @@ Le cours est calibré pour la période **2025-2026** : paquet AML européen et c
 
 **PARTIE I — COMPRENDRE LE RENSEIGNEMENT FINANCIER**
 
+- Ch.0 — Mise à niveau : les bases économiques, juridiques et financières indispensables
 - Ch.1 — Pourquoi le FININT est central aujourd’hui
 - Ch.2 — Ce que le FININT permet vraiment
 - Ch.3 — Ce que le FININT ne permet pas
