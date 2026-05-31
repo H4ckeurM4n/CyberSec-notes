@@ -1990,36 +1990,176 @@ Un VPN établit un tunnel chiffré entre toi et un serveur distant. Tout ton tra
 1. **Killswitch** : interruption du trafic si le tunnel tombe. Indispensable.
 1. **Leak protection** : protection contre fuites IPv6, DNS, WebRTC.
 
-#### 20.4 Acteurs principaux (2025-2026)
+#### 20.4 Trois familles à ne pas confondre : VPN privacy, mixnet, VPN anti-censure
 
-- **Mullvad** : référence privacy. Suède. Plus de comptes (depuis 2023, identification par numéro de compte aléatoire). Audits réguliers. **Abandon des abonnements de plus d’un mois** récemment ; renouvellement explicite à chaque fois. Paiement cash possible.
+Tous les outils présentés comme des « VPN privacy » ne répondent pas au même besoin. Avant de comparer des services comme Mullvad, Proton VPN, NymVPN ou AmneziaVPN, il faut distinguer les grandes familles fonctionnelles.
+
+Un VPN ne doit pas être choisi parce qu’il est dans une liste de « meilleurs VPN », mais parce qu’il correspond au problème opérationnel à résoudre : cacher son trafic à son FAI, réduire son exposition sur Wi-Fi public, éviter le tracking IP, contourner la censure, réduire les métadonnées, ou créer une infrastructure personnelle.
+
+#### 20.4.1 Les VPN privacy classiques
+
+Les VPN privacy classiques sont les VPN au sens le plus courant : ils créent un tunnel chiffré entre l’utilisateur et un serveur VPN. Le FAI ne voit plus les destinations finales ; les sites visités voient l’adresse IP du serveur VPN au lieu de l’adresse IP réelle de l’utilisateur.
+
+Leur intérêt principal est de **déplacer la confiance** du FAI vers un fournisseur VPN considéré comme plus fiable. Ils sont utiles pour :
+
+- réduire l’exposition au FAI ;
+- sécuriser une connexion sur Wi-Fi public ;
+- masquer son IP réelle aux sites consultés ;
+- compartimenter certains usages réseau ;
+- limiter certains blocages géographiques ou filtrages simples.
+
+Mais ils ne rendent pas anonyme. Si l’utilisateur se connecte à son compte Google, Apple, Facebook, bancaire ou professionnel, le service sait toujours qui il est. Le VPN protège la couche réseau, pas l’identité applicative.
+
+Dans cette famille, on peut distinguer deux sous-profils :
+
+**VPN privacy minimalistes** : Mullvad, IVPN.  
+Ils privilégient la minimisation de données, l’absence de compte nominatif, les audits, la simplicité et la cohérence OPSEC. Mullvad est l’exemple typique : compte numéroté, pas d’email nécessaire, paiement possible en cash ou Monero, politique de logs très restrictive.
+
+**VPN privacy grand public / écosystème** : Proton VPN.  
+Proton VPN est solide, suisse, audité, confortable et bien intégré à l’écosystème Proton. Il est très pertinent pour un usage général privacy + confort, mais il est moins minimaliste qu’un service comme Mullvad, notamment parce qu’il s’inscrit dans un écosystème plus large : Proton Mail, Proton Drive, Proton Pass, Proton Calendar.
+
+**Usage recommandé** : privacy quotidienne, Wi-Fi public, navigation classique, réduction de l’exposition au FAI.
+
+**Limite principale** : le VPN voit techniquement une partie de ce que le FAI ne voit plus. Le problème de confiance est déplacé, pas supprimé.
+
+#### 20.4.2 Les réseaux orientés métadonnées et mixnet
+
+Cette famille répond à un problème plus avancé : les métadonnées réseau.
+
+Même lorsqu’un trafic est chiffré, il laisse des traces : horaires de connexion, volumes de données, régularité, durée des sessions, taille des paquets, points d’entrée et de sortie. Un adversaire capable d’observer ces signaux peut parfois corréler deux activités sans lire le contenu.
+
+Les mixnets cherchent à réduire cette corrélation en mélangeant les flux, en ajoutant de la latence, en multipliant les sauts et parfois en ajoutant du bruit réseau. L’objectif n’est pas seulement de cacher l’IP, mais de rendre plus difficile l’analyse du trafic.
+
+**NymVPN** appartient à cette logique. Il propose un mode rapide en deux sauts et un mode anonyme en cinq sauts via le mixnet Nym. Le mode anonyme vise à réduire la corrélation par métadonnées, au prix d’une latence plus importante.
+
+Ce type d’outil est pertinent pour :
+
+- des recherches sensibles ;
+- des communications où les métadonnées comptent autant que le contenu ;
+- des usages crypto ou financiers où la corrélation réseau est problématique ;
+- des profils exposés qui veulent tester une couche supplémentaire contre l’analyse de trafic.
+
+**Usage recommandé** : protection avancée contre la corrélation de métadonnées.
+
+**Limite principale** : plus de complexité, plus de latence, moins de maturité qu’un VPN centralisé classique. Ce n’est pas forcément le meilleur choix pour le quotidien, le streaming ou les téléchargements lourds.
+
+#### 20.4.3 Les VPN anti-censure et protocoles obfusqués
+
+Cette famille répond à un autre problème : non pas « qui voit mon IP ? », mais « est-ce que mon trafic VPN est détecté ou bloqué ? ».
+
+Dans certains pays ou réseaux, les VPN classiques sont détectés par DPI, blocage IP, blocage protocolaire ou active probing. WireGuard et OpenVPN peuvent être bloqués ou fortement ralentis. Dans ce contexte, le besoin prioritaire est de **masquer la signature du VPN** pour le faire ressembler à du trafic web ordinaire ou difficilement classifiable.
+
+**AmneziaVPN** est particulièrement pertinent dans cette famille. Il permet d’utiliser plusieurs protocoles orientés anti-censure, notamment AmneziaWG, XRay Reality, Shadowsocks et OpenVPN over Cloak.
+
+- **AmneziaWG** est une variante de WireGuard conçue pour rendre le trafic plus difficile à identifier par DPI.
+- **XRay Reality** vise à mieux résister à la détection et à l’active probing dans les pays à forte censure.
+- **Shadowsocks** est un proxy chiffré largement utilisé dans les environnements censurés.
+- **OpenVPN over Cloak** ajoute une couche d’obfuscation pour masquer OpenVPN.
+
+Ce type d’outil est pertinent pour :
+
+- pays censurés ;
+- réseaux universitaires ou professionnels filtrants ;
+- blocage de VPN classiques ;
+- contournement de DPI ;
+- préparation de voyage en environnement restrictif.
+
+**Usage recommandé** : anti-censure, contournement réseau, résilience en pays restrictif.
+
+**Limite principale** : l’anti-censure n’est pas l’anonymat. Un outil qui contourne le blocage VPN ne garantit pas que l’utilisateur soit anonyme.
+
+#### 20.4.4 Les VPN self-hosted
+
+Le self-host consiste à déployer son propre serveur VPN sur un VPS ou une machine personnelle. L’intérêt est de ne pas dépendre directement d’un fournisseur VPN commercial pour l’infrastructure.
+
+**AmneziaVPN** est aussi pertinent ici, car il facilite la création d’un VPN personnel sur un VPS avec plusieurs protocoles.
+
+Le self-host peut être intéressant pour :
+
+- avoir un serveur personnel stable ;
+- contourner certains blocages ;
+- maîtriser la configuration ;
+- créer un accès privé à ses ressources ;
+- fournir un accès VPN à quelques personnes de confiance.
+
+Mais il faut comprendre la limite OPSEC : en self-host, l’adresse IP de sortie est souvent beaucoup plus unique qu’une IP Mullvad, Proton ou IVPN partagée par de nombreux utilisateurs. L’utilisateur ne se fond donc pas dans une grande foule. De plus, la confiance est déplacée vers le fournisseur VPS.
+
+**Usage recommandé** : infrastructure personnelle, contournement, accès privé, usages techniques.
+
+**Limite principale** : moins bon pour se fondre dans la masse ; confiance déplacée vers l’hébergeur VPS.
+
+#### 20.4.5 Les réseaux d’anonymat : Tor, Whonix, Tails
+
+Tor, Whonix et Tails ne doivent pas être classés comme de simples VPN. Ils appartiennent à une autre famille : les réseaux et environnements d’anonymat.
+
+**Tor** route le trafic à travers plusieurs relais et permet l’accès aux services onion.  
+**Whonix** force le trafic d’une machine de travail à passer par une passerelle Tor.  
+**Tails** fournit un système live amnésique qui route tout via Tor.
+
+Ces outils sont plus adaptés aux usages où l’anonymat réseau est prioritaire : contact source, SecureDrop, OnionShare, publication pseudonyme, session sensible ponctuelle.
+
+**Usage recommandé** : anonymat réseau, services onion, journalisme sensible, lanceurs d’alerte.
+
+**Limite principale** : latence, friction, risque de mauvaise OPSEC. Tor ne protège pas contre une connexion à un compte nominatif, un navigateur mal utilisé ou une erreur comportementale.
+
+#### 20.4.6 Règle finale
+
+Un VPN privacy classique protège surtout contre le FAI, les réseaux locaux et l’exposition IP.  
+Un mixnet cherche à réduire l’analyse des métadonnées.  
+Un VPN anti-censure cherche à passer à travers des réseaux hostiles.  
+Un self-host donne du contrôle, mais réduit souvent l’anonymat par la foule.  
+Tor, Whonix et Tails restent les références pour l’anonymat réseau structuré.
+
+Le bon choix n’est donc pas « quel est le meilleur VPN ? », mais : **quel problème réseau est-ce que je cherche à résoudre ?**
+
+#### 20.5 Acteurs principaux (2025-2026)
+
+- **Mullvad** : référence privacy. Suède. VPN privacy classique, centralisé, mais très minimaliste : compte numéroté sans email, paiement possible en cash ou Monero, politique no-log détaillée, orientation forte vers la minimisation de données. C’est un bon choix de base pour réduire la visibilité du FAI, éviter l’exposition de son IP réelle aux sites, sécuriser les réseaux Wi-Fi publics et compartimenter des usages.
 - **IVPN** : Gibraltar. Audits Cure53. Très privacy-friendly. Tier business pour multi-appareils.
 - **Proton VPN** : Suisse, opéré par Proton. Bonne réputation, intégration avec l’écosystème Proton. Plan gratuit existant.
+- **NymVPN** : service plus récent et conceptuellement différent d’un VPN classique. NymVPN propose un mode **Fast** en deux sauts, basé sur une architecture décentralisée et AmneziaWG, et un mode **Anonymous** en cinq sauts via le mixnet Nym avec ajout de bruit. À classer comme outil de réduction des métadonnées et de corrélation, davantage que comme simple VPN de confort. Bon candidat pour profils exposés qui veulent tester une approche plus robuste contre l’analyse de trafic, mais à manier avec prudence : réseau plus jeune, latence plus forte en mode anonymous, et modèle plus complexe qu’un VPN centralisé mature.
+- **AmneziaVPN** : outil hybride : client open source multi-protocoles, service Premium, et surtout solution de self-hosting VPN. Surtout pertinent dans les contextes de censure, de filtrage ou de DPI agressif. Il permet soit d’utiliser une offre VPN classique, soit de déployer son propre VPN sur un serveur VPS, avec des protocoles comme AmneziaWG, XRay Reality, Shadowsocks ou OpenVPN over Cloak. Son intérêt principal n’est pas l’anonymat par foule d’utilisateurs, mais la capacité à contourner des blocages et à masquer la signature du trafic VPN. Moins adapté comme « VPN privacy puriste » si utilisé en self-host : l’utilisateur déplace alors la confiance vers son fournisseur VPS, et son IP de sortie peut être beaucoup plus unique qu’une IP partagée par des milliers d’utilisateurs chez un gros fournisseur. À privilégier pour voyage en pays restrictif, filtrage réseau, DPI, ou besoin de serveur VPN personnel.
 - **NordVPN, ExpressVPN, Surfshark** : grands acteurs commerciaux. Marketing privacy mais à examiner par juridiction et structure de propriété.
   - **ExpressVPN** a rejoint **Kape Technologies** en 2021 (Kape opérant aussi CyberGhost, Private Internet Access et Zenmate, et historiquement associé à des activités contestées d’adware au début des années 2010, depuis une réorganisation et un changement de direction).
   - **NordVPN** et **Surfshark** ont annoncé en 2022 une fusion opérationnelle au sein du groupe Nord Security, tout en restant commercialisés comme deux marques distinctes avec des audits séparés.
   - Ces fournisseurs restent acceptables pour des cas d’usage simples (contournement géographique, protection sur Wi-Fi public). Pour les profils sensibles ou HVT, les acteurs spécifiquement focalisés privacy (Mullvad, IVPN, Proton VPN) sont préférables en raison de juridiction, ancienneté de l’engagement privacy et historique d’audits ciblés.
 - **VPN gratuits** : presque toujours pires que rien. Modèles économiques typiquement basés sur la revente de données ou l’insertion d’ads.
 
-#### 20.5 Protocoles : WireGuard vs OpenVPN
+#### 20.6 Protocoles : WireGuard vs OpenVPN
 
 - **WireGuard** : moderne, rapide, code compact (< 4000 lignes), cryptographie up-to-date. Adopté en standard par la plupart des fournisseurs. Limite historique : IPs statiques par client (donc moins anonyme structurellement) — résolu par les fournisseurs sérieux qui rotationnent.
 - **OpenVPN** : éprouvé, lent comparativement, complexe à auditer. Reste utile pour contourner certaines détections (TCP 443 indistinguable de HTTPS).
 - **Shadowsocks, V2Ray, autres protocoles obfusqués** : pour contourner DPI agressifs (Chine, Iran). À combiner avec VPN ou Tor.
+- **AmneziaWG** : fork de WireGuard conçu pour rendre le trafic VPN plus difficile à détecter par des systèmes de DPI. AmneziaWG ajoute des mécanismes d’obfuscation autour de la négociation et du profil réseau, afin que le trafic ressemble moins à du WireGuard standard. Ce n’est pas une garantie d’invisibilité, mais c’est une réponse pratique au blocage de WireGuard dans certains environnements censurés.
+- **XRay Reality / VLESS Reality** : famille de protocoles utilisée dans les contextes de contournement de censure. Le principe est de rendre le trafic plus proche d’un trafic TLS web classique, avec résistance à l’active probing. C’est utile dans les pays où les censeurs testent activement les serveurs suspects pour déterminer s’ils hébergent un proxy ou un VPN.
+- **OpenVPN over Cloak** : combinaison d’OpenVPN et d’un plugin d’obfuscation. Cloak masque le trafic VPN comme du trafic web et peut présenter une fausse façade en cas de probing non autorisé. Plus lourd qu’un WireGuard classique, mais pertinent dans des environnements où la simple utilisation d’un VPN est détectée ou bloquée.
 
-#### 20.6 Configuration
+#### 20.7 Configuration
 
 - **Killswitch activé** systématiquement.
 - **Leak protection** : DNS, IPv6, WebRTC.
 - **Multihop** (chaînage de deux serveurs) si threat model l’exige : Mullvad et IVPN proposent. Coût en latence et débit.
 - **Split tunneling** : certaines apps hors VPN, d’autres dans. Utile pour banque qui bloque les IPs VPN.
 
-#### 20.7 Erreurs fréquentes
+#### 20.8 Erreurs fréquentes
 
 - **VPN + comptes nominaux** : ton VPN cache ton IP, mais ton compte Facebook révèle qui tu es. Pour des actions sensibles, séparer.
 - **VPN « gratuits »** : risque très supérieur au bénéfice.
 - **Compter sur le VPN seul pour la confidentialité** : sans navigateur durci, sans hygiène applicative, le VPN est un placebo coûteux.
 - **VPN d’entreprise pour activité personnelle sensible** : ton employeur voit tout ce que voyait ton FAI avant. Pire.
+
+#### 20.9 Matrice de décision rapide
+
+| Besoin principal                      | Famille pertinente                      | Exemples                                    |
+| ------------------------------------- | --------------------------------------- | ------------------------------------------- |
+| Réduire l’exposition au FAI           | VPN privacy classique                   | Mullvad, IVPN, Proton VPN                   |
+| Privacy quotidienne minimaliste       | VPN privacy minimaliste                 | Mullvad, IVPN                               |
+| Privacy + confort + écosystème        | VPN privacy grand public                | Proton VPN                                  |
+| Réduction des métadonnées réseau      | Mixnet / réseau orienté métadonnées     | NymVPN                                      |
+| Pays censuré / DPI agressif           | VPN anti-censure / obfuscation          | AmneziaVPN, AmneziaWG, XRay Reality         |
+| VPN personnel sur VPS                 | VPN self-hosted                         | AmneziaVPN self-hosted                      |
+| Session source / journalisme sensible | Réseau d’anonymat / environnement isolé | Tor, Tails, Whonix                          |
+| HVT durable                           | Compartimentation + anonymat            | Qubes + Whonix, Tor, outils complémentaires |
 
 -----
 
@@ -3476,6 +3616,18 @@ Plusieurs modèles légaux :
 - **Cryptomonnaies** : Bitcoin avec wallet créé spécifiquement, jamais lié à exchange KYC. Monero pour confidentialité par défaut.
 - **Intermédiaires** : certaines structures permettent dons anonymisés (fondations).
 
+#### 32.11 Paiement d’un VPN : le cas Mullvad, NymVPN et AmneziaVPN
+
+Le paiement d’un VPN est une fuite OPSEC souvent ignorée. Si un utilisateur paie son VPN avec sa carte bancaire nominative, le fournisseur VPN ou son prestataire de paiement peut relier l’achat à une identité civile, même si le trafic réseau n’est pas journalisé.
+
+**Mullvad VPN** est particulièrement intéressant sur ce point : le service utilise des comptes numérotés sans email et accepte le paiement en cash par courrier ainsi qu’en Monero. C’est l’une des approches les plus cohérentes pour réduire le lien entre identité civile, paiement et usage du VPN.
+
+**NymVPN** met en avant une logique de paiement unlinkable via mécanismes zero-knowledge et accepte plusieurs cryptomonnaies. C’est cohérent avec son objectif général : réduire non seulement l’exposition IP, mais aussi les liens entre paiement, compte et usage réseau.
+
+**AmneziaVPN** dépend du mode d’usage. Avec Amnezia Premium, l’utilisateur reste dans un modèle de fournisseur VPN classique. Avec Amnezia self-hosted, le paiement du VPN disparaît en partie, mais il est remplacé par le paiement du VPS. La fuite OPSEC peut donc simplement se déplacer vers l’hébergeur du serveur.
+
+**Règle pratique** : pour un VPN privacy, le paiement doit être pensé comme une métadonnée sensible. Un VPN payé par carte bancaire nominative reste utile contre le FAI, mais il n’offre pas la même séparation qu’un compte payé en cash ou via une méthode mieux compartimentée.
+
 -----
 
 > 🟦 **Capstone 3 — Auditer et durcir une chaîne source-journaliste**
@@ -3890,6 +4042,10 @@ Sur l’enquête, Léa s’impose :
 #### 36.1 Modèle de menace voyageur
 
 La frontière est un lieu particulier : l’État a légalement le droit d’inspecter tes appareils dans des limites variables. Les douanes US peuvent demander à examiner ton téléphone et ordinateur, parfois à les retenir plusieurs jours. Singapour, Israël, certains pays asiatiques également. Européen entrant aux US : la liberté de refuser est limitée (refus = refus d’entrée).
+
+Pour les voyages en pays à forte censure ou à DPI agressif, le choix du VPN doit être fait **avant le départ**. Installer un outil de contournement une fois sur place peut être impossible si les sites officiels, stores ou dépôts sont bloqués.
+
+**Procédure** : installer, tester et documenter au moins deux options avant le départ : un VPN privacy classique, un outil anti-censure obfusqué, et Tor Browser avec bridges. Ne pas dépendre d’un seul canal.
 
 Trois questions à se poser avant tout voyage :
 
@@ -4841,6 +4997,10 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 **Air gap** — Isolation physique d’un système (aucune connexion réseau). Mesure forte pour secrets long terme, coûteuse au quotidien.
 
+**AmneziaVPN** — Client VPN open source multi-protocoles permettant d’utiliser Amnezia Premium ou de déployer un VPN self-hosted sur un VPS. Pertinent surtout pour l’anti-censure, le contournement de DPI et les configurations utilisant AmneziaWG, XRay Reality, Shadowsocks ou OpenVPN over Cloak.
+
+**AmneziaWG** — Fork de WireGuard conçu pour rendre le trafic plus difficile à détecter et bloquer par des systèmes de DPI. Utile en environnement censuré, mais ne transforme pas un VPN en réseau d’anonymat.
+
 **AppArmor** — Modèle de Mandatory Access Control sous Linux (Debian, Ubuntu, SUSE). Profils par application.
 
 **APT (Advanced Persistent Threat)** — Acteur étatique ou paraétatique avec capacité, ressource et patience pour campagnes ciblées longues.
@@ -4991,6 +5151,8 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 **Mercenary spyware** — Spyware vendu commercialement à des États (Pegasus, Predator, Graphite).
 
+**Mixnet** — Réseau d’anonymisation qui mélange les flux, ajoute de la latence et parfois du bruit réseau pour réduire l’analyse de trafic. Différent de Tor : Tor route en oignon avec trois relais ; un mixnet cherche surtout à réduire la corrélation temporelle et volumétrique.
+
 **MFA (Multi-Factor Authentication)** — Authentification multifacteurs. Hiérarchie : FIDO2 > TOTP > SMS.
 
 **Mullvad** — Fournisseur VPN suédois, référence privacy. Sans compte utilisateur.
@@ -5002,6 +5164,8 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 **Need-to-know** — Principe : partager une information sensible uniquement avec ceux qui en ont besoin pour leur rôle.
 
 **Nextcloud** — Cloud auto-hébergé open source.
+
+**NymVPN** — VPN décentralisé basé sur l’écosystème Nym. Propose un mode Fast en deux sauts et un mode Anonymous en cinq sauts via mixnet avec ajout de bruit. Pertinent pour la protection contre l’analyse de métadonnées réseau, avec un coût en latence selon le mode.
 
 **O**
 
@@ -5257,12 +5421,14 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 #### VPN
 
-|Outil         |Notes                                                                     |
-|--------------|--------------------------------------------------------------------------|
-|**Mullvad**   |Suède. Sans compte. Audits réguliers. Désormais sans abonnement long terme|
-|**IVPN**      |Gibraltar. Audits Cure53                                                  |
-|**Proton VPN**|Suisse. Plan gratuit existant                                             |
-|**À éviter**  |NordVPN/ExpressVPN pour HVT, VPN gratuits, Surfshark                      |
+| Outil                               | Usage principal                                      | Notes                                                                                                                                                    |
+| ----------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Mullvad VPN**                     | Privacy quotidienne                                  | Suède. Compte numéroté sans email. Paiement cash/Monero possible. No-log détaillé. Très bon choix par défaut.                                            |
+| **IVPN**                            | Privacy quotidienne                                  | Gibraltar. Audits réguliers. Cure53. Très bon positionnement privacy.                                                                                    |
+| **Proton VPN**                      | Privacy + confort                                    | Suisse. Bon compromis grand public, écosystème Proton, plan gratuit sérieux.                                                                             |
+| **NymVPN**                          | Métadonnées / mixnet                                 | VPN décentralisé. Fast mode 2-hop, Anonymous mode 5-hop mixnet. Plus ambitieux contre l’analyse de trafic, mais plus jeune et potentiellement plus lent. |
+| **AmneziaVPN**                      | Anti-censure / self-host                             | Multi-protocoles. AmneziaWG, XRay Reality, Shadowsocks, OpenVPN over Cloak. Très pertinent contre DPI et blocage VPN.                                    |
+| **À éviter pour profils sensibles** | NordVPN/ExpressVPN pour HVT, VPN gratuits, Surfshark | Risque de logs, revente de données, juridiction opaque, propriété complexe.                                                                              |
 
 #### Gestionnaires de mots de passe
 
@@ -5384,14 +5550,22 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 #### 4.6 Quel routage réseau selon contexte ?
 
-|Contexte                           |Choix                              |
-|-----------------------------------|-----------------------------------|
-|Quotidien grand public             |DNS chiffré (DoH/DoT) + uBlock     |
-|Wi-Fi public                       |+ VPN (Mullvad/IVPN)               |
-|Recherche anonyme                  |Mullvad Browser sur VPN            |
-|Action anonyme                     |Tor Browser sur Tor seul           |
-|Environnement bloquant (Iran, etc.)|Tor avec bridges obfs4 ou Snowflake|
-|HVT durable                        |Whonix sur Qubes                   |
+| Contexte                               | Choix                                                     |
+| -------------------------------------- | --------------------------------------------------------- |
+| Quotidien grand public                 | DNS chiffré (DoH/DoT) + + navigateur durci + uBlock       |
+| Wi-Fi public                           | + VPN (Mullvad/IVPN)                                      |
+| Recherche anonyme                      | Mullvad Browser sur VPN ou Tor Browser                    |
+| Action anonyme                         | Tor Browser sur Tor seul                                  |
+| Environnement bloquant (Iran, etc.)    | Tor avec bridges obfs4 ou Snowflake                       |
+| HVT durable                            | Whonix sur Qubes                                          |
+| Navigation privacy quotidienne         | Mullvad Browser + Mullvad VPN                             |
+| Session source / journalisme sensible  | Tor Browser sur Tails ou Whonix                           |
+| Réduction de métadonnées réseau        | NymVPN Anonymous mode                                     |
+| Usage rapide avec routage décentralisé | NymVPN Fast mode                                          |
+| Pays censuré / DPI agressif            | AmneziaVPN avec AmneziaWG, XRay Reality ou Cloak          |
+| Self-host VPN personnel                | AmneziaVPN sur VPS                                        |
+| HVT durable                            | Qubes + Whonix ; VPN seulement comme outil complémentaire |
+
 
 -----
 

@@ -15,28 +15,28 @@
 
 Avant de commencer, voici les termes que tu vas rencontrer tout au long du cours. Reviens ici si un mot te semble flou. On y mélange volontairement les termes Python et les termes cyber, car tu vas les croiser ensemble.
 
-|Terme            |Définition simple                                                                                            |
-|-----------------|-------------------------------------------------------------------------------------------------------------|
-|**Terminal**     |La fenêtre où tu tapes des commandes texte pour parler à ton ordinateur                                      |
-|**Script**       |Un fichier texte contenant des instructions Python à exécuter                                                |
-|**Variable**     |Un conteneur avec un nom qui stocke une valeur (un nombre, du texte…)                                        |
-|**Type**         |La nature d'une valeur : texte (`str`), entier (`int`), décimal (`float`), vrai/faux (`bool`)                |
-|**Argument**     |Une info que tu donnes à un script quand tu le lances dans le terminal                                       |
-|**Fonction**     |Un bloc de code réutilisable auquel on donne un nom                                                          |
-|**Boucle**       |Un mécanisme qui répète des instructions plusieurs fois                                                      |
-|**Module**       |Un fichier Python contenant des fonctions prêtes à l'emploi que tu peux importer                             |
-|**Indentation**  |Les espaces en début de ligne qui délimitent les blocs de code en Python                                     |
-|**Liste**        |Une collection ordonnée de valeurs, modifiable                                                               |
-|**Dictionnaire** |Une collection de paires clé-valeur (comme un vrai dictionnaire : mot → définition)                          |
-|**Exception**    |Une erreur qui se produit pendant l'exécution du script                                                      |
-|**Log**          |Un fichier journal : chaque ligne enregistre un événement (connexion, erreur, accès…)                        |
-|**IOC**          |*Indicator of Compromise* : une trace observable d'une attaque (IP, domaine, hash, URL malveillante…)        |
-|**IP**           |L'adresse numérique d'une machine sur un réseau (ex. `192.168.1.10`)                                         |
-|**Hash**         |Une empreinte numérique unique d'un fichier ou d'un texte (ex. MD5, SHA-256)                                 |
-|**SOC**          |*Security Operations Center* : l'équipe qui surveille et défend un système d'information                     |
-|**SIEM**         |Outil qui centralise et analyse les logs de sécurité de toute une organisation                               |
-|**CTI**          |*Cyber Threat Intelligence* : le renseignement sur les menaces (qui attaque, comment, avec quoi)             |
-|**OSINT**        |*Open Source Intelligence* : le renseignement à partir de sources publiques et ouvertes                      |
+| Terme            | Définition simple                                                                                     |
+| ---------------- | ----------------------------------------------------------------------------------------------------- |
+| **Terminal**     | La fenêtre où tu tapes des commandes texte pour parler à ton ordinateur                               |
+| **Script**       | Un fichier texte contenant des instructions Python à exécuter                                         |
+| **Variable**     | Un conteneur avec un nom qui stocke une valeur (un nombre, du texte…)                                 |
+| **Type**         | La nature d'une valeur : texte (`str`), entier (`int`), décimal (`float`), vrai/faux (`bool`)         |
+| **Argument**     | Une info que tu donnes à un script quand tu le lances dans le terminal                                |
+| **Fonction**     | Un bloc de code réutilisable auquel on donne un nom                                                   |
+| **Boucle**       | Un mécanisme qui répète des instructions plusieurs fois                                               |
+| **Module**       | Un fichier Python contenant des fonctions prêtes à l'emploi que tu peux importer                      |
+| **Indentation**  | Les espaces en début de ligne qui délimitent les blocs de code en Python                              |
+| **Liste**        | Une collection ordonnée de valeurs, modifiable                                                        |
+| **Dictionnaire** | Une collection de paires clé-valeur (comme un vrai dictionnaire : mot → définition)                   |
+| **Exception**    | Une erreur qui se produit pendant l'exécution du script                                               |
+| **Log**          | Un fichier journal : chaque ligne enregistre un événement (connexion, erreur, accès…)                 |
+| **IOC**          | *Indicator of Compromise* : une trace observable d'une attaque (IP, domaine, hash, URL malveillante…) |
+| **IP**           | L'adresse numérique d'une machine sur un réseau (ex. `192.168.1.10`)                                  |
+| **Hash**         | Une empreinte numérique unique d'un fichier ou d'un texte (ex. MD5, SHA-256)                          |
+| **SOC**          | *Security Operations Center* : l'équipe qui surveille et défend un système d'information              |
+| **SIEM**         | Outil qui centralise et analyse les logs de sécurité de toute une organisation                        |
+| **CTI**          | *Cyber Threat Intelligence* : le renseignement sur les menaces (qui attaque, comment, avec quoi)      |
+| **OSINT**        | *Open Source Intelligence* : le renseignement à partir de sources publiques et ouvertes               |
 
 -----
 
@@ -166,13 +166,11 @@ Avant de te lancer, prépare un environnement simple et sûr :
 - **Règle d'or :** ne lance jamais tes scripts sur des logs ou des systèmes que tu n'es pas autorisé à analyser.
 
 > **Environnement virtuel (à garder pour le chapitre 16) :** dès que tu installeras une bibliothèque externe comme `requests`, il est propre de créer un environnement isolé. Tu n'en as pas besoin tout de suite, mais voici la commande pour plus tard :
->
-> ```bash
-> python3 -m venv venv
-> source venv/bin/activate    # sur Windows : venv\Scripts\activate
-> pip install requests
-> ```
-
+```bash  
+python3 -m venv venv  
+source venv/bin/activate # sur Windows : venv\Scripts\activate  
+pip install requests  
+```
 ### Le mode interactif : ton terrain d'entraînement
 
 Tape `python3` dans ton terminal :
@@ -481,11 +479,11 @@ if port < 1024:
 
 Les fonctions de conversion :
 
-|Fonction |Convertit vers|Exemple                    |
-|---------|--------------|---------------------------|
-|`int()`  |Nombre entier |`int("443")` → `443`       |
-|`float()`|Nombre décimal|`float("8.5")` → `8.5`     |
-|`str()`  |Texte         |`str(404)` → `"404"`       |
+| Fonction  | Convertit vers | Exemple                |
+| --------- | -------------- | ---------------------- |
+| `int()`   | Nombre entier  | `int("443")` → `443`   |
+| `float()` | Nombre décimal | `float("8.5")` → `8.5` |
+| `str()`   | Texte          | `str(404)` → `"404"`   |
 
 ```python
 # ❌ Si tu oublies de convertir :
@@ -936,15 +934,15 @@ print(f"Puissance      : {2 ** 10}")             # 1024
 
 ### Les opérateurs arithmétiques
 
-|Opérateur|Signification      |Exemple  |Résultat   |
-|---------|-------------------|---------|-----------|
-|`+`      |Addition           |`5 + 3`  |`8`        |
-|`-`      |Soustraction       |`5 - 3`  |`2`        |
-|`*`      |Multiplication     |`5 * 3`  |`15`       |
-|`/`      |Division (décimale)|`5 / 3`  |`1.6666...`|
-|`//`     |Division entière   |`5 // 3` |`1`        |
-|`%`      |Modulo (reste)     |`5 % 3`  |`2`        |
-|`**`     |Puissance          |`2 ** 3` |`8`        |
+| Opérateur | Signification       | Exemple  | Résultat    |
+| --------- | ------------------- | -------- | ----------- |
+| `+`       | Addition            | `5 + 3`  | `8`         |
+| `-`       | Soustraction        | `5 - 3`  | `2`         |
+| `*`       | Multiplication      | `5 * 3`  | `15`        |
+| `/`       | Division (décimale) | `5 / 3`  | `1.6666...` |
+| `//`      | Division entière    | `5 // 3` | `1`         |
+| `%`       | Modulo (reste)      | `5 % 3`  | `2`         |
+| `**`      | Puissance           | `2 ** 3` | `8`         |
 
 ### Les raccourcis d'affectation
 
@@ -961,14 +959,14 @@ echecs += 5       # 7
 
 Pour tester si une valeur est plus grande, plus petite, égale à une autre :
 
-|Opérateur|Signification    |Exemple   |Résultat|
-|---------|-----------------|----------|--------|
-|`==`     |Égal             |`200 == 200`|`True`|
-|`!=`     |Différent        |`404 != 200`|`True`|
-|`<`      |Inférieur        |`80 < 443` |`True` |
-|`>`      |Supérieur        |`443 > 80` |`True` |
-|`<=`     |Inférieur ou égal|`5 <= 5`  |`True`  |
-|`>=`     |Supérieur ou égal|`8 >= 7`  |`True`  |
+| Opérateur | Signification     | Exemple      | Résultat |
+| --------- | ----------------- | ------------ | -------- |
+| `==`      | Égal              | `200 == 200` | `True`   |
+| `!=`      | Différent         | `404 != 200` | `True`   |
+| `<`       | Inférieur         | `80 < 443`   | `True`   |
+| `>`       | Supérieur         | `443 > 80`   | `True`   |
+| `<=`      | Inférieur ou égal | `5 <= 5`     | `True`   |
+| `>=`      | Supérieur ou égal | `8 >= 7`     | `True`   |
 
 > **Différence avec Bash :** on utilise les symboles mathématiques (`==`, `<`, `>`) au lieu de `-eq`, `-lt`, `-gt`. Bien plus intuitif.
 
@@ -986,11 +984,11 @@ Le résultat d'une comparaison est toujours un **booléen** (`True` / `False`).
 
 Python utilise des **mots** : `and`, `or`, `not`.
 
-|Opérateur|Signification                      |Équivalent Bash|
-|---------|-----------------------------------|---------------|
-|`and`    |ET — les deux doivent être vraies  |`&&`           |
-|`or`     |OU — au moins une doit être vraie  |`\|\|`         |
-|`not`    |NON — inverse la condition         |`!`            |
+| Opérateur | Signification                     | Équivalent Bash |
+| --------- | --------------------------------- | --------------- |
+| `and`     | ET — les deux doivent être vraies | `&&`            |
+| `or`      | OU — au moins une doit être vraie | `\|\|`          |
+| `not`     | NON — inverse la condition        | `!`             |
 
 ```python
 nb_echecs = 47
@@ -1552,20 +1550,20 @@ print(f"Alerte #{numero:04d}")        # "Alerte #0042"
 
 ### Tableau récapitulatif des méthodes
 
-|Méthode           |Effet                         |Exemple cyber                              |
-|------------------|------------------------------|-------------------------------------------|
-|`len(s)`          |Longueur                      |`len(hash)` → 32 / 40 / 64                 |
-|`s.upper()`       |Majuscules                    |normaliser un hash                         |
-|`s.lower()`       |Minuscules                    |normaliser un domaine                      |
-|`s.strip()`       |Enlever espaces début/fin     |nettoyer une ligne lue                     |
-|`s.replace(a, b)` |Remplacer                     |anonymiser une IP dans un rapport          |
-|`s.split(sep)`    |Découper en liste             |séparer les champs d'un log                |
-|`sep.join(liste)` |Recoller une liste            |produire une ligne CSV                     |
-|`s.find(x)`       |Position de x (-1 si absent)  |localiser un mot-clé                       |
-|`s.count(x)`      |Nombre d'occurrences          |compter les `Failed` dans une ligne        |
-|`s.startswith(x)` |Commence par x ?              |`url.startswith("http")`                   |
-|`s.endswith(x)`   |Finit par x ?                 |`fichier.endswith(".exe")`                 |
-|`s.isdigit()`     |Que des chiffres ?            |valider un port saisi                      |
+| Méthode           | Effet                        | Exemple cyber                       |
+| ----------------- | ---------------------------- | ----------------------------------- |
+| `len(s)`          | Longueur                     | `len(hash)` → 32 / 40 / 64          |
+| `s.upper()`       | Majuscules                   | normaliser un hash                  |
+| `s.lower()`       | Minuscules                   | normaliser un domaine               |
+| `s.strip()`       | Enlever espaces début/fin    | nettoyer une ligne lue              |
+| `s.replace(a, b)` | Remplacer                    | anonymiser une IP dans un rapport   |
+| `s.split(sep)`    | Découper en liste            | séparer les champs d'un log         |
+| `sep.join(liste)` | Recoller une liste           | produire une ligne CSV              |
+| `s.find(x)`       | Position de x (-1 si absent) | localiser un mot-clé                |
+| `s.count(x)`      | Nombre d'occurrences         | compter les `Failed` dans une ligne |
+| `s.startswith(x)` | Commence par x ?             | `url.startswith("http")`            |
+| `s.endswith(x)`   | Finit par x ?                | `fichier.endswith(".exe")`          |
+| `s.isdigit()`     | Que des chiffres ?           | valider un port saisi               |
 
 ## Application cyber — normaliser et inspecter un IOC
 
