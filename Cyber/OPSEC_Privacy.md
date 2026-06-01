@@ -1484,7 +1484,15 @@ Les identifiants publicitaires mobiles — IDFA sur iOS, AAID sur Android, plus 
 
 Pour un téléphone sensible, la règle est simple : moins il contient d’applications financées par la publicité, moins il émet de signaux exploitables. Un téléphone destiné à une manifestation, un rendez-vous source, une mission terrain ou une réunion confidentielle ne devrait pas contenir d’applications grand public à SDK publicitaires.
 
-#### 15.3 Localisation
+#### 15.3 Téléphone personnel et lieux sensibles
+
+Pour un profil exposé, le téléphone personnel ne doit pas être considéré comme un simple outil de communication. C’est un capteur permanent : localisation, Wi-Fi, Bluetooth, identifiants publicitaires, applications installées, SDK tiers, comptes personnels, habitudes de déplacement.
+
+Dans un lieu sensible — base militaire, site industriel critique, réunion confidentielle, rendez-vous source, manifestation à risque, cabinet d’avocat, rédaction, ambassade, centrale nucléaire, site de défense — le téléphone personnel peut créer une fuite sans aucune compromission technique. Il suffit qu’une application collecte de la localisation ou qu’un identifiant publicitaire soit réobservé à plusieurs reprises pour reconstruire une routine.
+
+Règle pratique : plus le lieu est sensible, plus l’appareil doit être minimaliste. Pour les usages critiques, préférer un téléphone dédié, sans compte personnel, sans applications publicitaires, avec localisation strictement limitée, identifiant publicitaire désactivé ou réinitialisé, et applications installées selon une logique de liste blanche.
+
+#### 15.4 Localisation
 
 Cinq sources, agrégées :
 
@@ -1496,7 +1504,7 @@ Cinq sources, agrégées :
 
 Désactiver le « Service de localisation » d’un cran n’éteint pas les couches passives. Wi-Fi et Bluetooth peuvent renseigner sur ta position même avec GPS coupé.
 
-#### 15.4 iOS comme baseline
+#### 15.5 iOS comme baseline
 
 **Code long** : 6 chiffres minimum, alphanumérique idéalement. Face ID/Touch ID = confort, mais peuvent être contournés sous coercition.
 
@@ -1508,7 +1516,7 @@ Désactiver le « Service de localisation » d’un cran n’éteint pas les cou
 
 **Permissions** : audit Réglages → Confidentialité → revue par catégorie (Localisation, Contacts, Photos, Micro, Caméra, Suivi). Le « Tracking » d’apps (ATT) est désactivable globalement.
 
-#### 15.5 Advanced Data Protection iCloud
+#### 15.6 Advanced Data Protection iCloud
 
 ADP, depuis fin 2022 (US) et étendu mondialement en 2023, bascule en chiffrement de bout en bout les catégories suivantes :
 
@@ -1524,7 +1532,7 @@ ADP, depuis fin 2022 (US) et étendu mondialement en 2023, bascule en chiffremen
 
 **Conditions d’activation** : tous tes appareils Apple doivent être sur une version récente (iOS 16.2+, macOS 13.1+). Une clé de récupération doit être conservée (sinon perte totale des données ADP en cas d’oubli du code d’appareil et impossibilité d’utiliser un appareil de confiance). Apple ne peut plus aider à la récupération une fois ADP activé — c’est l’objet même du dispositif.
 
-#### 15.6 Android stock vs OEM
+#### 15.7 Android stock vs OEM
 
 Android **AOSP** (Android Open Source Project) : propre, mais aucun OEM ne livre AOSP pur.
 
@@ -1532,7 +1540,7 @@ Android **AOSP** (Android Open Source Project) : propre, mais aucun OEM ne livre
 
 **Samsung, Xiaomi, Oppo, Vivo, Huawei…** : surcouches OEM avec collecte propre, télémétrie additionnelle, apps préinstallées. Mises à jour de sécurité variables. Pour les Chinois (Xiaomi, Oppo, Vivo, Honor, Huawei) : préoccupations spécifiques liées à la juridiction d’origine et à des cas documentés de collecte excessive.
 
-#### 15.7 GrapheneOS
+#### 15.8 GrapheneOS
 
 **Philosophie** : OS Android dégooglisé, durci, focalisé privacy et sécurité. Développement actif, mise à jour rapide des patches Android upstream.
 
@@ -1555,13 +1563,13 @@ Android **AOSP** (Android Open Source Project) : propre, mais aucun OEM ne livre
 
 **Pour qui** : tous ceux qui veulent un mobile sérieusement durci et peuvent vivre avec les contraintes. Recommandé pour journalistes, activistes, dirigeants exposés, professionnels cyber.
 
-#### 15.8 CalyxOS, LineageOS (et le cas DivestOS)
+#### 15.9 CalyxOS, LineageOS (et le cas DivestOS)
 
 - **CalyxOS** : alternative à GrapheneOS, philosophie similaire mais MicroG préinstallé (réimplémentation libre des Google Play Services). Moins de hardening que GrapheneOS, mais position éthique intéressante. Maintenu activement.
 - **LineageOS** : Android communautaire générique. Pas focalisé sécurité, mais utile pour prolonger la vie d’appareils non supportés par OEM. Important : LineageOS sans signatures Verified Boot du constructeur réduit la sécurité matérielle. À utiliser pour des appareils secondaires non sensibles.
 - **DivestOS** : fork LineageOS focalisé sécurité, supportait plus de modèles que GrapheneOS. **Le projet a annoncé son arrêt fin 2024**, le développeur principal ayant cessé la maintenance active. À ne plus utiliser comme recommandation pour un déploiement nouveau ; les utilisateurs existants doivent planifier une migration vers une plateforme maintenue (GrapheneOS si Pixel disponible, CalyxOS sinon, ou retour à un OS constructeur à jour selon profil).
 
-#### 15.9 Choix matériel et support
+#### 15.10 Choix matériel et support
 
 GrapheneOS exige du **Pixel récent** (Pixel 6+). Pixel 8 et Pixel 8a sont actuellement (2025-2026) de bons points d’entrée : support OEM jusqu’en 2030-2031, Titan M2, performances correctes.
 
@@ -1569,26 +1577,26 @@ GrapheneOS exige du **Pixel récent** (Pixel 6+). Pixel 8 et Pixel 8a sont actue
 
 Acheter un téléphone sans support de mises à jour pour 5+ ans est une erreur d’investissement sécuritaire.
 
-#### 15.10 Permissions et hygiène applicative
+#### 15.11 Permissions et hygiène applicative
 
 - **Claviers tiers** : SwiftKey, Gboard avec sync cloud → mauvaise idée pour usage sensible. Pour GrapheneOS : utiliser le clavier intégré, ou AnySoftKeyboard sans cloud.
 - **Presse-papiers** : surveillance possible par apps en arrière-plan. iOS 14+ alerte. Android 12+ aussi. Vigilance.
 - **Trackers dans applis** : la plupart des applis grand public en intègrent. Outil utile : **Exodus Privacy** (analyse des trackers d’une app).
 - **Permissions à scopes** : sur GrapheneOS, Storage Scopes et Contact Scopes ; sur iOS, sélection de photos précises plutôt que photo library complète.
 
-#### 15.11 Séparation pro/perso/sensible
+#### 15.12 Séparation pro/perso/sensible
 
 Sur GrapheneOS : profils utilisateurs distincts. Chaque profil a son propre espace, ses apps, ses comptes. Bascule par swipe down.
 
 Sur iOS : pas de profils utilisateurs (limitation iOS persistante). Solution : appareils distincts pour usages sensibles, ou « Focus Modes » avec filtres d’apps.
 
-#### 15.12 Reboot quotidien
+#### 15.13 Reboot quotidien
 
 Les spyware mercenaires modernes (Pegasus, Predator, Graphite) reposent souvent sur des exploits **non persistants** : un redémarrage les efface. L’attaquant doit alors re-infecter, ce qui multiplie ses traces et son coût.
 
 Le **reboot quotidien** (ou hebdomadaire pour les moins exposés) est l’une des mesures les plus simples et les plus efficaces contre les attaques avancées. Cinq secondes par jour. À adopter systématiquement pour les HVT.
 
-#### 15.13 *Fil rouge* — Léa migre vers Pixel 8a + GrapheneOS
+#### 15.14 *Fil rouge* — Léa migre vers Pixel 8a + GrapheneOS
 
 Léa, après son audit, achète un Pixel 8a en magasin (cash, anonymement), flashe GrapheneOS le soir même, et configure :
 
@@ -2525,7 +2533,7 @@ Enfin, les **applications mobiles** : beaucoup d’applications gratuites intèg
 
 C’est cette combinaison qui rend le modèle si robuste : même si un canal de tracking devient moins efficace, un autre prend le relais.
 
-#### 23.9 ADINT : De la publicité au renseignement, exploitation opérationnelle des données publicitaires
+#### 23.10 ADINT : De la publicité au renseignement, exploitation opérationnelle des données publicitaires
 
 L’**ADINT** (_Advertising Intelligence_) apparaît lorsque les mécanismes de l’écosystème publicitaire sont utilisés comme source de renseignement plutôt que comme support marketing. Les mêmes bid requests, les mêmes MAID, les mêmes bases de localisation qui servent à cibler une publicité peuvent servir à **identifier, suivre, corréler ou caractériser une personne, un groupe ou un lieu**.
 
@@ -2543,18 +2551,71 @@ L’ADINT illustre une idée centrale en OPSEC : une donnée collectée pour une
 * diffuser une publicité piégée ou rediriger vers un site malveillant dans certains scénarios de malvertising ou de watering hole.
 
 Le sujet est devenu massif à partir de 2020. Le sénateur démocrate **Ron Wyden** (Oregon), membre du Senate Intelligence Committee, a été le premier élu américain à documenter publiquement, par lettres officielles aux agences, l’achat de données de localisation auprès de courtiers privés par DHS, ICE, IRS, FBI, DEA, US Military et d’autres entités fédérales. Sa série d’investigations 2020-2025 a fait sortir publiquement l’ampleur du phénomène.
-
 ##### 23.10.1 Le contournement juridique au cœur de l’ADINT
 
-Aux États-Unis, l’arrêt **Carpenter v. United States (2018)** de la Cour suprême a établi que les forces de l’ordre doivent obtenir un mandat pour accéder aux Cell Site Location Information (CSLI) — les données de localisation cellulaire détenues par les opérateurs téléphoniques.
+Aux États-Unis, l’arrêt **Carpenter v. United States (2018)** de la Cour suprême a établi que les forces de l’ordre doivent obtenir un mandat pour accéder aux Cell Site Location Information (CSLI) c’est-à-dire les données de localisation cellulaire détenues par les opérateurs téléphoniques.
 
-**Mais Carpenter ne couvre pas les achats de données auprès de brokers privés.** Les agences ont rapidement identifié ce contournement : pourquoi demander un mandat pour obtenir des données auprès de Verizon, alors qu’on peut acheter des données similaires (voire plus précises) auprès de courtiers qui les ont collectées via des SDK publicitaires dans des applications mobiles ?
+**Mais Carpenter ne couvre pas les achats de données auprès de brokers privés.** Les agences ont rapidement identifié ce contournement : pourquoi demander un mandat pour obtenir des données auprès de Verizon, AT&T ou T-Mobile, alors qu’on peut acheter des données similaires (parfois plus précises) auprès de courtiers qui les ont collectées via des SDK publicitaires dans des applications mobiles ?
 
 Le résultat : entre 2017 et 2024, plusieurs dizaines de millions de dollars de contrats publics américains ont été identifiés pour l’achat de données de localisation provenant de l’écosystème adtech. Le sénateur Wyden a introduit le **Fourth Amendment Is Not For Sale Act (FANFSA)** pour fermer ce contournement, voté à la Chambre en 2024 mais bloqué au Sénat à la rédaction de ce cours.
 
-En Europe, le cadre RGPD diffère structurellement : le traitement à des fins de renseignement par les autorités publiques est encadré par des directives sectorielles (LED — Law Enforcement Directive) et par les législations nationales sur le renseignement. Des zones grises persistent, notamment sur les transferts hors UE et sur le statut des achats par des services de renseignement nationaux auprès de courtiers américains. Ce sujet est peu documenté publiquement en Europe par rapport à la situation américaine.
+En Europe, le cadre RGPD diffère structurellement : le traitement à des fins de renseignement par les autorités publiques est encadré par des directives sectorielles (LED — Law Enforcement Directive) et par les législations nationales sur le renseignement. Mais le problème n’est pas absent, des zones grises persistent, notamment sur les transferts hors UE et sur le statut des achats par des services de renseignement nationaux auprès de courtiers américains. Les achats, transferts, recoupements ou traitements secondaires de données publicitaires par des acteurs publics ou privés restent difficiles à documenter, notamment lorsque les données proviennent de courtiers non européens, de places de marché opaques ou de chaînes de sous-traitance internationales.
 
-##### 23.10.2 Cas Babel Street / Locate X
+**A — Exploitations observées : ce que les données permettent concrètement**
+##### 23.10.2 Démonstration journalistique - Le Monde : personnels sensibles français ré-identifiés par données publicitaires
+Source : https://www.lemonde.fr/pixels/article/2025/12/10/espions-policiers-ou-militaires-d-elite-francais-trahis-par-les-donnees-publicitaires-de-leurs-smartphones_6656694_4408996.html
+
+En décembre 2025, **Le Monde** a publié une enquête montrant que des données publicitaires géolocalisées permettaient d’identifier ou de suivre des personnels français particulièrement sensibles : agents liés au renseignement, policiers spécialisés, militaires d’élite, membres de dispositifs de protection, salariés de l’industrie de défense ou personnels liés à des sites critiques.
+
+L’intérêt de ce cas est qu’il ne repose pas sur une compromission technique. Les téléphones n’ont pas été piratés. Les applications n’ont pas forcément été détournées de manière visible. L’exposition provient de données déjà collectées par l’écosystème publicitaire : identifiants publicitaires, points de localisation, traces d’usage d’applications, horaires et répétition des présences dans certains lieux.
+
+L’enquête illustre un principe central : il n’est pas nécessaire de connaître immédiatement le nom civil d’une personne pour l’identifier. Un appareil observé régulièrement la nuit dans une zone résidentielle, en journée près d’un site sensible, puis à intervalles réguliers dans certains lieux professionnels ou institutionnels, peut être rattaché à une personne, une fonction ou une unité avec un niveau de confiance élevé.
+
+Le risque dépasse donc la vie privée individuelle. Il touche la sécurité des missions, la protection des agents, la confidentialité des sites, la sûreté des familles et la sécurité opérationnelle des institutions. Une donnée présentée comme pseudonyme dans un contexte publicitaire peut devenir identifiante lorsqu’elle est croisée avec des lieux, des horaires et des routines.
+
+Ce cas français est particulièrement important pour un cours OPSEC : il montre que l’ADINT ne concerne pas seulement les États-Unis ou les courtiers américains. Des personnels sensibles européens peuvent également être exposés par des données commerciales de localisation, parfois sans en avoir conscience.
+##### 23.10.3 Cas d'exploitation - Reuters : militaires américains ciblés via données commerciales de localisation
+Source : https://www.reuters.com/business/media-telecom/pentagon-says-us-military-personnel-are-reportedly-being-targeted-using-location-2026-05-28/
+
+En mai 2026, **Reuters** a rapporté que l’US Central Command avait reçu des signalements selon lesquels des adversaires exploitaient des données commerciales de localisation pour surveiller ou cibler du personnel militaire américain déployé en zone d’opération.
+
+Ce cas marque un seuil supplémentaire. Il ne s’agit plus seulement d’identifier des personnes sensibles ou de reconstruire leurs routines. Dans un contexte militaire, les données de localisation peuvent contribuer à une menace physique : repérer des rassemblements de militaires, identifier des déplacements récurrents, localiser des lieux de passage, observer des pauses logistiques, suivre des rotations ou déduire des patterns of life exploitables.
+
+Là encore, le point critique est l’absence de piratage. L’adversaire n’a pas nécessairement besoin de compromettre les téléphones. Il peut exploiter des données issues d’applications, de SDK publicitaires, de courtiers de localisation ou de chaînes de revente commerciales. Ce qui était initialement collecté pour mesurer, cibler ou monétiser une audience devient une source de renseignement opérationnel.
+
+Dans un théâtre de guerre ou une zone de tension, ce basculement change la nature du risque. Une fuite de localisation n’est pas seulement une atteinte à la privacy : elle peut contribuer à la préparation d’une attaque, à du contre-renseignement, à la surveillance d’un personnel exposé, voire à du ciblage cinétique.
+
+Ce cas confirme que l’ADINT doit être pensée comme une question de sécurité opérationnelle, pas seulement comme une question de conformité publicitaire ou de protection des données personnelles.
+##### 23.10.4 Lecture croisée de la privacy au risque physique
+
+Les cas Le Monde et Reuters montrent deux niveaux complémentaires du même problème.
+
+Le premier niveau est la **ré-identification** : à partir de données publicitaires, il devient possible de relier un appareil à une personne, une fonction, un domicile, un lieu de travail ou une routine. C’est ce que montre le cas français : les données publicitaires peuvent exposer des personnels sensibles, leurs lieux de vie et leurs habitudes.
+
+Le second niveau est le **ciblage opérationnel** : lorsque les mêmes données sont utilisées dans un contexte militaire, conflictuel ou hostile, elles peuvent aider un adversaire à préparer une surveillance, une intimidation, une attaque physique ou une opération de renseignement.
+
+La chaîne de risque est donc la suivante :
+
+1. une application mobile collecte des signaux techniques ou de localisation ;
+2. ces signaux sont transmis à des SDK, plateformes publicitaires ou courtiers ;
+3. les données sont agrégées, revendues ou rendues accessibles via des intermédiaires ;
+4. un acteur tiers peut isoler un lieu sensible, suivre un appareil ou reconstruire une routine ;
+5. l’appareil devient un capteur involontaire au profit d’un adversaire.
+
+Ces cas imposent une conclusion OPSEC simple : pour les profils sensibles, il ne suffit pas de protéger le contenu des communications. Il faut aussi empêcher que les appareils révèlent des présences, des trajets, des horaires, des lieux sensibles et des patterns of life.
+##### 23.10.5 Du cas d’usage au marché de l’ADINT
+
+Les cas Le Monde et Reuters montrent les **effets observables** de l’ADINT : ré-identification de personnes sensibles, reconstruction de routines, exposition de domiciles, suivi de lieux sensibles et, dans certains contextes, ciblage opérationnel.
+
+La suite de cette section change d’angle. Elle ne décrit plus seulement ce que les données permettent de faire, mais **qui rend cette exploitation possible** : courtiers de localisation, plateformes d’analyse, sociétés d’intelligence privée, fournisseurs de données et outils commerciaux capables d’agréger des signaux issus de l’écosystème publicitaire.
+
+Il faut donc distinguer deux niveaux :
+
+- **les cas d’exploitation** : ils montrent l’impact réel ou démontrable des données publicitaires lorsqu’elles sont utilisées pour identifier, surveiller ou cibler ;
+- **les acteurs d’industrialisation** : ils collectent, achètent, agrègent, retraitent, vendent ou rendent consultables ces données à grande échelle.
+
+**B — Acteurs d’industrialisation : qui collecte, agrège et monétise**
+##### 23.10.6 Acteurs d’industrialisation : Babel Street / Locate X
 
 **Babel Street** est une société d’analyse de données fondée en 2014, basée en Virginie. Son produit phare **Locate X** agrège des données de localisation provenant de SDK adtech intégrés dans des applications mobiles, et permet à des analystes (typiquement gouvernementaux) de retracer les déplacements d’appareils dans le temps et l’espace.
 
@@ -2568,7 +2629,7 @@ En 2024, 404 Media et l’EFF ont publié des enquêtes documentant que Locate X
 
 L’objectif éditorial de ces démonstrations journalistiques était de montrer publiquement qu’un outil officiellement commercial permet à toute partie disposant des bons accès d’atteindre des données de surveillance qui requerraient autrement un mandat judiciaire.
 
-##### 23.10.3 Cas Anomaly Six (A6)
+##### 23.10.7 Acteurs d’industrialisation : Anomaly Six (A6)
 
 **Anomaly Six**, société de Virginie fondée par d’anciens membres de la communauté du renseignement américaine, opère dans un registre similaire : agréger des données de SDK adtech mobiles à grande échelle.
 
@@ -2580,7 +2641,7 @@ L’investigation marquante est celle publiée par le **Wall Street Journal en a
 
 A6 est l’exemple paradigmatique de l’« intelligence-as-a-service » : une entreprise commerciale qui vend à des États (ou à d’autres entreprises) ce qui aurait autrefois nécessité une agence de renseignement entière. Le tout sans hacker quoi que ce soit — purement par exploitation de l’écosystème adtech légal.
 
-##### 23.10.4 Cas Venntel / Gravy Analytics et sanction FTC 2024
+##### 23.10.8 Acteurs d’industrialisation : Venntel / Gravy Analytics et sanction FTC 2024
 
 **Venntel** est une filiale de **Gravy Analytics**, société de location data agrégeant les flux de centaines d’applications mobiles via SDK. Vendait géolocalisation à CBP, ICE, DEA, IRS, FBI, Département de la Défense américain.
 
@@ -2593,7 +2654,7 @@ Cet incident a deux portées :
 1. confirmer empiriquement que les données circulant dans l’adtech sont sensibles et identifiantes — pas seulement « pseudonymes » ;
 2. démontrer que ces données sont elles-mêmes mal sécurisées chez les courtiers, exposant les utilisateurs à un risque double : commercial _et_ en cas de compromission du broker.
 
-##### 23.10.5 Cas X-Mode / Outlogic et la sanction FTC 2024
+##### 23.10.9 Acteurs d’industrialisation : X-Mode / Outlogic et la sanction FTC 2024
 
 **X-Mode Social** était l’un des principaux brokers de location data SDK. Bannie par Apple et Google en décembre 2020 après une enquête de Motherboard révélant des contrats avec des sous-traitants militaires et des ventes à des organismes gouvernementaux. Rebrand en **Outlogic** en 2021, qui a continué l’activité.
 
@@ -2601,15 +2662,29 @@ Cet incident a deux portées :
 
 Cette sanction a marqué un tournant régulatoire, mais l’écosystème reste massif et la majorité des acteurs continuent d’opérer.
 
-**Synthèse des cas ADINT** : ces affaires montrent que l’ADINT n’est pas une hypothèse théorique. Des données collectées par des applications ordinaires — météo, jeux, dating, prière, traduction — via des SDK et des mécanismes publicitaires standards, peuvent être agrégées, revendues à des acteurs commerciaux ou gouvernementaux, puis utilisées pour produire une capacité de surveillance géospatiale opérationnelle. Le point critique n’est pas la précision d’une donnée isolée prise individuellement, mais la capacité à **agréger des signaux faibles sur la durée** jusqu’à reconstituer routines, identités et liens.
+##### 23.10.10 Synthèse des cas — deux dimensions de l’ADINT
 
-##### 23.10.6 Profils particulièrement exposés et limites des contre-mesures
+Les cas Le Monde et Reuters montrent la **dimension opérationnelle** de l’ADINT : les données publicitaires peuvent exposer des agents, militaires, policiers, personnels de renseignement, cadres de l’industrie de défense ou salariés de sites critiques. Elles permettent de reconstruire des domiciles probables, des trajets, des habitudes, des lieux fréquentés et des patterns of life. Dans certains contextes, cette exposition peut devenir un risque physique.
+
+Les cas Babel Street, Anomaly Six, Venntel/Gravy Analytics et X-Mode/Outlogic montrent la **dimension industrielle** de l’ADINT : des sociétés collectent, agrègent, enrichissent et commercialisent des données issues d’applications ordinaires, de SDK publicitaires, de bid requests, de MAID et de courtiers. Elles transforment des traces dispersées en outils de recherche, de surveillance, de géolocalisation ou d’analyse comportementale.
+
+La chaîne complète est donc la suivante :
+
+1. des applications banales collectent des signaux techniques, publicitaires ou de localisation ;
+2. ces signaux alimentent des SDK, exchanges, courtiers ou plateformes d’analyse ;
+3. des entreprises spécialisées agrègent et rendent ces données exploitables ;
+4. des clients publics, privés ou para-publics peuvent y accéder ;
+5. un adversaire peut alors identifier une personne, suivre une routine, cartographier un lieu sensible ou préparer une action ciblée.
+
+Le point critique n’est pas la précision d’une donnée isolée. C’est l’agrégation dans le temps. Une localisation ponctuelle peut être anodine ; des centaines de localisations répétées deviennent une signature de vie.
+
+##### 23.10.11 Profils particulièrement exposés et limites des contre-mesures
 
 Tous les utilisateurs peuvent être concernés par l’ADINT, mais certains profils sont structurellement plus sensibles : journalistes d’investigation et sources ; diplomates, militaires, policiers, magistrats ; dirigeants d’entreprise et cadres exposés ; activistes et opposants politiques ; chercheurs en cybersécurité ; personnels d’ONG travaillant dans des zones sensibles ; personnes victimes de harcèlement ou d’un adversaire de proximité.
 
 Le risque devient particulièrement important lorsque l’appareil personnel est emporté dans des lieux sensibles. Un téléphone contenant de nombreuses applications gratuites financées par la publicité peut devenir un traceur involontaire, sans qu’il soit nécessaire de compromettre techniquement l’appareil.
 
-##### 23.10.7 Pourquoi l'ADINT est difficile à contrer 
+##### 23.10.12 Pourquoi l'ADINT est difficile à contrer 
 
 L’ADINT est difficile à neutraliser parce qu’elle exploite un écosystème **légal, massif et opaque**. Les acteurs publicitaires collectent déjà ces données pour le ciblage commercial. Des acteurs spécialisés peuvent ensuite s’insérer dans cette chaîne comme annonceurs, intermédiaires, courtiers ou prestataires d’analyse.
 
@@ -2833,10 +2908,15 @@ Aucune mesure isolée ne neutralise l’AdTech. La défense réaliste opère par
 - Comptes Apple/Google séparés entre identités si Niveau 2-3.
 - Email distinct pour les services gratuits financés par la publicité — usage d’alias (SimpleLogin, Addy.io).
 
-**Couche physique** :
+**Couche physique / lieux sensibles** :
 
-- Pour Niveau 3 : téléphone burner sans MAID actif, sans apps publicitaires, sans compte personnel, dans les lieux sensibles. Téléphone principal laissé hors zone.
-- Cf. Capstone 1 (compartimentation) et Ch 38 (architectures par profil).
+- Pour les profils exposés : ne pas emporter le téléphone personnel dans les lieux sensibles lorsque ce n’est pas strictement nécessaire.
+- Pour les environnements institutionnels, militaires, industriels ou journalistiques sensibles : définir explicitement quels appareils sont autorisés dans quels lieux.
+- Pour le Niveau 3 : téléphone dédié ou burner sans compte personnel, sans applications publicitaires, sans MAID actif, sans géolocalisation en arrière-plan non indispensable.
+- Téléphone principal laissé hors zone sensible, éteint ou en pochette Faraday selon le contexte.
+- Pour les organisations : MDM/EMM, liste blanche applicative, interdiction des applications gratuites financées par la publicité sur les appareils opérationnels.
+- Règle OPSEC : un téléphone n’a pas besoin d’être compromis pour trahir une présence, une routine ou un lieu sensible.
+- Cf. Capstone 1 (compartimentation), Ch 15 (mobile), Ch 22 (Wi-Fi, Bluetooth, cellulaire) et Ch 38 (architectures par profil).
 
 **Couche carte de fidélité / retail** :
 
@@ -4752,7 +4832,25 @@ Hérité de la cybersécurité d’entreprise, applicable au particulier :
 - Soutien : association locale, juriste, psychologue.
 - Compartimentation totale avec l’ancien partenaire (canaux, comptes, lieux).
 
-**Profil 8 : profil HVT extrême (combinaison)**
+**Profil 8 : Personnel institutionnel, défense ou industrie sensible
+
+Pour qui : militaires, policiers spécialisés, personnels de renseignement, protection rapprochée, agents pénitentiaires exposés, salariés de sites critiques, cadres de l’industrie de défense, sous-traitants sensibles.
+Objectif : éviter qu’un téléphone personnel ou professionnel ne révèle des lieux sensibles, des routines, des domiciles, des proches ou des déplacements opérationnels.
+
+- téléphone personnel interdit ou laissé hors zone sensible ;
+- téléphone professionnel ou opérationnel dédié, géré par MDM/EMM ;
+- liste blanche d’applications autorisées ;
+- absence d’applications gratuites financées par la publicité ;
+- localisation désactivée par défaut, activée seulement pour les usages strictement nécessaires ;
+- identifiant publicitaire désactivé ou régulièrement réinitialisé ;
+- séparation stricte entre usages personnels, professionnels et opérationnels ;
+- formation régulière sur les risques AdTech, ADINT et data brokers ;
+- procédures écrites : quels appareils sont autorisés dans quels lieux ;
+- contrôles réguliers et sanctions internes en cas de non-respect des consignes.
+
+Point clé : pour ces profils, le risque n’est pas seulement la compromission du téléphone. Le simple fonctionnement normal d’applications grand public peut suffire à exposer des données exploitables par un adversaire.
+
+**Profil 9 : profil HVT extrême (combinaison)**
 
 - Qubes OS + GrapheneOS combinés.
 - Tor + VPN obfusqué.
@@ -5325,7 +5423,7 @@ Elle peut commencer à relâcher progressivement la vigilance (sans baisser la g
 
 **A**
 
-**ADINT (Advertising Intelligence)** — Exploitation de l’écosystème publicitaire numérique comme source de renseignement. Utilise notamment le ciblage publicitaire, le RTB, les identifiants publicitaires mobiles, les données de localisation et les bidstream data pour profiler, suivre ou cibler des personnes ou groupes.
+**ADINT (Advertising Intelligence)** — Exploitation de l’écosystème publicitaire numérique comme source de renseignement. Utilise notamment le ciblage publicitaire, le RTB, les identifiants publicitaires mobiles, les données de localisation et les bidstream data pour profiler, suivre ou cibler des personnes ou groupes. Les données publicitaires peuvent produire un risque physique ou opérationnel : identification d’agents, domiciles, trajets, lieux sensibles, patterns of life..
 
 **AFU (After First Unlock)** — État d’un appareil mobile après le premier déverrouillage depuis allumage. Beaucoup de clés sont en mémoire ; vulnérabilité forensique élevée par rapport à BFU.
 
