@@ -2345,15 +2345,15 @@ for ev in evenements:
 
 ### Récapitulatif
 
-|Opération          |Syntaxe                              |
-|-------------------|-------------------------------------|
-|Créer              |`d = {"cle": "valeur"}`              |
-|Lire (sûr)         |`d.get("cle", défaut)`               |
-|Ajouter/modifier   |`d["cle"] = valeur`                  |
-|Supprimer          |`del d["cle"]` ou `d.pop("cle")`     |
-|Tester une clé     |`"cle" in d`                         |
-|Parcourir          |`for k, v in d.items():`             |
-|Nombre de clés     |`len(d)`                             |
+| Opération        | Syntaxe                          |
+| ---------------- | -------------------------------- |
+| Créer            | `d = {"cle": "valeur"}`          |
+| Lire (sûr)       | `d.get("cle", défaut)`           |
+| Ajouter/modifier | `d["cle"] = valeur`              |
+| Supprimer        | `del d["cle"]` ou `d.pop("cle")` |
+| Tester une clé   | `"cle" in d`                     |
+| Parcourir        | `for k, v in d.items():`         |
+| Nombre de clés   | `len(d)`                         |
 
 ## Application cyber — compter et regrouper
 

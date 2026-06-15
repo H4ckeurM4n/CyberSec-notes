@@ -213,6 +213,8 @@ docker system prune -a        # Lancé sur une machine partagée, tu supprimes l
 
 🛡️ **Réflexe sécurité dès maintenant :** ces commandes destructrices sont aussi ce qu'un **accident** ou un **accès mal maîtrisé** peut déclencher. Et souviens-toi : **appartenir au groupe `docker` revient à avoir root sur la machine** (on y reviendra au Ch. 4). Qui peut lancer Docker peut beaucoup.
 
+> **Note — le mode « rootless ».** Docker peut aussi tourner en **mode rootless**, où le daemon ne s'exécute pas avec les privilèges root classiques. Ce mode **réduit certains risques** (notamment en cas d'évasion), mais ajoute des **limites** et de la **complexité** (réseau, montages, certaines fonctionnalités). On le **mentionne ici** pour ne pas être trop catégorique sur « daemon Docker = root », et on le **développe en annexe** plutôt que dans le cœur du cours, pour ne pas alourdir l'apprentissage débutant.
+
 ---
 
 ## 🧨 La Boîte à risques Docker / containerisation
@@ -225,7 +227,7 @@ Les risques sont regroupés en **4 familles** pour les mémoriser plus facilemen
 
 | Risque | Pourquoi c'est dangereux | Traité au |
 |--------|--------------------------|-----------|
-| ⭐ **Conteneur lancé en root** | En cas d'évasion, root dans le conteneur ≈ root sur l'hôte | Ch. 17 / 18 |
+| ⭐ **Conteneur lancé en root** | En cas d'évasion ou de mauvaise config, augmente fortement le risque d'obtenir des privilèges élevés sur l'hôte | Ch. 17 / 18 |
 | ⭐ **Conteneur `--privileged`** | Désactive l'essentiel des protections : quasi-accès total à l'hôte | Ch. 17 |
 | ⭐ **Montage de `/var/run/docker.sock`** | Donner le socket = donner le **contrôle de toute la machine** | Ch. 17 |
 
@@ -241,6 +243,7 @@ Les risques sont regroupés en **4 familles** pour les mémoriser plus facilemen
 | Risque | Pourquoi c'est dangereux | Traité au |
 |--------|--------------------------|-----------|
 | **Image inconnue / non maintenue** | Code arbitraire qui tourne chez toi, vulnérabilités non corrigées | Ch. 8 |
+| **« Officielle » prise pour « sûre »** | Une image officielle reste à versionner, mettre à jour et scanner | Ch. 8 / 19 |
 | **Tag `latest` / absence de digest** | Version non maîtrisée = surface d'attaque mouvante | Ch. 9 |
 | **Image trop grosse / packages inutiles** | Plus de surface d'attaque, plus de CVE potentielles | Ch. 10 / 18 |
 | **Pas de `.dockerignore` / build context trop large** | Risque d'embarquer `.env`, clés, tokens dans l'image | Ch. 11 |
@@ -278,6 +281,8 @@ Docker est **plus concret** que Kubernetes : tu lanceras ton premier conteneur d
 > **Conseil important :** si un chapitre te paraît flou, **continue quand même**. Plusieurs notions ne s'éclairent qu'à la lumière de la suite (les images éclairent le Dockerfile, le réseau éclaire Compose). Reviens en arrière une fois que tu as vu la suite.
 
 Ne te juge pas. **La patience compte plus que la vitesse.**
+
+> **Et surtout :** le but n'est **pas** de mémoriser toutes les commandes Docker. C'est de comprendre le **cycle** : `image → conteneur → logs/diagnostic → données/réseau → suppression/recréation`. Une fois ce cycle clair dans ta tête, les commandes deviennent évidentes et se retrouvent dans la cheat-sheet. Apprends le **cycle**, pas la liste.
 
 ---
 
@@ -606,5 +611,360 @@ C'est le moment de vérifier tes **fondations**. Avant de mettre les mains dans 
 - [ ] Comprendre que l'isolation est **graduée** et qu'une mauvaise config peut l'affaiblir.
 
 > **Si tu coches tout, tu as le socle mental.** La Partie II va te faire **installer Docker** et **lancer tes premiers conteneurs** — enfin de la pratique. On commencera par comprendre *qui parle à qui* (CLI, daemon, socket), parce que c'est là que se cache le premier grand réflexe de sécurité Docker : **le daemon tourne en root**.
+
+---
+---
+---
+
+# PARTIE II — PREMIERS PAS AVEC DOCKER
+
+> Enfin de la pratique. On installe Docker, on comprend **qui parle à qui**, puis on lance, observe et arrête nos premiers conteneurs. Garde le cycle en tête : `image → conteneur → diagnostic → suppression/recréation`.
+
+---
+
+# Chapitre 4 — Installer Docker et comprendre son architecture
+
+## Le minimum à savoir
+
+### Docker n'est pas « un programme », c'est trois choses
+
+Quand tu tapes `docker run`, tu crois parler à « Docker ». En réalité, tu déclenches une **conversation entre trois composants** qu'il faut distinguer une fois pour toutes :
+
+```
+   TOI ──▶  Docker CLI  ──API──▶  Docker daemon (dockerd)  ──▶  conteneurs
+            (le client)           (le moteur, tourne en root)
+   "docker run nginx"             reçoit l'ordre, le réalise
+```
+
+- **Docker CLI** (`docker`) : l'**outil en ligne de commande**. C'est lui que tu tapes. Il ne fait rien lui-même : il **transmet** ta demande.
+- **Docker daemon** (`dockerd`) : le **moteur**, un service qui tourne en arrière-plan. C'est lui qui **télécharge les images, crée les conteneurs, gère les réseaux et les volumes**. Il tourne avec les privilèges **root**.
+- **L'API Docker** : le **canal** par lequel la CLI parle au daemon. Par défaut, ce canal est le **Docker socket** (`/var/run/docker.sock`).
+
+L'ensemble (CLI + daemon + API) s'appelle le **Docker Engine**.
+
+### Pourquoi cette distinction est cruciale (et pas que théorique)
+
+Parce qu'elle explique **le premier grand réflexe de sécurité Docker** :
+
+> Le **daemon tourne en root**. La CLI ne fait que lui passer des ordres. Donc **quiconque peut parler au daemon peut faire faire à root à peu près n'importe quoi sur la machine** — par exemple monter le disque entier de l'hôte dans un conteneur et le lire.
+
+C'est aussi pour ça qu'on dit qu'**appartenir au groupe `docker` équivaut à avoir root** sur la machine : être dans ce groupe, c'est avoir le droit de parler au daemon. Ce n'est pas un détail d'administration, c'est une **décision de sécurité**.
+
+> **Rappel du préambule :** Docker peut tourner en mode **rootless** pour atténuer ce point. On reste ici sur le mode classique (le plus répandu), en gardant cette nuance en tête.
+
+### Ce dont tu as besoin
+
+Deux choses : le **daemon** qui tourne, et la **CLI** pour lui parler. Sur Linux avec Docker Engine, les deux s'installent ensemble. Sur Docker Desktop, l'application gère le daemon (dans une VM cachée) et te fournit la CLI.
+
+## Très utile en pratique
+
+### Installer (vue d'ensemble)
+
+> Comme pour tout outil, **les commandes d'installation vieillissent vite**. La **documentation officielle Docker fait foi** — suis-la pour ton système plutôt qu'un copier-coller daté. L'idée générale sur Linux : ajouter le dépôt officiel Docker, puis installer le paquet `docker-ce` (Docker Community Edition).
+
+Après installation, **trois commandes** te confirment que tout est en place :
+
+```bash
+docker version      # versions du Client (CLI) ET du Server (daemon) : les deux doivent répondre
+docker info         # vue d'ensemble : nb de conteneurs, images, driver de stockage, etc.
+docker run hello-world   # le "tour complet" : pull d'une image + lancement d'un conteneur
+```
+
+### Lire `docker version` (et ce qu'il révèle)
+
+```text
+$ docker version
+Client:
+ Version:    27.x.x
+ ...
+Server: Docker Engine - Community
+ Engine:
+  Version:   27.x.x
+  ...
+```
+
+Vois les **deux** blocs ? **Client** = la CLI, **Server** = le daemon. Si le bloc *Server* manque ou renvoie une erreur du type « cannot connect to the Docker daemon », c'est que **le daemon ne tourne pas** ou que **tu n'as pas le droit de lui parler** — deux pannes classiques (voir l'erreur classique plus bas).
+
+### Le premier conteneur : `hello-world`
+
+```bash
+docker run hello-world
+```
+
+```text
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world      ← l'image n'était pas là, Docker la télécharge
+...
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+```
+
+En une commande, tu viens de vivre **tout le cycle** : Docker a cherché l'image en local, ne l'a pas trouvée, l'a **téléchargée** depuis Docker Hub, puis a **lancé un conteneur** à partir d'elle. Le conteneur a affiché son message, puis s'est **terminé**. C'est la conteneurisation en miniature.
+
+## Application admin / cyber
+
+- **Côté admin :** `docker info` est ta **fiche d'identité** de l'installation : version, nombre de conteneurs/images, **driver de stockage**, dossier de données. C'est le premier endroit où regarder pour comprendre une machine Docker que tu découvres.
+- **Côté SOC / cyber :** la séparation CLI/daemon/socket **est** le modèle de menace de Docker. Retiens trois choses :
+  - 🛡️ Le **daemon = root**. Le compromettre ou détourner le socket, c'est compromettre l'hôte.
+  - 🛡️ Le **groupe `docker` = root de fait**. Qui tu ajoutes à ce groupe est une **décision de sécurité**, pas de confort.
+  - 🛡️ Le **socket `/var/run/docker.sock`** est l'objet le plus sensible de tout l'écosystème. On verra au Ch. 17 pourquoi le **monter dans un conteneur** est l'une des pires erreurs possibles.
+
+🔍 **Réflexe diagnostic :** devant une machine Docker inconnue, commence par `docker version` (le daemon répond-il ?) et `docker info` (qu'y a-t-il dessus ?). Ces deux commandes te disent l'essentiel avant même de lister quoi que ce soit.
+
+## ❌ Erreur classique
+
+> **« Cannot connect to the Docker daemon » — et conclure que Docker est cassé.**
+
+C'est **la** panne d'installation la plus fréquente. Deux causes, deux réflexes :
+
+1. **Le daemon ne tourne pas.** Sur Linux, il faut démarrer le service :
+   ```bash
+   sudo systemctl start docker      # démarrer le daemon maintenant
+   sudo systemctl enable docker     # le démarrer automatiquement au boot
+   ```
+2. **Tu n'as pas le droit de parler au daemon.** Ton utilisateur n'est pas dans le groupe `docker`, donc seul `sudo docker ...` fonctionne. On peut ajouter l'utilisateur au groupe :
+   ```bash
+   sudo usermod -aG docker $USER    # puis se déconnecter/reconnecter
+   ```
+   > ⚠️ **Mais souviens-toi de ce que ça signifie :** rejoindre le groupe `docker`, c'est s'octroyer un **équivalent root**. En lab perso, c'est commode. Sur une machine partagée ou sensible, c'est une décision à prendre **en conscience**.
+
+## Exercices
+
+**Guidé :** Installe Docker pour ton système (en suivant la doc officielle), puis lance la séquence `docker version`, `docker info`, `docker run hello-world`. Tu dois voir **les deux blocs** Client/Server répondre, puis le message « Hello from Docker! ». Si tu tombes sur « cannot connect to the Docker daemon », relie l'erreur aux deux causes ci-dessus et note la commande qui a résolu le problème.
+
+**Autonome :** Lance `docker info` et repère **trois informations** : le nombre de conteneurs, le nombre d'images, et le **dossier racine de Docker** (*Docker Root Dir*). Écris en une phrase pourquoi un analyste qui découvre une machine voudrait connaître ces trois éléments.
+
+**Défi :** Explique, avec tes propres mots et en 4-5 lignes, **pourquoi `sudo docker run -v /:/hôte ...` est si dangereux**. Indice : relie le fait que **le daemon tourne en root** au fait qu'on lui demande de **monter la racine de l'hôte** dans un conteneur. Tu n'as pas besoin de l'exécuter — c'est un exercice de **modèle de menace**, à rapprocher du Ch. 17.
+
+## ✅ Tu sais maintenant…
+
+- Que Docker = **CLI** (le client) + **daemon `dockerd`** (le moteur, en root) + **API/socket** (le canal).
+- Que l'ensemble s'appelle le **Docker Engine**.
+- Vérifier une installation avec `docker version`, `docker info`, `docker run hello-world`.
+- Lire les deux blocs **Client/Server** et diagnostiquer « cannot connect to the daemon ».
+- Que **le daemon tourne en root** et que le **groupe `docker` ≈ root** : un point de sécurité fondateur.
+- Que le **socket Docker** est l'objet le plus sensible de l'écosystème (suite au Ch. 17).
+
+---
+
+# Chapitre 5 — `docker run` : lancer son premier conteneur
+
+## Le minimum à savoir
+
+### La commande centrale, décortiquée
+
+`docker run` est la commande que tu taperas le plus. Elle fait **deux choses d'un coup** : elle **crée** un conteneur à partir d'une image, puis elle le **démarre**. Voici son anatomie :
+
+```
+docker run [options]   IMAGE        [commande]
+           ▲           ▲            ▲
+           comment     à partir de  quoi exécuter dans
+           le lancer   quelle image le conteneur (optionnel)
+```
+
+Exemple minimal :
+
+```bash
+docker run nginx        # lance un conteneur à partir de l'image nginx
+```
+
+Si l'image `nginx` n'est pas en local, Docker la **télécharge** d'abord (comme pour `hello-world`), puis lance le conteneur.
+
+### Les options que tu utiliseras tout le temps
+
+| Option | Rôle | Sans elle… |
+|--------|------|------------|
+| `-d` (*detached*) | Lance en **arrière-plan**, te rend la main | Le terminal reste « bloqué » par le conteneur |
+| `-it` | Mode **interactif** + terminal (pour entrer dans le conteneur) | Pas de shell interactif |
+| `--name <nom>` | Donne un **nom** lisible au conteneur | Docker en génère un aléatoire (ex. `nostalgic_tesla`) |
+| `--rm` | **Supprime** le conteneur dès qu'il s'arrête | Le conteneur arrêté traîne dans `docker ps -a` |
+| `-p <hôte>:<conteneur>` | **Publie** un port (vu au Ch. 13) | Le service n'est pas joignable depuis l'hôte |
+
+### Deux façons de lancer, deux usages
+
+**Détaché (`-d`) — pour un service qui tourne en fond :**
+
+```bash
+docker run -d --name web nginx
+# Docker affiche un long identifiant et te rend la main.
+```
+
+**Interactif (`-it`) — pour entrer dans un conteneur et explorer :**
+
+```bash
+docker run -it --name labo ubuntu bash
+# Tu te retrouves DANS un shell Ubuntu, isolé.
+root@a1b2c3:/#  ls
+root@a1b2c3:/#  exit      # quitter le shell → le conteneur s'arrête
+```
+
+> Le mode interactif est parfait pour **comprendre** : tu es « dans » le conteneur, tu vois son système de fichiers, tu constates qu'il est isolé. Quand tu fais `exit`, le processus principal (`bash`) se termine… et **le conteneur s'arrête avec lui**. Cette dernière phrase est la clé du chapitre suivant.
+
+## Très utile en pratique
+
+```bash
+# Un serveur web en arrière-plan, nommé, avec un port publié
+docker run -d --name web -p 8080:80 nginx
+# → ouvre http://localhost:8080 dans un navigateur : la page nginx s'affiche
+
+# Un conteneur jetable pour tester une commande, supprimé automatiquement
+docker run --rm -it alpine sh
+/ # echo "je teste, puis je disparais"
+/ # exit        # grâce à --rm, le conteneur ne laisse aucune trace
+```
+
+`--rm` est ton meilleur ami en lab : il évite l'accumulation de conteneurs arrêtés. Pour un **service** que tu veux garder, ne le mets pas ; pour un **test jetable**, mets-le.
+
+## Application admin / cyber
+
+- **Côté admin :** `docker run` remplace tout un rituel (installer, configurer, démarrer un service) par **une ligne reproductible**. Lancer ≠ installer : tu ne « salis » pas la machine hôte, tout vit dans le conteneur.
+- **Côté SOC / cyber :** chaque option de `run` est une **décision de surface d'attaque**. Quelques réflexes posés ici, détaillés plus loin :
+  - 🛡️ `-p 8080:80` **publie un port** : ce qui était interne devient **joignable**. À ne faire qu'en conscience (Ch. 13).
+  - 🛡️ `-v` / `--mount` **monte des chemins de l'hôte** : puissant et risqué (Ch. 12).
+  - 🛡️ `--privileged`, `--user`, `--network host` : changent radicalement l'isolation (Ch. 17).
+
+🔍 **Réflexe diagnostic :** quand un conteneur « ne se comporte pas comme prévu », la cause est souvent **dans les options de `run`** (mauvais port publié, image inattendue, commande surchargée). Relis la ligne `run` avant d'aller chercher plus loin.
+
+## ❌ Erreur classique
+
+> **Oublier `-d` et croire que « le terminal a planté ».**
+
+Quand tu lances `docker run nginx` **sans** `-d`, le conteneur tourne au **premier plan** : ton terminal affiche les logs de nginx et **ne te rend pas la main**. Beaucoup de débutants pensent que c'est figé et ferment tout. En réalité, le conteneur **fonctionne**. Deux réflexes : soit lancer en arrière-plan avec `-d`, soit ouvrir un **second terminal** pour observer. (Et `Ctrl+C` arrête le conteneur au premier plan.)
+
+## Exercices
+
+**Guidé :** Lance `docker run -d --name web -p 8080:80 nginx`, puis ouvre `http://localhost:8080`. Tu dois voir la page d'accueil de nginx. Tu viens de publier un service conteneurisé et d'y accéder depuis l'hôte. Laisse-le tourner, on s'en sert au chapitre suivant.
+
+**Autonome :** Lance un conteneur **interactif** Ubuntu (`docker run -it --name labo ubuntu bash`). Une fois dedans, crée un fichier (`touch /tmp/test`), liste-le, puis `exit`. Relance ensuite `docker run -it ubuntu bash` (nouveau conteneur) et vérifie que `/tmp/test` **n'existe pas**. Explique en une phrase ce que ça démontre sur la **jetabilité** et l'**isolation**.
+
+**Défi :** Trouve la différence concrète entre ces deux commandes en les lançant : `docker run --rm alpine echo coucou` et `docker run alpine echo coucou`. Puis fais `docker ps -a`. Combien de conteneurs `alpine` arrêtés vois-tu, et **pourquoi** ? Tu viens d'observer l'effet de `--rm` — un réflexe d'hygiène essentiel.
+
+## ✅ Tu sais maintenant…
+
+- Que `docker run` **crée puis démarre** un conteneur à partir d'une image.
+- L'anatomie `docker run [options] IMAGE [commande]`.
+- Les options clés : `-d`, `-it`, `--name`, `--rm`, `-p`.
+- La différence entre lancer en **arrière-plan** (service) et en **interactif** (exploration).
+- Que quitter le processus principal **arrête le conteneur** (clé du Ch. 6).
+- Que chaque option de `run` est une **décision de surface d'attaque**.
+
+---
+
+# Chapitre 6 — Le cycle de vie d'un conteneur
+
+## Le minimum à savoir
+
+### Un conteneur a des états, comme un processus
+
+Un conteneur n'est pas « allumé ou éteint ». Il traverse une **suite d'états** qu'il faut savoir lire, car c'est la base de tout diagnostic :
+
+```
+   docker run
+       │
+       ▼
+   [Created] ──start──▶ [Running] ──stop──▶ [Exited/Stopped]
+                            │                      │
+                         (le process               └──start──▶ [Running]
+                          principal                │
+                          se termine)              └──rm──▶ [Supprimé] (n'existe plus)
+                            │
+                            ▼
+                        [Exited]
+```
+
+- **Created** : le conteneur existe mais n'a pas démarré (rare en pratique, créé sans lancer).
+- **Running** : il tourne, son processus principal est actif.
+- **Exited / Stopped** : il s'est arrêté — soit parce qu'on l'a stoppé, soit parce que **son processus principal s'est terminé**.
+- **Supprimé** : retiré de la machine (`rm`). Il n'apparaît plus nulle part.
+
+### LE point qui déroute tous les débutants
+
+> **Un conteneur vit tant que son processus principal vit.** Quand ce processus se termine, le conteneur passe en **Exited**. Ce n'est **pas** une panne : c'est le comportement normal.
+
+C'est pour ça que `docker run hello-world` « disparaît » : son unique tâche (afficher un message) finit, donc le conteneur finit. Et c'est pour ça qu'un `docker run -it ubuntu bash` s'arrête quand tu fais `exit` : tu as terminé le processus `bash`.
+
+### Voir les conteneurs : `ps` et `ps -a`
+
+```bash
+docker ps        # conteneurs EN COURS (Running) uniquement
+docker ps -a     # TOUS les conteneurs, y compris les Exited
+```
+
+> **Piège classique :** `docker ps` ne montre **pas** les conteneurs arrêtés. Si « ton conteneur a disparu », il est probablement juste **Exited** — `docker ps -a` le retrouve.
+
+## Très utile en pratique
+
+```bash
+docker ps -a                    # voir l'état de tous les conteneurs
+
+docker stop web                 # arrêt propre (laisse le temps au process de finir)
+docker start web                # redémarre un conteneur arrêté (il garde son nom et sa config)
+docker restart web              # stop + start enchaînés
+
+docker rm web                   # supprime un conteneur ARRÊTÉ
+docker rm -f web                # ☠️ force la suppression même s'il TOURNE (pas de confirmation)
+```
+
+Lire la sortie de `docker ps -a` :
+
+```text
+CONTAINER ID   IMAGE     COMMAND                  STATUS                     NAMES
+a1b2c3d4e5f6   nginx     "/docker-entrypoint.…"   Up 3 minutes               web
+f6e5d4c3b2a1   ubuntu    "bash"                   Exited (0) 2 minutes ago   labo
+```
+
+La colonne **STATUS** est ta boussole : `Up …` = Running, `Exited (0) …` = arrêté proprement (code 0 = succès), `Exited (1) …` ou un autre code = arrêté sur **erreur** (un indice de diagnostic, qu'on exploitera au Ch. 7).
+
+## Application admin / cyber
+
+- **Côté admin :** la distinction `stop` (arrêt propre) / `rm` (suppression) / `rm -f` (suppression forcée) est exactement parallèle à ce que tu connais avec les services et processus Linux. `stop` envoie un signal d'arrêt poli ; au-delà d'un délai, le conteneur est arrêté plus fermement.
+- **Côté SOC / cyber :** savoir lister **tous** les conteneurs (`-a`), y compris arrêtés, est un **réflexe d'investigation**. Un conteneur **Exited** peut être la trace d'une activité passée (un outil lancé puis arrêté). Le **code de sortie** (`Exited (N)`) et l'**ancienneté** racontent une histoire.
+
+🔍 **Réflexe diagnostic :** un conteneur « qui ne marche pas » est presque toujours dans un de ces deux cas : soit il est **Exited** (et le code de sortie + les logs disent pourquoi — Ch. 7), soit il **redémarre en boucle** (mauvaise config). `docker ps -a` est **toujours** ta première commande.
+
+## ❌ Erreur classique
+
+> **Croire qu'un conteneur Exited est « cassé », alors qu'il a simplement fini son travail.**
+
+Le cas le plus fréquent : on lance une image qui exécute une tâche courte (un script, une commande) et on s'étonne qu'« elle ne reste pas allumée ». Mais un conteneur **n'a pas vocation à rester en vie sans raison** : si son processus principal se termine avec succès (`Exited (0)`), tout va bien. Le réflexe correct : lire le **STATUS** et le **code de sortie** avant de parler de panne. Un `Exited (0)` n'est pas un problème ; un `Exited (1)` mérite un coup d'œil aux logs.
+
+## Exercices
+
+**Guidé :** Reprends ton conteneur `web` (nginx) du Ch. 5. Lance `docker ps` (il apparaît), puis `docker stop web` et `docker ps` (il a disparu de la liste). Maintenant `docker ps -a` : il est là, en **Exited**. Fais `docker start web`, vérifie qu'il est de nouveau **Up**. Tu viens de parcourir le cycle Running → Stopped → Running.
+
+**Autonome :** Lance `docker run --name court alpine echo "fini"`. Observe qu'il s'arrête immédiatement. Avec `docker ps -a`, lis son **STATUS** : quel code de sortie ? Que signifie-t-il ? Puis nettoie avec `docker rm court`. Écris en une phrase pourquoi ce conteneur « ne reste pas allumé ».
+
+**Défi :** Crée volontairement un conteneur qui s'arrête sur **erreur** : `docker run --name casse alpine sh -c "exit 3"`. Lis son STATUS avec `docker ps -a` : tu dois voir `Exited (3)`. Explique en quoi ce **code de sortie non nul** est un **indice de diagnostic** précieux, et fais le lien avec ce qu'on va apprendre au chapitre suivant (logs, inspect). Nettoie ensuite avec `docker rm casse`.
+
+## ✅ Tu sais maintenant…
+
+- Les états d'un conteneur : **Created → Running → Exited → (Supprimé)**.
+- Que **le conteneur vit tant que son processus principal vit** (et qu'un arrêt n'est pas forcément une panne).
+- La différence cruciale entre `docker ps` (Running) et `docker ps -a` (**tous**).
+- Les commandes du cycle de vie : `stop`, `start`, `restart`, `rm`, `rm -f`.
+- Lire la colonne **STATUS** et le **code de sortie** comme premiers indices de diagnostic.
+- Que lister **tous** les conteneurs est un réflexe d'investigation côté SOC.
+
+---
+
+## 🚩 Checkpoint — Fin de la Partie II
+
+Tu as maintenant **les mains dans Docker**. Avant de passer au diagnostic approfondi, tu dois pouvoir :
+
+- [ ] Expliquer l'architecture **CLI → daemon → conteneurs** et le rôle du **socket**.
+- [ ] Dire pourquoi **le daemon = root** et **le groupe `docker` ≈ root**.
+- [ ] Vérifier une installation (`docker version`, `docker info`, `hello-world`) et diagnostiquer « cannot connect to the daemon ».
+- [ ] Lancer un conteneur en **arrière-plan** (`-d`) et en **interactif** (`-it`), le **nommer**, **publier un port**, utiliser `--rm`.
+- [ ] Lire les états d'un conteneur et la colonne **STATUS** (`docker ps` vs `docker ps -a`).
+- [ ] Utiliser `stop`, `start`, `restart`, `rm`, et savoir que `rm -f` ne demande **aucune confirmation**.
+- [ ] Comprendre qu'un conteneur **Exited (0)** n'est pas une panne.
+
+> **🧩 Mini-projet — « Lancer, observer, nettoyer ».**
+> 1. Lance **trois** conteneurs : un nginx nommé `web` en arrière-plan avec port publié, un `alpine` interactif que tu explores puis quittes, et un conteneur jetable avec `--rm`.
+> 2. Avec `docker ps -a`, dresse l'inventaire : lesquels sont **Up**, lesquels **Exited**, lequel a **disparu** (et pourquoi).
+> 3. Arrête proprement `web`, puis **nettoie** tout ce qui traîne (`stop` puis `rm`), en faisant **systématiquement un `docker ps -a` avant chaque `rm`** pour vérifier ce que tu supprimes.
+> Objectif : intégrer le cycle complet **lancer → observer → arrêter → nettoyer**, avec le bon réflexe « regarder avant de supprimer ».
+
+> **La suite :** en Partie III, on installe les **réflexes de diagnostic** — `logs`, `exec`, `inspect`, `stats`, `cp`, `events` — pour ne plus jamais être bloqué devant un conteneur qui « ne marche pas ». C'est ce qui te rend vraiment **autonome**.
 
 ---
