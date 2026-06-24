@@ -65,21 +65,21 @@ Racine = `C:\` (partition de démarrage, où l'OS est installé). Au-delà de la
 
 ### Comment ça fonctionne
 
-| Dossier | Rôle et intérêt cyber |
-| --- | --- |
-| `Windows\System32` | Binaires et DLL système. **64 bits** sur un OS 64 bits. Cible privilégiée pour repérer ou détourner des binaires légitimes. |
-| `Windows\SysWOW64` | Hôte des binaires **32 bits** sur OS 64 bits (redirection WoW64). Nom contre-intuitif. |
-| `ProgramData` *(caché)* | Données partagées entre applis, indépendantes de l'utilisateur connecté (licences, caches, settings globaux). |
+| Dossier                          | Rôle et intérêt cyber                                                                                                                                                                                     |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Windows\System32`               | Binaires et DLL système. **64 bits** sur un OS 64 bits. Cible privilégiée pour repérer ou détourner des binaires légitimes.                                                                               |
+| `Windows\SysWOW64`               | Hôte des binaires **32 bits** sur OS 64 bits (redirection WoW64). Nom contre-intuitif.                                                                                                                    |
+| `ProgramData` *(caché)*          | Données partagées entre applis, indépendantes de l'utilisateur connecté (licences, caches, settings globaux).                                                                                             |
 | `Users\<user>\AppData` *(caché)* | Données par utilisateur : `Roaming` (suit le profil sur le réseau), `Local` (lié à la machine), `LocalLow` (intégrité faible, ex. navigateur en mode protégé). Souvent riche en identifiants applicatifs. |
-| `Windows\System32\config` | Fichiers du **registre** machine (SAM, SYSTEM, SECURITY...). Cible directe pour extraire les secrets locaux. |
+| `Windows\System32\config`        | Fichiers du **registre** machine (SAM, SYSTEM, SECURITY...). Cible directe pour extraire les secrets locaux.                                                                                              |
 
 **Dossiers inscriptibles intéressants** (dépôt de fichiers en tant qu'utilisateur peu privilégié) :
 
-| Variable | Chemin | Intérêt |
-| --- | --- | --- |
-| `%TEMP%` | `C:\Users\<user>\AppData\Local\Temp` | Écriture par l'utilisateur courant |
-| `%PUBLIC%` | `C:\Users\Public` | Accessible à tous, souvent peu surveillé |
-| `%SYSTEMROOT%\Temp` | `C:\Windows\Temp` | Lecture/écriture pour tous |
+| Variable            | Chemin                               | Intérêt                                  |
+| ------------------- | ------------------------------------ | ---------------------------------------- |
+| `%TEMP%`            | `C:\Users\<user>\AppData\Local\Temp` | Écriture par l'utilisateur courant       |
+| `%PUBLIC%`          | `C:\Users\Public`                    | Accessible à tous, souvent peu surveillé |
+| `%SYSTEMROOT%\Temp` | `C:\Windows\Temp`                    | Lecture/écriture pour tous               |
 
 ### Pourquoi c'est important en cyber
 Connaître l'arborescence permet de savoir **où chercher** (identifiants, config, registre) et **où écrire** quand on dispose de droits limités. C'est central en énumération comme en forensic.
