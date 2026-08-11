@@ -49,7 +49,7 @@ MITRE ATT&CK distingue principalement 3 matrices :
 
 `Enterprise Matrix`: https://attack.mitre.org/matrices/enterprise/
 
-![[CyberSec-notes/assets/image.png]]
+![image.png](../../assets/image.png)
 
 - Matrice principale et la plus riche.
 - Conçue pour représenter les comportements adverses rencontrés dans les environnements d’entreprise.
@@ -62,7 +62,7 @@ MITRE ATT&CK distingue principalement 3 matrices :
 	- containers
 	- PRE (activités précédant ou préparant certaines phases d’attaque)
 
-![[CyberSec-notes/assets/image 1.png]]
+![image 1.png](../../assets/image%201.png)
 
 Exemples de scénarios :
 
@@ -81,14 +81,14 @@ Exfiltration
 
 `Mobile Matrix`: https://attack.mitre.org/matrices/mobile/
 
-![[CyberSec-notes/assets/image 2.png]]
+![image 2.png](../../assets/image%202.png)
 
 - Orientée sécurité des smartphones/tablettes.
 - Plateformes principales, 2 sous-matrices :
 	- `Android`
 	- `iOS`
 
-![[CyberSec-notes/assets/image 3.png]]
+![image 3.png](../../assets/image%203.png)
 
 Contient des techniques propres aux mobiles :
 
@@ -106,7 +106,7 @@ Moins volumineuse que la matrice Enterprise.
 
 `ICS Matrix`: https://attack.mitre.org/matrices/ics/
 
-![[CyberSec-notes/assets/image 4.png]]
+![image 4.png](../../assets/image%204.png)
 
 **ICS = Industrial Control Systems**
 
@@ -175,7 +175,7 @@ LSASS Memory
 
 ### Tactic = objectif de l’attaquant
 
-![[CyberSec-notes/assets/image 5.png]]
+![image 5.png](../../assets/image%205.png)
 
 - Une **Tactic** représente le **but / pourquoi** derrière une action adverse.
 - Dans la Matrix, les tactics sont les **colonnes tout en haut**.
@@ -206,7 +206,7 @@ LSASS Memory                → sub-technique précise
 
 `Enterprise Tactics`: https://attack.mitre.org/tactics/enterprise/
 
-![[CyberSec-notes/assets/image 6.png]]
+![image 6.png](../../assets/image%206.png)
 
 La matrice Enterprise possède **14 tactics** :
 
@@ -233,7 +233,7 @@ La matrice Enterprise possède **14 tactics** :
 
 `Mobile Tactics`: https://attack.mitre.org/tactics/mobile/
 
-![[CyberSec-notes/assets/image 7.png]]
+![image 7.png](../../assets/image%207.png)
 
 Mobile reprend une grande partie des tactics Enterprise :
 
@@ -263,7 +263,7 @@ Avec également des tactics spécifiques aux appareils mobiles :
 
 `ICS Tactics`: https://attack.mitre.org/tactics/ics/
 
-![[CyberSec-notes/assets/image 8.png]]
+![image 8.png](../../assets/image%208.png)
 
 ICS reprend aussi plusieurs tactics classiques, mais ajoute des objectifs spécifiques aux systèmes industriels :
 
@@ -338,7 +338,7 @@ Mais **ATT&CK n’est pas une kill chain stricte** : cet ordre sert seulement à
 
 ### Technique / Sub-Technique
 
-![[CyberSec-notes/assets/image 9.png]]
+![image 9.png](../../assets/image%209.png)
 
 Les **Tactics** donnent l’objectif de l’attaquant, tandis que les **Techniques** décrivent **comment il atteint cet objectif**.
 
@@ -401,7 +401,7 @@ Alert: accès suspect à LSASS
 
 ### Structure dans la Matrix
 
-![[CyberSec-notes/assets/image 10.png]]
+![image 10.png](../../assets/image%2010.png)
 
 Dans la matrice :
 
@@ -447,7 +447,7 @@ Le nombre de techniques/sub-techniques **évolue régulièrement** avec les mise
 
 ### Procedure
 
-![[CyberSec-notes/assets/image 11.png]]
+![image 11.png](../../assets/image%2011.png)
 
 Une **Procedure** est un exemple concret d’utilisation d’une technique ou sub-technique observé dans le monde réel.
 
@@ -565,7 +565,7 @@ Technique = ce que fait l’attaquant
 Mitigation = ce que le défenseur peut faire pour réduire ce risque
 ```
 
-![[CyberSec-notes/assets/image 12.png]]
+![image 12.png](../../assets/image%2012.png)
 
 Exemple :
 
@@ -589,11 +589,11 @@ Comme les autres composants ATT&CK, elles sont regroupées selon les matrices :
 |`Mobile Mitigations`: https://attack.mitre.org/mitigations/mobile/|Android / iOS|
 |`ICS Mitigations`: https://attack.mitre.org/mitigations/ics/|Systèmes industriels|
 
-![[CyberSec-notes/assets/image 13.png]]
+![image 13.png](../../assets/image%2013.png)
 
-![[CyberSec-notes/assets/image 14.png]]
+![image 14.png](../../assets/image%2014.png)
 
-![[CyberSec-notes/assets/image 15.png]]
+![image 15.png](../../assets/image%2015.png)
 
 Le nombre de mitigations évolue avec les mises à jour MITRE.
 
@@ -750,7 +750,7 @@ MITRE ATT&CK ne sert donc pas uniquement à décrire les attaques : il permet au
 
 `Groups`: https://attack.mitre.org/groups/
 
-![[CyberSec-notes/assets/image 16.png]]
+![image 16.png](../../assets/image%2016.png)
 
 - Dans MITRE ATT&CK, un **Group** représente un ensemble d’activités d’intrusion associées à un même acteur / groupe suivi par la communauté CTI.
 - Souvent lié à des **APT (Advanced Persistent Threats)**, mais tous les groupes ATT&CK ne sont pas forcément des acteurs étatiques.
@@ -786,9 +786,9 @@ Chaque groupe possède notamment :
 
 Exemple conceptuel :
 
-![[CyberSec-notes/assets/image 17.png]]
+![image 17.png](../../assets/image%2017.png)
 
-![[CyberSec-notes/assets/image 18.png]]
+![image 18.png](../../assets/image%2018.png)
 
 ```
 Lazarus Group
@@ -938,7 +938,7 @@ Tactic
 
 `Software`: https://attack.mitre.org/software/
 
-![[CyberSec-notes/assets/image 19.png]]
+![image 19.png](../../assets/image%2019.png)
 
 ### Software = outil utilisé pendant l’attaque
 
@@ -981,7 +981,7 @@ Chaque entrée Software contient généralement :
 
 Exemple :
 
-![[CyberSec-notes/assets/image 20.png]]
+![image 20.png](../../assets/image%2020.png)
 
 ```
 Sxxxx - Malware / Tool
