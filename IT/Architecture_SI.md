@@ -313,7 +313,7 @@ Voici le système d'information du groupe HELIOMED, en décembre 2025. C'est le 
    ╔═══════════════════════════════╪═══════════════════════════════╗
    ║  ZONE DÉMILITARISÉE           │                               ║
    ║                    ┌──────────┴──────────┐                    ║
-   ║              [ mandataire inverse ]  [ relais messagerie ]     ║
+   ║              [ mandataire inverse ]  [ relais messagerie ]    ║
    ║                          │                                    ║
    ║              [ répartiteur de charge ]                        ║
    ╚══════════════════════════╪════════════════════════════════════╝
