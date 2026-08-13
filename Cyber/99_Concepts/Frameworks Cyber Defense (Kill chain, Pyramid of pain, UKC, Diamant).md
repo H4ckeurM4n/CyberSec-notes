@@ -2,8 +2,7 @@
 
 Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 
-![image 21.png](../../assets/image%2021.png)
-
+![pyramid_of_pain.png](CyberSec-notes/assets/pyramid_of_pain.png)
 #### Hash values (empreintes de fichiers) — trivial
 
 - Valeur numérique fixe qui identifie de façon condensée un fichier ou une donnée, produite par un algo de hachage, plus petit changement dans le fichier, le hash changera du tout au tout.
