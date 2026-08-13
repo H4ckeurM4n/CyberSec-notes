@@ -1124,3 +1124,65 @@ Quels groupes l’ont utilisé ?
 ```
 
 Le nombre de logiciels référencés évolue régulièrement → inutile de mémoriser le chiffre donné dans le cours.
+
+
+#### Navigator
+
+Permet de visualiser et d’annoter les matrices, utiles pour individualiser en fonction de soihttps://mitre-attack.github.io/attack-navigator//#layerURL=https%3A%2F%2Fattack.mitre.org%2Fgroups%2FG0008%2FG0008-enterprise-layer.json
+
+![image 15 1.png](../../assets/image%2015%201.png)
+
+![image 16 1.png](../../assets/image%2016%201.png)
+
+  
+
+#### CAR (Cyber Analytics Repository) : Explique comment les détecter
+
+Un référentiel d’**analyses de détection** basé sur le modèle ATT&CK. CAR complète ATT&CK qui décrit les attaques, CAR explique comment les détecter. https://car.mitre.org/
+
+- Fournit des éléments divers :
+	- Pseudocodes décrivant requêtes de détection (Splunk, EQL…)
+	- Références vers TTPs
+	- Implémentations selon OS et outils.
+
+![image 17 1.png](../../assets/image%2017%201.png)
+
+![image 18 1.png](../../assets/image%2018%201.png)
+
+![image 19 1.png](../../assets/image%2019%201.png)
+
+  
+
+#### ENGAGE : Planifier et mener opérations d’engagement adversaire
+
+- Cyber Denial : Empêcher l’adversaire d’agir
+- Cyber Deception : Le tromper volontairement
+- Catégories principales (Engage Matrix) :
+
+|Catégorie|Description|
+|---|---|
+|**Prepare**|Actions préliminaires menant à l’objectif|
+|**Expose**|Identifier l’adversaire via la tromperie|
+|**Affect**|Actions qui perturbent ses opérations|
+|**Elicit**|Recueillir des infos sur son mode opératoire|
+|**Understand**|Analyser les résultats obtenus|
+
+![image 20 1.png](../../assets/image%2020%201.png)
+
+- **Engage Matrix Explorer** → permet d’explorer ces interactions.
+
+#### D3FEND : Base de connaissance des contre-mesures cyber
+
+- Chaque artefact contient
+
+|   |   |
+|---|---|
+|**Catégorie**|**Description**|
+|Definition|Information sur ce qu’est la technique|
+|How it works|Comment cette technique fonctionne|
+|Consideration|Chose à penser lors de l’implémentation|
+|Example|Comment utiliser la technique|
+
+#### ATT&CK Emulation Plans : Simuler attaques réelles
+
+#### ATT&CK & Threat Intelligence : Faire lien TTP et posture défensive

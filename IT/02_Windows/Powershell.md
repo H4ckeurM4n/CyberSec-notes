@@ -1,4 +1,3 @@
-# Cours Complet de PowerShell
 
 ## De zéro à l'automatisation et l'administration Windows — Guide pour débutant absolu
 
