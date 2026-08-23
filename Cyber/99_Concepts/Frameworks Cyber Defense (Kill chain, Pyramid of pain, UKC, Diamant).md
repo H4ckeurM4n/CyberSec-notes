@@ -95,13 +95,73 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 
 ![image 7 1.png](../../assets/image%207%201.png)
 
-Reconnaissance : But de l’attaquant : collecter des infos publiques ou directement interagir pour construire un profil ciblé (employés, technos exposées, emails, sous-domaines…).
-
-- Phase de recherche et de planning pour l’attaque. Récup des info sur la cible pour se préparer aux étapes suivante. Peut inclure des info sur l’infra, les employées, les process business, techno exposées.
+1. Reconnaissance : But de l’attaquant : collecter des infos publiques ou directement interagir pour construire un profil ciblé (employés, technos exposées, emails, sous-domaines…).
+- Objectif concret : augmenter la connaissance de la cible pour identifier :
+	- Phase de recherche et de planning pour l’attaque. Récup des info sur la cible pour se préparer aux étapes suivante. Peut inclure des info sur l’infra, les employées, les process business, techno exposées.
+	- Attack Surface : ensemble des éléments potentiellement attaquables (hosts, services, users, applications...)
+	- Attack Vector : chemin/méthode précise permettant d'exploiter cette surface (phishing, vuln web, service exposé...)
 - OSINT : Collecter depuis : Moteur de recherche, magazine et média en ligne, réseaux sociaux, forum et blog, base de donnée publiques, WHOIS et donnée technique.
-- Reco passive : Pas d’interaction directe : WHOIS lookups, social media scrapping, data breach. Reco active : Contact direct avec la cible, social engineering, port scanning, banner grabbing, ou recherches de services ouverts.
+- Reco passive : Pas d’interaction directe : WHOIS lookups, social media scrapping, data breach. 
+	- Web archives (Wayback Machine) : retrouver anciennes pages, endpoints, fichiers ou technos qui ne sont plus visibles sur le site actuel.
+	- Identifier : 
+		- Plages IP appartenant à l'orga ;
+		- Fournisseurs / partenaires ;
+		- Anciennes fuites de données ;
+		- Techno et versions publiquement visibles ;
+		- Adresses emails / structure des usernames.
+- Reco active : Génère directement du trafic vers l'infrastructure cible -> Plus facilement détectable / loggables
+	- Ex :
+		- Social engineering ;
+		- Port scanning ;
+		- Banner grabbing ;
+		- Service / version détection ;
+		- Vulnerability scanning ;
+		- Requêtes directes vers serveur Web
+	- Identifier : IP -> Port -> Service -> Version -> Vuln potentielle
+- Point de vue Blue Team / SOC : Reco est difficile à empêcher, surtout lorsqu'elle utilise des sources publiques. Objectif est donc de réduire l'information exposée et détecter la reconnaissance active.
+	- Réaliser réguliérement :
+		- External pentest / Attack Surface Assessment ;
+		- Recherches OSINT de sa propre organisation ;
+		- Surveillance des leaks via Threat Intell.
+	- Réduire : 
+		- Documents internes accessibles publiquement ;
+		- Metadata inutiles ;
+		- Versions de logiciels exposées ;
+		- Services internet non nécessaires.
+	- Détecter : 
+		- Scans de ports ;
+		- Nombreuses requêtes sur différents endpoints ;
+		- Enumération répétée ;
+		- Reconnaissance de services.
+	- Maintenir les services exposés à jour pour éviter qu'une vulnérabilité découverte pendant la reco soit directement exploitable.
 
-Armement (Weaponization) : But : transformer l’info en charge actionable (maldoc, exploit pack, payload).Livraison (Delivery) : phishing (spear), watering-hole, USB drops, OAuth consent frauds, liens raccourcis.
+Armement (Weaponization) : But : Préparation de l'arsenal, transformer l’info en charge actionable (maldoc, exploit pack, payload), mais pas encore d'interaction avec la cible.
+- A partir des infos de Reconnaissance, il choisit/assemble : 
+	- Exploit adapté à une vulnérabilité identifiée ;
+	- Payload / malware ;
+	- Document malveillant ;
+	- Infrastructure nécessaire ;
+	- Techniques d'évasion adaptées aux défenses supposées.
+- Exploit vs Payload : 
+	- Exploit : code/méthode permettant d'exploiter une vuln.
+	- Payload : code exécuté après l'exploitation pour obtenir l'effet désiré.
+|Outil / ressource|Usage|
+|---|---|
+|**Metasploit**|Framework contenant exploits, modules post-exploitation, payloads…|
+|**MSFVenom**|Génération/formatage de payloads|
+|**Exploit-DB**|Recherche d’exploits publics pour vulnérabilités connues|
+|**Fuzzer (ex: AFL++)**|Découverte de bugs/crashs pouvant mener à de nouvelles vulnérabilités|
+- Evasion / Obfuscation : 
+	- Une partie importnate de Weaponization peut consister à rendre le payload plus difficile à détecter / analyser
+- Point de vue Defender / SOC : L'armement se déroule généralement hors de l'infra de la victime, donc impossible à observer directement dans la majorité des cas.
+	- Le défenseur agit surtout en anticipation :
+		- patch management ;
+		- réduction de la surface d'attaque ;
+		- analyse des nouvelles vulns ;
+		- Threat Intell sur les outils/malwares utilisés par les adversaires ;
+		- tester si EDR/AV détectent les techniques attendues ;
+
+Livraison (Delivery) : phishing (spear), watering-hole, USB drops, OAuth consent frauds, liens raccourcis.
 
 
 Exploitation : But : exécuter le code, tirer parti d’une vulnérabilité (CVE connue ou 0-day), exécuter macro, drive-by.
