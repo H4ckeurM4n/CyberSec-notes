@@ -8,150 +8,656 @@
 
 # Table des matières
 
+## PARTIE I — LIRE UNE FRONTIÈRE TECHNOLOGIQUE
 
-**PARTIE I**
+### Chapitre 1 — Pourquoi étudier les frontières technologiques
 
-- *Partie I — Lire une frontière technologique*
-- Chapitre 1 — Pourquoi étudier les frontières technologiques
-- Chapitre 2 — Les niveaux : ne pas comparer ce qui n'est pas comparable
-- Chapitre 3 — Lire une technologie sans devenir spécialiste
-- Chapitre 4 — Maturité, preuve et vocabulaire
-- *Fin de la Partie I — Bilan*
+1.1 Une technologie possible n'est pas une technologie disponible  
+1.2 Invention, innovation, industrialisation, diffusion  
+1.3 Pourquoi les technologies émergentes sont difficiles à évaluer  
+1.4 Progrès scientifique et capacité utilisable  
+1.5 Le futur comme ensemble de trajectoires conditionnelles  
+1.6 Ce que ce volume cherche à produire  
+1.7 Ce qu'il ne cherche pas à produire  
+1.8 Comment utiliser ce livre comme encyclopédie
 
-**PARTIE II — LE GRAND ATLAS**
+### Chapitre 2 — Les niveaux : ne pas comparer ce qui n'est pas comparable
 
-*Les neuf cartes de couche et le plan spatial*
+2.1 Le problème  
+2.2 Les niveaux
 
-- *COUCHE A — PERCEVOIR*
-- *COUCHE B — CALCULER*
-- *COUCHE C — APPRENDRE ET DÉCIDER*
-- *COUCHE D — AGIR*
-- *COUCHE E — FABRIQUER*
-- *COUCHE F — ALIMENTER*
-- *COUCHE G — RELIER*
-- *PLAN G-bis — L'INFRASTRUCTURE SPATIALE*
-- *COUCHE H — VÉRIFIER*
-- *COUCHE I — INTERAGIR*
-- *Comment les couches se combinent*
+- Quatre natures d'entrée, hors échelle  
+    2.3 Trois niveaux qui méritent une explication  
+    2.4 Le cas des cadrages transversaux
+- Le test du cadrage  
+    2.5 Les quatre pièges  
+    2.6 L'exercice qui résume tout
 
-*Couche A — Percevoir*
+### Chapitre 3 — Lire une technologie sans devenir spécialiste
 
-- Chapitre 5 — Voir : optronique et bandes spectrales
-- Chapitre 6 — Mesurer la distance, la forme et le mouvement
-- Chapitre 7 — Percevoir autrement
-- *Clôture de la couche A — Percevoir*
+3.1 Les quatre questions  
+3.2 Question ① — Qu'est-ce que c'est réellement ?  
+3.3 Question ② — Qu'est-ce que cela permet de faire ?  
+3.4 Question ③ — Qu'est-ce qui l'empêche encore ?  
+3.5 Question ④ — Qu'est-ce qui changerait si le verrou sautait ?  
+3.6 Les sous-questions de vérification  
+3.7 Ce que la grille ne fait pas
 
-*Couche B — Calculer*
+### Chapitre 4 — Maturité, preuve et vocabulaire
 
-- Chapitre 8 — Le calcul spécialisé
-- Chapitre 9 — Calculer autrement
-- Chapitre 10 — Le quantique
-- *Clôture de la couche B — Calculer*
+4.1 Huit distinctions qui coûtent cher  
+4.2 L'échelle des preuves  
+4.3 L'échelle des annonces  
+4.4 Lire une courbe de progression  
+4.5 Lire une annonce technologique  
+4.6 Ni crédule, ni sceptique par principe
 
-*Couche C — Apprendre et décider*
+**Fin de la Partie I — Bilan**
 
-- Chapitre 11 — Les modèles au-delà du chatbot
-- Chapitre 12 — Agents et autonomie logicielle
-- Chapitre 13 — Apprendre le monde physique
-- *Clôture de la couche C — Apprendre et décider*
+---
 
-*Couche D — Agir*
+# PARTIE II — LE GRAND ATLAS
 
-- Chapitre 14 — Robotique générale
-- Chapitre 15 — Humanoïdes et robots généralistes
-- Chapitre 16 — Systèmes sans équipage
-- Chapitre 17 — Mobilité autonome
-- *Clôture de la couche D — Agir*
+## COUCHE A — PERCEVOIR
 
-*Couche E — Fabriquer*
+### Chapitre 5 — Voir : optronique et bandes spectrales
 
-- Chapitre 18 — Fabrication avancée
-- Chapitre 19 — Matériaux émergents
-- Chapitre 20 — La biologie comme technologie
-- *Clôture de la couche E — Fabriquer*
+- ◆◆◆ Optronique — _electro-optics, EO/IR_
+- ◆◆◆ Les bandes infrarouges — _NIR, SWIR, MWIR, LWIR_
+- ◆◆ Détecteurs refroidis et non refroidis
+- ◆◆ Imagerie hyperspectrale
+- ◆◆ Imagerie computationnelle
+- ◆ Intensification d'image
 
-*Couche F — Alimenter*
+### Chapitre 6 — Mesurer la distance, la forme et le mouvement
 
-- Chapitre 21 — Stockage électrochimique
-- Chapitre 22 — Production énergétique émergente
-- Chapitre 23 — Réseaux et gestion de l'énergie
-- *Clôture de la couche F — Alimenter*
+- ◆◆◆ Lidar
+- ◆◆ Radar imageur
+- ◆◆◆ SAR — ouverture synthétisée
+- ◆◆ Capteurs inertiels
+- ◆◆ GNSS et positionnement par satellite
+- ◆◆◆ Navigation sans référence satellitaire
+- ◆◆ Caméras événementielles
+- ◆ Acoustique sous-marine
 
-*Couches G et G-bis — Relier · Infrastructure spatiale*
+### Chapitre 7 — Percevoir autrement
 
-- Chapitre 24 — Communications
-- Chapitre 25 — Edge et calcul distribué
-- Chapitre 26 — Accéder à l'orbite et l'occuper
-- Chapitre 27 — Exploiter et préserver l'orbite
-- *Clôture des couches G et G-bis*
+- ◆◆◆ Capteurs quantiques
+- ◆◆ Biocapteurs
+- ◆ Capteurs chimiques
+- ◆ MEMS avancés
+- ◆◆ Peau électronique et perception tactile
+- ◆◆ La fibre optique comme capteur
+- ◆ Détection radiologique
+- ◆◆ Perception distribuée
 
-*Couche H — Vérifier*
+**Clôture de la couche A — Percevoir**
 
-- Chapitre 28 — Le matériel comme racine de confiance
-- Chapitre 29 — Cryptographie et confiance émergentes
-- Chapitre 30 — Sûreté des systèmes autonomes
-- *Clôture de la couche H — Vérifier*
+---
 
-*Couche I — Interagir*
+## COUCHE B — CALCULER
 
-- Chapitre 31 — Interfaces humain-machine
-- *Clôture de la couche I — Interagir*
-- *CLÔTURE DE L'ATLAS*
+### Chapitre 8 — Le calcul spécialisé
 
-**PARTIE III — LA TAXONOMIE DES GRANDS COURANTS**
+- ◆◆◆ Accélérateurs de calcul spécialisés
+- ◆◆◆ Chiplets et assemblage avancé
+- ◆◆ Mémoires à forte bande passante
+- ◆◆◆ Calcul en mémoire
+- ◆◆ Calcul à faible précision
+- ◆ FPGA
 
-- Chapitre 32 — Intelligence artificielle : les grands récits
-- Chapitre 33 — Monde physique et autonomie
-- *Ce que ces vingt-quatre termes enseignent*
-- Chapitre 34 — Industrie, infrastructure et monde programmable
-- Chapitre 35 — Deep Tech et grands regroupements industriels
-- *Clôture de la Partie III — L'exercice des cinq termes*
-- *Ce que la taxonomie complète enseigne*
+### Chapitre 9 — Calculer autrement
 
-**PARTIE IV — LES GRANDES CONVERGENCES**
+- ◆◆◆ Photonique intégrée
+- ◆◆ Calcul photonique
+- ◆◆◆ Neuromorphique
+- ◆◆ Calcul analogique
+- ◆ Calcul supraconducteur
+- ◆ Architectures non von Neumann
 
-- Chapitre 36 — La robotique généraliste
-- Chapitre 37 — La découverte scientifique accélérée
-- *Bilan intermédiaire des deux premiers dossiers*
-- Chapitre 38 — L'intelligence distribuée
-- Chapitre 39 — L'autonomie mobile
-- Chapitre 40 — Énergie et calcul
-- *Bilan des cinq premiers dossiers*
-- Chapitre 41 — La biologie programmable
-- *CLÔTURE DE LA PARTIE IV*
+### Chapitre 10 — Le quantique
 
-**PARTIE V — QUAND UNE FRONTIÈRE CHANGE LE SYSTÈME**
+- ◆◆◆ Calcul quantique
+- ◆◆◆ Correction d'erreur quantique
+- ◆◆ Communications quantiques
 
-- Chapitre 42 — Quand produire du plausible devient presque gratuit
-- Chapitre 43 — Quand les machines agissent dans le monde
-- Chapitre 44 — Quand observer devient permanent et bon marché
-- Chapitre 45 — Les dépendances que personne n'a décidées
-- *Clôture de la Partie V*
+**Clôture de la couche B — Calculer**
 
-**PARTIE VI — VEILLE ET PROSPECTIVE OPÉRATIONNELLE**
+---
 
-- Chapitre 46 — Tenir sa carte à jour
-- Chapitre 47 — Protocole final : une frontière absente de l'atlas
-- *Clôture de la Partie VI*
-- *Conclusion — ce que ce volume a produit*
+## COUCHE C — APPRENDRE ET DÉCIDER
 
-**ANNEXES**
+### Chapitre 11 — Les modèles au-delà du chatbot
 
-- Annexe A — Index alphabétique des technologies
-- Annexe B — Index des synonymes, variantes et termes absorbés
-- Annexe C — Index des grands courants, cadrages et buzzwords
-- Annexe D — Matrice technologies × couches
-- Annexe E — Technologies par maturité
-- Annexe F — Carte des dépendances
-- Annexe G — Carte des convergences
-- Annexe H — Échelle d'abstraction et natures d'entrée
-- Annexe I — Technologies par horizon
-- Annexe J — Glossaire de méthode
-- Annexe K — Grille d'analyse d'une technologie inconnue
-- Annexe L — Sources et observatoires
-- Annexe M — Registre des informations périssables
-- Annexe N — Carte Volume 1 ↔ Volume 2
-- Annexe O — Labs et capstones
+- ◆◆◆ Modèles de fondation
+- ◆◆◆ Modèles de raisonnement
+- ◆◆ Multimodalité
+- ◆◆ Mémoire et contexte long
+- ◆◆ Modèles compacts
+- ◆◆ Données synthétiques
+
+### Chapitre 12 — Agents et autonomie logicielle
+
+- ◆◆◆ Automatisation, agentivité, autonomie
+- ◆◆◆ Agents IA
+- ◆◆ Systèmes multi-agents
+- ◆◆ Service autonomy
+- ◆◆ Opérations autonomes
+
+### Chapitre 13 — Apprendre le monde physique
+
+- ◆◆◆ Modèles du monde
+- ◆◆◆ VLA — Vision-Language-Action
+- ◆◆ Embodied AI
+- ◆◆ Apprentissage par imitation
+- ◆◆ Apprentissage par renforcement
+- ◆◆◆ Sim-to-real
+- ◆◆ Modèles de fondation robotiques
+
+**Clôture de la couche C — Apprendre et décider**
+
+---
+
+## COUCHE D — AGIR
+
+### Chapitre 14 — Robotique générale
+
+- ◆◆ Robotique industrielle et cobots
+- ◆◆ Robots mobiles autonomes
+- ◆◆◆ Manipulation et préhension
+- ◆◆ Locomotion
+- ◆◆ Robotique souple
+- ◆ Microrobotique
+- ◆◆ Robotique médicale
+- ◆ Robotique agricole
+
+### Chapitre 15 — Humanoïdes et robots généralistes
+
+- ◆◆◆ Robot humanoïde — _monographie_
+- ◆◆◆ Actionneurs robotiques
+- ◆◆ Mains et préhenseurs
+- ◆◆ Téléopération
+
+### Chapitre 16 — Systèmes sans équipage
+
+- ◆◆◆ Drones aériens
+- ◆ Systèmes terrestres sans équipage
+- ◆◆ Systèmes maritimes et sous-marins
+- ◆◆◆ Essaims et coordination distribuée
+- ◆◆ Autonomie supervisée
+
+### Chapitre 17 — Mobilité autonome
+
+- ◆◆◆ Véhicules autonomes
+- ◆◆◆ Domaine de conception opérationnelle
+- ◆◆ Autonomie maritime, aérienne et ferroviaire civiles
+- ◆◆ Localisation et cartographie
+
+**Clôture de la couche D — Agir**
+
+---
+
+## COUCHE E — FABRIQUER
+
+### Chapitre 18 — Fabrication avancée
+
+- ◆◆◆ Fabrication additive
+- ◆◆ Usines autonomes
+- ◆◆ Métrologie avancée
+- ◆◆◆ Jumeaux numériques industriels
+- ◆ Fabrication distribuée
+
+### Chapitre 19 — Matériaux émergents
+
+- ◆◆◆ Semi-conducteurs à grand gap
+- ◆◆ Métamatériaux
+- ◆◆ Matériaux bidimensionnels
+- ◆◆ Composites avancés
+- ◆◆ Matériaux programmables et intelligents
+- ◆ Nanomatériaux
+- ◆◆ Supraconductivité
+- ◆◆◆ Matériaux critiques et substitution
+
+### Chapitre 20 — La biologie comme technologie
+
+- ◆◆◆ Édition génomique
+- ◆◆◆ Biologie synthétique
+- ◆◆◆ Conception de protéines
+- ◆◆ Thérapies géniques et cellulaires
+- ◆◆ Organoïdes et organes sur puce
+- ◆◆◆ Bioproduction
+- ◆ Bio-impression
+- ◆◆◆ Laboratoires autonomes
+- ◆◆ Découverte de médicaments assistée
+- ◆◆ Reproductibilité et réplication
+- ◆◆ Biosécurité
+
+**Clôture de la couche E — Fabriquer**
+
+---
+
+## COUCHE F — ALIMENTER
+
+### Chapitre 21 — Stockage électrochimique
+
+- ◆◆◆ Lithium-ion et ses chimies
+- ◆◆◆ Batteries solides
+- ◆◆ Sodium-ion
+- ◆◆ Batteries à flux
+- ◆ Supercondensateurs
+- ◆◆ Stockage longue durée non électrochimique
+
+### Chapitre 22 — Production énergétique émergente
+
+- ◆◆ Photovoltaïque avancé
+- ◆◆◆ Petits réacteurs modulaires
+- ◆◆ Fission avancée
+- ◆◆◆ Fusion
+- ◆◆ Géothermie avancée
+- ◆◆◆ Hydrogène
+- ◆◆ Carburants de synthèse
+
+### Chapitre 23 — Réseaux et gestion de l'énergie
+
+- ◆◆◆ Réseaux électriques pilotés
+- ◆◆ Électronique de puissance avancée
+- ◆◆ Microgrids et centrales virtuelles
+- ◆◆◆ Raccordement et files d'attente
+- ◆ Récupération d'énergie
+
+**Clôture de la couche F — Alimenter**
+
+---
+
+## COUCHE G — RELIER
+
+### Chapitre 24 — Communications
+
+- ◆◆◆ Réseaux mobiles avancés
+- ◆◆◆ Réseaux non terrestres
+- ◆◆ Communications optiques
+- ◆◆ Réseaux déterministes
+- ◆◆ Communications en environnement dégradé
+- ◆ Réseaux privés
+
+### Chapitre 25 — Edge et calcul distribué
+
+- ◆◆◆ Edge, on-device et embarqué
+- ◆◆ Continuum cloud-edge
+
+---
+
+## PLAN G-bis — INFRASTRUCTURE SPATIALE
+
+### Chapitre 26 — Accéder à l'orbite et l'occuper
+
+- ◆◆◆ Lanceurs réutilisables
+- ◆◆◆ Constellations en orbite basse
+- ◆◆◆ Observation de la Terre
+- ◆◆ Charges utiles et miniaturisation
+- ◆◆ Segment sol
+
+### Chapitre 27 — Exploiter et préserver l'orbite
+
+- ◆◆ Calcul en orbite
+- ◆◆ Services en orbite
+- ◆◆◆ Débris et congestion orbitale
+- ◆◆ Positionnement, navigation et temps depuis l'espace
+
+**Clôture des couches G et G-bis**
+
+---
+
+## COUCHE H — VÉRIFIER
+
+### Chapitre 28 — Le matériel comme racine de confiance
+
+- ◆◆◆ Racine de confiance matérielle
+- ◆◆◆ Environnements d'exécution de confiance
+- ◆◆ Attestation
+- ◆ Sûreté mémoire matérielle
+
+### Chapitre 29 — Cryptographie et confiance émergentes
+
+- ◆◆◆ Cryptographie post-quantique
+- ◆◆ Crypto-agilité
+- ◆◆ Chiffrement homomorphe et calcul multipartite
+- ◆◆◆ Preuves à divulgation nulle
+- ◆◆◆ Provenance et authenticité des contenus
+- ◆◆◆ Identité machine
+
+### Chapitre 30 — Sûreté des systèmes autonomes
+
+- ◆◆◆ Architecture de sûreté d'un système autonome
+- ◆◆◆ Détection de sortie de domaine
+- ◆◆ Vérification formelle
+- ◆◆ Dossiers de sûreté
+- ◆◆ Dégradation maîtrisée
+
+**Clôture de la couche H — Vérifier**
+
+---
+
+## COUCHE I — INTERAGIR
+
+### Chapitre 31 — Interfaces humain-machine
+
+- ◆◆◆ Réalité augmentée, mixte et virtuelle
+- ◆◆ Informatique spatiale
+- ◆◆ Affichages avancés
+- ◆◆ Suivi oculaire et gestuel
+- ◆◆ Haptique
+- ◆◆ Lunettes connectées
+- ◆◆ Informatique portée
+- ◆◆ Interfaces neuromusculaires
+- ◆◆◆ Interfaces cerveau-machine
+- ◆◆ Neuroprothèses
+- ◆ Interfaces vocales persistantes
+- ◆◆ Augmentation humaine
+
+**Clôture de la couche I — Interagir**  
+**Clôture de l'Atlas — Ce que les 162 entrées font apparaître**
+
+---
+
+# PARTIE III — LA TAXONOMIE DES GRANDS COURANTS
+
+### Chapitre 32 — Intelligence artificielle : les grands récits
+
+- IA générative
+- Agentic AI
+- Modèles de raisonnement
+- AGI
+- Multimodalité
+- Edge AI
+- Sovereign AI
+- AI factories
+- AI-native
+- AI for Science
+- Frontier AI
+- Modèle de fondation
+
+### Chapitre 33 — Monde physique et autonomie
+
+- Physical AI
+- Embodied AI
+- Autonomous systems
+- Machine autonomy
+- Service autonomy
+- General-purpose robotics
+- Humanoid robotics
+- Intelligent robotics
+- Autonomous mobility
+- Drone economy
+- Swarm intelligence
+- Cyber-physical systems
+
+### Chapitre 34 — Industrie, infrastructure et monde programmable
+
+- Industrie 4.0 et Industrie 5.0
+- Smart factory
+- Digital twin — jumeau numérique
+- Software-defined everything
+- Industrial metaverse
+- Autonomous enterprise
+- Smart city
+- Smart grid
+- IoT et IIoT
+- Ubiquitous computing et ambient computing
+- Autonomous networks
+
+### Chapitre 35 — Deep Tech et grands regroupements industriels
+
+- Deep Tech
+- Frontier Tech et Hard Tech
+- Climate Tech et Clean Tech
+- BioTech et HealthTech
+- Quantum Tech
+- SpaceTech et New Space
+- NeuroTech
+- Advanced Materials et Advanced Manufacturing
+- Defense Tech et Dual-use Tech
+- Trust Technologies
+
+**Clôture de la Partie III — L'exercice des cinq termes**  
+**Ce que la taxonomie complète enseigne**
+
+---
+
+# PARTIE IV — LES GRANDES CONVERGENCES
+
+### Chapitre 36 — La robotique généraliste
+
+36.1 La capacité recherchée  
+36.2 Les briques nécessaires  
+36.3 Ce qui empêche encore  
+36.4 Le maillon le plus en retard  
+36.5 Quel mur domine  
+36.6 Ce qui est en train de changer  
+36.7 Ce que la convergence débloquerait  
+36.8 Le verrou suivant  
+36.9 La chronologie conditionnelle  
+36.10 Signaux et réfutation
+
+### Chapitre 37 — La découverte scientifique accélérée
+
+37.1 La capacité recherchée  
+37.2 Les briques nécessaires  
+37.3 Ce qui empêche encore  
+37.4 Le maillon le plus en retard  
+37.5 Quel mur domine  
+37.6 Ce qui est en train de changer  
+37.7 Ce que la convergence débloquerait  
+37.8 Le verrou suivant  
+37.9 La chronologie conditionnelle  
+37.10 Signaux et réfutation
+
+### Chapitre 38 — L'intelligence distribuée
+
+38.1 La capacité recherchée  
+38.2 Les briques nécessaires  
+38.3 Ce qui empêche encore  
+38.4 Le maillon le plus en retard  
+38.5 Quel mur domine  
+38.6 Ce qui est en train de changer  
+38.7 Ce que la convergence débloquerait  
+38.8 Le verrou suivant  
+38.9 La chronologie conditionnelle  
+38.10 Signaux, non-signaux, réfutation
+
+### Chapitre 39 — L'autonomie mobile
+
+39.1 La capacité recherchée  
+39.2 Les briques nécessaires  
+39.3 Ce qui empêche encore  
+39.4 Le maillon le plus en retard  
+39.5 Quel mur domine  
+39.6 Ce qui est en train de changer  
+39.7 Ce que la convergence débloquerait  
+39.8 Le verrou suivant  
+39.9 La chronologie conditionnelle  
+39.10 Signaux, non-signaux, réfutation
+
+### Chapitre 40 — Énergie et calcul
+
+40.1 La capacité recherchée  
+40.2 Les briques nécessaires  
+40.3 Ce qui empêche encore — la chaîne de goulets  
+40.4 Le maillon le plus en retard  
+40.5 Quel mur domine  
+40.6 Ce qui est en train de changer  
+40.7 Ce que la convergence débloquerait  
+40.8 Le verrou suivant  
+40.9 La chronologie conditionnelle  
+40.10 Signaux, non-signaux, réfutation
+
+### Chapitre 41 — La biologie programmable
+
+41.1 La capacité recherchée  
+41.2 Les briques nécessaires  
+41.3 Ce qui empêche encore  
+41.4 Le maillon le plus en retard  
+41.5 Quel mur domine  
+41.6 Ce qui est en train de changer  
+41.7 Ce que la convergence débloquerait  
+41.8 Le verrou suivant  
+41.9 La chronologie conditionnelle  
+41.10 Signaux, non-signaux, réfutation
+
+**Clôture de la Partie IV**
+
+---
+
+# PARTIE V — QUAND UNE FRONTIÈRE CHANGE LE SYSTÈME
+
+### Chapitre 42 — Quand produire du plausible devient presque gratuit
+
+42.1 Ce qui devient abondant  
+42.2 Ce qui devient rare  
+42.3 Ce qui ne change pas  
+42.4 Le rythme imposé  
+42.5 Les positions en présence  
+42.6 Ce qu'il faudrait observer
+
+### Chapitre 43 — Quand les machines agissent dans le monde
+
+43.1 Ce qui devient abondant  
+43.2 Ce qui devient rare  
+43.3 Ce qui ne change pas  
+43.4 Le rythme imposé  
+43.5 Les positions en présence  
+43.6 Ce qu'il faudrait observer
+
+### Chapitre 44 — Quand observer devient permanent et bon marché
+
+44.1 Ce qui devient abondant  
+44.2 Ce qui devient rare  
+44.3 Ce qui ne change pas  
+44.4 Le rythme imposé  
+44.5 Les positions en présence  
+44.6 Ce qu'il faudrait observer
+
+### Chapitre 45 — Les dépendances que personne n'a décidées
+
+45.1 Ce qui devient abondant  
+45.2 Ce qui devient rare  
+45.3 Ce qui ne change pas  
+45.4 Le rythme imposé  
+45.5 Les positions en présence  
+45.6 Ce qu'il faudrait observer
+
+**Clôture de la Partie V**
+
+---
+
+# PARTIE VI — VEILLE ET PROSPECTIVE OPÉRATIONNELLE
+
+### Chapitre 46 — Tenir sa carte à jour
+
+46.1 Trois manières d'échouer  
+46.2 Actualité contre signal  
+46.3 Suivre les goulets  
+46.4 Les signaux non informatifs  
+46.5 Les capacités en attente  
+46.6 Maintenir sa carte  
+46.7 Décider sous incertitude  
+46.8 Cinq affirmations datées et réfutables
+
+### Chapitre 47 — Protocole final : une frontière absente de l'atlas
+
+47.1 Règle du jeu  
+47.2 Étape 1 — Situer le terme avant de l'étudier  
+47.3 Étape 2 — Les quatre questions  
+47.4 Étape 3 — Le rapport qui décide  
+47.5 Étape 4 — De quoi cela dépend, par couche  
+47.6 Étape 5 — Situer sur l'échelle des preuves  
+47.7 Étape 6 — Signaux, non-signaux, réfutation  
+47.8 Étape 7 — La décision  
+47.9 Le corrigé — ce que l'exercice devait montrer
+
+**Clôture de la Partie VI**
+
+# Conclusion — Ce que ce volume a produit
+
+- Ce qui a été construit
+- Les quatre résultats
+- Ce que ce volume ne fait pas
+- Ce qu'il faut en garder
+
+---
+
+# ANNEXES
+
+### Annexe A — Index alphabétique des technologies
+
+### Annexe B — Index des synonymes, variantes et termes absorbés
+
+### Annexe C — Index des grands courants, cadrages et buzzwords
+
+### Annexe D — Matrice technologies × couches
+
+D.1 Répartition par couche  
+D.2 Les entrées transversales
+
+### Annexe E — Technologies par maturité
+
+- 🏭 Industrialisé
+- 🏭🔬 Statut mixte
+- 🔬 Émergent
+- 🔭 Exploratoire
+- Sans état de maturité
+
+### Annexe F — Carte des dépendances
+
+F.1 Les dépendances entre couches  
+F.2 Les entrées-carrefour  
+F.3 Les dépendances non décidées  
+F.4 Les entrées qui décrivent une contrainte, non un objet
+
+### Annexe G — Carte des convergences
+
+G.1 Vue d'ensemble  
+G.2 Les briques par dossier
+
+### Annexe H — Échelle d'abstraction et natures d'entrée
+
+H.1 Répartition des 162 entrées  
+H.2 Trois observations de décompte  
+H.3 Les entrées par niveau
+
+### Annexe I — Technologies par horizon
+
+I.1 Ce que « horizon » veut dire ici  
+I.2 Maturité par couche  
+I.3 Ce que cette répartition montre
+
+### Annexe J — Glossaire de méthode
+
+### Annexe K — Grille d'analyse d'une technologie inconnue
+
+① Situer  
+② Dérouler les quatre questions  
+③ Chercher le rapport  
+④ Situer la preuve  
+⑤ Établir les dépendances  
+⑥ Écrire ce qu'il faudrait observer  
+⑦ Conclure sans verdict
+
+### Annexe L — Sources et observatoires
+
+### Annexe M — Registre des informations périssables
+
+M.1 Ce qui se périme, et à quel rythme  
+M.2 Les dettes de sourcing  
+M.3 L'index des déclencheurs
+
+### Annexe N — Carte Volume 1 ↔ Volume 2
+
+N.1 Ce que le Volume 2 reprend sans le refaire  
+N.2 Ce que le Volume 2 ajoute  
+N.3 Ce que le Volume 2 ne traite pas, et où le trouver
+
+### Annexe O — Labs et capstones
 
 ---
 

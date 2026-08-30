@@ -375,3 +375,463 @@ Prévention / Résilience
     - backups ;
     - pièces de rechange nécessaires.
 Le but n’est pas seulement d’empêcher le sabotage, mais aussi de pouvoir **restaurer rapidement le service** après un incident.
+
+## Comprendre les logiciels malveillants
+- Un malware est un programme conçu pour endommager, perturber ou détourner un système : suppression de fichiers, espionnage, vol de données, ralentissement, prise de contrôle, etc.
+### Elévation de privilège 
+- Le Privilege Escalation consiste à obtenir des droits supérieurs à ceux initialement accordés, souvent en exploitant une vulnérabilité ou une mauvaise configuration.
+- Avec des privilèges élevés, un attaquant peut notamment modifier le système ou installer une backdoor pour conserver l'accès. 
+
+| Type                                | Principe                                                                                                                                                                                                         |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Vertical Privilege Escalation**   | Passer d’un niveau faible à un niveau supérieur, ex. `user → admin`.                                                                                                                                             |
+| **Horizontal Privilege Escalation** | Accéder aux ressources d’un autre utilisateur ayant un niveau de privilège similaire.                                                                                                                            |
+| **Privilege De-escalation**         | Diminuer volontairement ses privilèges pour agir avec un niveau d’accès inférieur. ⚠️ La **de-escalation** n’est pas réellement une forme d’escalade de privilèges ; c’est plutôt le fait d’abaisser ses droits. |
+### Virus & Malware
+#### Virus exécutable 
+- Ne s'active que lorsque le fichier infecté est exécuté.
+- S'attache à des fichiers exécutables comme : .exe, .com
+- Peut se propager via : USB, partage réseau, anciens supports amovibles.
+#### Boot Sector Virus - Virus de secteur d'amorçage
+- Infecter le secteur d'amorçage d'un disque.
+- Peut remplacer/modifier le code chargé au démarrage.
+- Une infection grave peut empêcher le système de démarrer correctement.
+#### Macro Virus
+- De nombreuses applications prennent aujourd'hui en charge les macros, qui automatisent des tâches au sein du logiciel.
+- Malware écrit dans un langage de macro, souvent **VBA** dans Microsoft Office.
+	- Langage de programmation puissant qui peut manipuler à la fois l'application et le système d'exploitation.
+- Intégré dans un document et exécuté lorsque la macro est déclenchée.
+- Peut :
+    - supprimer/modifier des fichiers ;
+    - exécuter des commandes ;
+    - envoyer des messages ;
+    - télécharger d’autres payloads.
+
+```
+Document Office
+→ Macro VBA
+→ code malveillant
+```
+
+> Les macros ne s’exécutent pas nécessairement automatiquement aujourd’hui : les versions modernes d’Office appliquent davantage de restrictions et avertissements.
+#### Logic bomb
+- Code malveillant qui reste dormant jusqu'à un événement précis.
+- Type de virus qui se cache dans un logiciel installé. Le logiciel fonctionne normalement jusqu'à ce qu'un certain événement se produise.
+- Déclencheurs possibles :
+	- date/heure ;
+	- suppression d’un compte ;
+	- changement particulier dans le système ;
+	- autre condition définie par l’attaquant.
+
+```
+Malware dormant
+      ↓
+Condition atteinte
+      ↓
+Payload déclenché
+```
+
+Exemple :
+
+```
+Date = 01/09
+→ suppression des données
+```
+
+Peut notamment être utilisée pour du **sabotage interne**.
+
+> Une logic bomb n’est pas nécessairement un virus ; c’est surtout un mécanisme de déclenchement conditionnel.
+#### Ver - Worm
+- Malware capable de se répliquer automatiquement.
+- Peut se propager rapidement entre systèmes, notamment via :
+	- vulnérabilités réseau ;
+	- protocoles/services réseau ;
+	- email ;
+	- supports USB.
+- Différence importante :
+```
+Virus → généralement dépend d'un fichier/hôte et d'une exécution
+Worm  → capacité d'auto-propagation
+```
+#### Trojan - Cheval de Troie
+- Malware qui se **fait passer pour un logiciel légitime ou utile** afin de pousser l’utilisateur à l’installer.
+- Une fois installé, il peut :
+	- installer une **backdoor** ;
+	- permettre un contrôle distant ;
+	- voler des informations ;
+	- installer d’autres malwares.
+#### Backdoor
+- Historiquement, certains Trojans ouvraient un **port TCP/IP en écoute** :
+```
+Trojan
+→ ouvre port
+→ attaquant se connecte
+→ contrôle du système
+```
+- Aujourd’hui, les malwares utilisent aussi souvent des connexions **sortantes vers un serveur C2**, plus faciles à faire passer à travers certains firewalls.
+- Payloads possibles
+	- **Adware**
+		- affiche des publicités indésirables.
+	- **Keylogger**
+		- enregistre les frappes clavier ;
+		- peut voler :
+		    - passwords ;
+		    - messages ;
+		    - informations sensibles.
+```
+Victime tape password
+→ Keylogger
+→ credentials capturés
+```
+
+## Différents types de logiciels malveillants
+### Spyware 
+- Logiciel espion, installé discrètement pour surveiller l'activité d'un utilisateur et transmettre les informations à un système distant.
+- Peut notamment :
+	- suivre la navigation ;
+	- collecter des informations ;
+	- modifier certains paramètres système ;
+	- rediriger le navigateur ;
+	- dégrader les performances réseau.
+### Adware
+- **Adware** : logiciel qui affiche automatiquement des publicités, souvent sous forme de pop-ups.
+- Peut chercher à pousser l’utilisateur vers des produits ou services.
+### Spam
+- Le spam désigne les courriels commerciaux non sollicités qui inondent les boîtes de réception.
+- Envoi massif d’**emails non sollicités**, généralement pour promouvoir produits/services.
+- Les spammeurs peuvent récupérer des adresses via :
+    - sites Web ;
+    - forums/groupes de discussion ;
+    - listes d’adresses achetées.
+- Des **spambots** automatisent la collecte d’adresses visibles publiquement.
+- Prévention :
+	- filtres antispam ;
+	- éviter d’exposer inutilement des adresses email publiques.
+### Rootkit
+- **Rootkit** : malware conçu pour maintenir un **accès privilégié et furtif** au système.
+- Son objectif principal est souvent de **cacher sa présence ou celle d’autres composants malveillants**.
+
+| Type                                                  | Principe                                                                                                                                                                                                                                |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rootkits au niveau applicatif - **Application-level** | Fichiers exécutables qui fonctionnent en mode utilisateur, tels que les virus de type cheval de Troie, permettant aux pirates d'accéder au système discrètement.                                                                        |
+| rootkits au niveau bibliothèque - **Library-level**   | Remplacement/modification de DLL pour dissimuler l’activité                                                                                                                                                                             |
+| rootkits au niveau du noyau - **Kernel-level**        | Chargés par le noyau du système d'exploitation, souvent en remplaçant des fichiers drivers. Ils fonctionnent en mode noyau, accordant un accès étendu au système et le potentiel de causer des dommages importants.                     |
+| rootkits virtualisés - **Virtualized**                | Se charge sous/avant l’OS et l’exécute dans un environnement virtualisé. Leur furtivité réside dans le fait que le système d'exploitation reste inconscient de cette virtualisation.                                                    |
+| rootkits de firmware - **Firmware**                   | Implanté directement dans le firmware d’un périphérique/système. indépendamment du système d'exploitation. Leur détection est particulièrement difficile en raison de leur intégration profonde dans les opérations au niveau matériel. |
+- Plus le rootkit est bas dans la stack → plus sa détection peut être difficile
+### Botnet
+- **Botnet** : ensemble de systèmes compromis contrôlés par un attaquant.
+- Chaque système compromis est appelé :
+    - **bot** ;
+    - **zombie**.
+- Le botnet peut être utilisé pour :
+    - spam ;
+    - DoS/DDoS ;
+    - autres attaques coordonnées.
+- L’accès au botnet peut également être loué à d’autres attaquants.
+### RAT — Remote Access Trojan
+- Malware donnant à un attaquant un **accès distant au système compromis**.
+- Peut arriver via :
+    - logiciel apparemment légitime ;
+    - pièce jointe ;
+    - téléchargement malveillant.
+- Une fois installé :
+    - crée une backdoor ;
+    - permet l’exécution de commandes à distance ;
+    - peut servir à compromettre d’autres systèmes.
+```
+Trojan installé
+→ backdoor
+→ Remote Access
+→ exécution de commandes
+```
+- RAT vs Trojan
+```
+Trojan → méthode de camouflage / installation
+RAT    → fonctionnalité de contrôle distant
+```
+	- Un RAT peut donc être distribué sous forme de Trojan.
+### Keylogger
+- Outil logiciel ou matériel conçu pour capturer toutes les frappes de touches effectuées sur un système.
+- Hardware Keylogger
+	- Petit dispositif placé physiquement entre → l’attaquant le récupère ensuite pour consulter les données.
+- Software Keylogger
+	- fonctionne en arrière-plan ;
+	- enregistre les touches :
+	    - dans un fichier local ;
+	    - ou les transmet à distance.
+### Backdoor
+- Méthode d’accès alternative permettant à l’attaquant de revenir sur le système sans utiliser le point d’entrée initial.
+- Peut être créée via :
+    - Trojan ;
+    - service/port malveillant ;
+    - compte utilisateur ajouté ;
+    - autre mécanisme de persistence.
+
+```
+Compromission initiale
+       ↓
+Backdoor
+       ↓
+Accès futur
+```
+### Ransomware
+- Malware qui chiffre ou bloque les données/systèmes afin d’exiger une rançon.
+- L’attaquant conserve la possibilité de déchiffrement et demande un paiement.
+### PUP — Potentially Unwanted Program
+- Logiciel installé en même temps qu’un programme souhaité mais **non désiré par l’utilisateur**.
+- Peut :
+    - afficher de la publicité ;
+    - installer des toolbars ;
+    - ralentir le système ;
+    - collecter certaines informations.
+- Prévention :
+	- lire les écrans d’installation ;
+	- décocher les logiciels supplémentaires ;
+	- anti-malware.
+```
+PUP ≠ forcément malware pur
+mais
+PUP → logiciel indésirable / potentiellement intrusif
+```
+### Virus sans fichier -  Fileless Malware
+- Malware fonctionnant **principalement en mémoire** plutôt qu’en déposant un exécutable classique sur disque.
+- Peut s’appuyer sur des processus ou outils déjà présents sur le système.
+> **Fileless** ne veut pas nécessairement dire « absolument aucun fichier n’existe jamais », mais que l’exécution malveillante repose principalement sur la mémoire et/ou des composants légitimes.
+### Command & Control — C2 / C&C
+- Après compromission, les malwares peuvent communiquer avec un serveur **Command & Control**.
+- Le C2 permet à l’attaquant :
+    - d’envoyer des commandes ;
+    - de contrôler les machines ;
+    - d’exfiltrer des données ;
+    - de perturber le système ;
+    - de télécharger d’autres payloads.
+```
+Attacker
+   ↓
+C2 Server
+   ↓
+Compromised Host
+```
+- Le **C2 n’est pas un type de malware**, mais une infrastructure/méthode de communication utilisée par les malwares.
+### Cryptomalware
+- Malware qui **chiffre les fichiers sans autorisation**.
+- Souvent utilisé comme composant d’un ransomware :
+    - fichiers chiffrés ;
+    - accès impossible ;
+    - demande de paiement.
+```
+Cryptomalware → action = chiffrement
+Ransomware    → objectif = extorsion
+```
+- Les deux concepts se recouvrent souvent, mais ne sont pas strictement synonymes.
+### Polymorphic Malware
+- Malware qui **modifie son apparence/code** afin d’éviter les détections basées sur des signatures statiques.
+- Le comportement général peut rester identique malgré les modifications.
+```
+Version A → Signature A
+Version B → Signature B
+Version C → Signature C
+
+même comportement général
+```
+→ rend les signatures antivirus traditionnelles moins efficaces.
+### Virus blindé - Armored Virus
+- Malware conçu pour rendre son **analyse / reverse engineering difficile**.
+- Peut employer des techniques empêchant ou compliquant :
+    - décompilation ;
+    - debugging ;
+    - analyse statique/dynamique.
+```
+Polymorphic → évite surtout la détection
+Armored     → complique surtout l'analyse
+```
+
+## Considération sur le matériel et les appareils
+### BIOS /UEFI
+- Le BIOS contient le code nécessaire à l’initialisation du matériel et permet de configurer différents paramètres via le setup BIOS/CMOS.
+- Côté sécurité :
+	- contrôler le **boot order** ;
+	- éviter le boot depuis :
+	    - USB ;
+	    - CD/DVD ;
+	    - réseau/PXE ;
+	- privilégier le disque local.
+
+```
+Boot externe autorisé
+→ attaquant démarre sur un Live OS
+→ peut tenter d'accéder aux données locales
+```
+
+→ Protéger également l’accès au BIOS/UEFI avec un mot de passe administrateur.
+### Sécurité USB
+- Les clés USB facilitent le transport de données hors de l’entreprise.
+- Mesures :
+	- définir quelles données peuvent être stockées sur USB ;
+	- interdire les supports personnels si nécessaire ;
+	- mettre en place station blanche ;
+	- dans les environnements sensibles, **désactiver complètement les ports USB**.
+
+```
+USB → risque d'exfiltration + introduction de malware
+```
+### Smartphones & Tablettes
+- Les appareils mobiles contiennent souvent :
+	- contacts professionnels ;
+	- documents ;
+	- emails ;
+	- accès Internet et applications internes.
+- Mesures principales :
+	- gestion du cycle de vie, via mdm ;
+	- verrouillage de l’appareil ;
+	- chiffrement des données ;
+	- analyser les vulnérabilités des appareils utilisés dans l’organisation.
+- Vulnérables à plusieurs types d'attaques : 
+	- Bluesnarfing : Connexion Bluetooth non autorisée permettant de **récupérer des données** depuis l’appareil.
+	- Bluejacking : Envoi de **messages non sollicités** entre appareils Bluetooth.
+	- Bluebugging : Exploit Bluetooth qui permet à un pirate d'accéder aux fonctionnalités du téléphone. Peut permettre, par exemple, de passer des appels via des commandes AT.
+```
+Bluesnarfing → récupérer des données
+Bluejacking  → envoyer des messages
+Bluebugging  → contrôler certaines fonctions
+```
+### Stockage amovible
+- Les supports amovibles peuvent :
+	- introduire des malwares ;
+	- permettre l’exfiltration de données ;
+	- être perdus ou volés.
+- Exemple :
+```
+USB personnel infecté
+→ connecté au poste professionnel
+→ malware introduit sur le réseau
+```
+- Mesures :
+	- interdire les supports amovibles si possible ;
+	- interdire les supports personnels ;
+	- interdire la sortie des supports ;
+	- mettre en place station blanche ;
+	- formaliser cette règle dans la politique de sécurité ;
+	- lorsqu’ils sont nécessaires :
+	    - les retirer lorsque l’utilisateur quitte son poste ;
+	    - les stocker dans une armoire sécurisée.
+	- La même logique peut s’appliquer aux laptops laissés sans surveillance.
+### Stockage en réseau (NAS)
+- Un **NAS** fournit un stockage central accessible via le réseau.
+- La sauvegarde des données sur un NAS est essentielle, car il peut stocker toutes les données de l'entreprise en un seul endroit.
+- Caractéristiques :
+	- ses paramètres peuvent être gérés via une interface web ;
+	- plusieurs disques ;
+	- souvent RAID / tolérance aux pannes ;
+	- partage de fichiers centralisé ;
+	- compatible avec différents OS/protocoles.
+- Exemples :
+```
+Windows → SMB
+Linux   → NFS
+```
+#### Risques / protections
+- **Access Control**
+    - un NAS compromis peut exposer une grande quantité de données ;
+    - éviter son exposition directe à Internet.
+- **Malware**
+    - un malware peut toucher de nombreux fichiers centralisés ;
+    - scanner régulièrement les données.
+- **Authentication / Authorization**
+    - contrôler précisément qui peut accéder aux fichiers.
+- **Encryption**
+    - protéger les données stockées et, si possible, les communications.
+- **Backups**
+    - RAID ≠ backup ;
+    - conserver des sauvegardes séparées du NAS.
+### PBX  - Téléphonie
+- Un **PBX (Private Branch Exchange)** est un système téléphonique utilisé au sein d'une entreprise pour gérer tous les appels téléphoniques internes, permettant de gérer plusieurs extensions à partir de l’infrastructure téléphonique de l’entreprise.
+-  Il permet à une entreprise d'avoir une seule ligne téléphonique externe tout en prenant en charge plusieurs systèmes et numéros de téléphone internes. Chaque téléphone de l'entreprise se voit attribuer un numéro de poste unique.
+- Mesures de sécurité :
+	-  Contrôle physique :
+		- placer le PBX dans une salle verrouillée ;
+		- accès limité ;
+		- dispositifs anti-sabotage ;
+		- inspection régulière du matériel.
+	- Paramètres par défaut :
+		- changer les comptes/passwords par défaut ;
+		- sécuriser l’administration distante.
+### Risques de sécurité avec les systèmes embarqués et spécialisés
+#### Raspberry Pi
+- petit système contenant CPU, RAM et interfaces ;
+- utilisé pour créer des systèmes personnalisés.
+Sécurité :
+- désactiver les fonctionnalités inutiles, ex. Bluetooth.
+#### FPGA - **Field-Programmable Gate Array**
+- circuit intégré pouvant être programmé pour exécuter des fonctions matérielles personnalisées.
+#### Arduino
+- carte basée sur microcontrôleurs ;
+- utilisée pour créer des systèmes électroniques ;
+- généralement programmée en C/C++.
+##### Autres systèmes embarqués
+
+| Technologie                                                | À savoir                                                                                                                                          |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **HVAC / CVC**                                             | Systèmes informatisés contrôlant chauffage, ventilation, climatisation                                                                            |
+| Système sur une puce **SoC**                               | Puce intégrant diverses fonctionnalités comme des processeurs (CPU) et des processeurs graphiques (GPU). Exemple : Raspberry Pi.                  |
+| Système d'exploitation en temps réel **RTOS**              | OS conçus pour traiter les données en temps réel.                                                                                                 |
+| Imprimantes/Appareils multifonctions **MFD / Imprimantes** | Peuvent stocker des documents dans leur mémoire/disque et exposer une interface Web                                                               |
+| **Surveillance Systems**                                   | Comprennent des caméras avec des systèmes embarqués qui peuvent se connecter à un serveur central ou à Internet, posant des risques d'exposition. |
+| **Drones**                                                 | Véhicules aériens pilotés à distance                                                                                                              |
+| **VoIP**                                                   | Technologie pour la communication vocale sur des réseaux TCP/IP comme Internet.                                                                   |
+### SCADA / ICS
+#### SCADA - Supervisory Control and Data Acquisition
+- utilisé pour superviser et contrôler des processus industriels.
+- Exemples :
+    - HVAC ;
+    - éclairage ;
+    - réfrigération ;
+    - systèmes industriels.
+- La sécurité physique est importante car une manipulation peut perturber :
+	- supervision ;
+	- alarmes ;
+	- fonctionnement industriel.
+#### ICS - Industrial Control Systems
+- Terme plus large (qui inclut les systèmes SCADA) regroupant les systèmes utilisés pour surveiller/contrôler des équipements industriels.
+```
+ICS
+ ├─ SCADA
+ └─ autres systèmes de contrôle industriel
+```
+- Présents notamment dans :
+	- usines ;
+	- manufacturing ;
+	- production d’énergie.
+### IoT - Internet of Things 
+- Les appareils **IoT** communiquent avec d’autres systèmes via Internet ou des réseaux locaux.
+- Leur sécurité peut être faible lorsque les fabricants privilégient la **connectivité et la simplicité** aux contrôles de sécurité.
+-  Catégories
+	- **Sensors**
+	    - thermostats ;
+	    - caméras ;
+	    - capteurs environnementaux.
+	- **Smart Devices** : appareils connectés au réseau qui communiquent avec d'autres en utilisant des technologies telles que :
+	    - Wi-Fi ;
+	    - Bluetooth ;
+	    - réseau cellulaire.
+	- **Wearables**
+	    - smartwatch ;
+	    - objets portés sur le corps ;
+	    - souvent reliés au smartphone.
+	- **Facility Automation** : Systèmes conçus pour contrôler les éléments de :
+	    - HVAC/CVC ( (chauffage, ventilation et climatisation)) ;
+	    - automatisation du bâtiment.
+- Weak Default Settings
+	- Problème fréquent :
+```
+Default username/password
+Default services
+Default network settings
+```
+→ les attaquants connaissent souvent ces configurations.
+- Mesures :
+	- changer les credentials par défaut ;
+	- désactiver les services inutiles ;
+	- patcher/mettre à jour si possible ;
+	- segmenter les appareils IoT du reste du réseau.
