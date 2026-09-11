@@ -132,6 +132,7 @@ Bash history : cat ~/.bash_history
 	- Voir bash_history d'un autre user : sudo cat /home/user/.bash_history
 	- history : historique en mémoire (session courante) se save après logout
 	- .bash_history : sauvegarde sur disque (sessions précédentes)
+	  # sudo grep -i '/home' /root/.bash_history
 
 Files accessed using Vim : cat ~/.viminfo
 	- Contient historique des fichiers ouverts avec VIM, historiques des commandes...

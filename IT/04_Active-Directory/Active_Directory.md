@@ -74,6 +74,7 @@
 
 ### Chapitre 1 — Active Directory : pourquoi c'est partout et pourquoi c'est la cible n°1
 
+Active Directory est un service d'annuaire Microsoft utilisé pour centraliser la gestion des identités, groupes, ordinateurs et ressources dans un environnement Windows.
 #### 1.1 Le problème que résout Active Directory
 
 Imaginez une entreprise de 5 000 employés. Chaque employé a un PC, un compte email, des accès à des partages réseau, des applications métier. Sans système centralisé, il faudrait créer et gérer chaque compte sur chaque machine individuellement. Active Directory résout ce problème : c'est un service d'annuaire centralisé qui stocke et gère toutes les identités (utilisateurs, ordinateurs, services) et les politiques de sécurité d'une organisation. Un employé se connecte une fois avec son compte AD, et il accède à tout ce à quoi il a droit : c'est le Single Sign-On (SSO). AD est développé par Microsoft et intégré à Windows Server depuis 2000. Il est présent dans plus de 90 % des entreprises dans le monde.
