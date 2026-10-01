@@ -4,14 +4,13 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 
 <img src="../../assets/pyramid_of_pain.png" alt="Pyramid of Pain" width="600">
 #### Hash values (empreintes de fichiers) — trivial
-
 - Valeur numérique fixe qui identifie de façon condensée un fichier ou une donnée, produite par un algo de hachage, plus petit changement dans le fichier, le hash changera du tout au tout.
 - Algorithmes :
 	- MD5 : Très répandu historiquement mais plus sûr : collisions connues.
 	- SHA-1 : Déprécié par le NIST
 	- SHA-2 (ex : 256) : Recommandé comme alternative aujourd’hui.
 - Utilité : Recherche et classification, sources publiques, usage opérationnel.
-- Limite : Modifier un seul bit du fichier change hash, l’attaquant peut asiément créer une variante si on ne s’appuie que sur les hashs.
+- Limite : Modifier un seul bit du fichier change hash, l’attaquant peut aisément créer une variante si on ne s’appuie que sur les hashs.
 - Outils : Virustotal, MetaDefender…
 - Commandes :
 	- **Get-FileHash fichier.ext -Algorithm MD5**
@@ -19,7 +18,6 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 ![image 1 1.png](../../assets/image%201%201.png)
 
 #### IP addresses
-
 - IP identifie un appareil sur un réseau
 - Attaquant peut facilement la changer : Nouvelle IP publique, proxys, VPS, utilisation de machine compro…
 - Bloquer/Filtrer IP sur firewall donne un gain immédiat mais peu durable.
@@ -30,7 +28,6 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 	- Conséquence : Bloquer IP individuelles devient inefficace.
 
 #### Domain names
-
 - Associer nom humainement lisible à une adresse IP
 - Plus compliqué qu’une IP, doit acheter/maintenir domaine, configurer DNS? potentiellement payer/renouveler, gérer certificats. Même si fournisseurs DNS proposent API et process automatisés.
 - Techniques :
@@ -42,7 +39,6 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 		- Exécutent échantillon et montrent les échanges DNS… Pour ne pas avoir à visiter directement.
 
 #### Network/Host artifacts (ex : clés de registre, chemins, mutex, patterns réseau)
-
 - Compliqué pour l’attaquant d’agir sur ces aspects
 - Process d’exécution suspect de Word
 
@@ -66,8 +62,7 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 
   
 
-#### Tools (outils ou binaires employés par l’attaquant
-
+#### Tools (outils ou binaires employés par l’attaquant)
 - A ce niveau ça devient coûteux car doit recréer outils, réapprendre, réinvestir.
 - Leviers principaux : Signature AV, règles de détection. YARA, Marketplaces (MalwareBazaar, Malshare) pour obtenir échantillons et indicateurs, Fuzzy hashing (SSDEEP) peut faire de la similarité entre variantes, utile quand les hashes classiques changent.
 - Sources / Plateformes :
@@ -78,7 +73,6 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 	- **SIGMA** = Recherche de patterns dans les **logs/événements** (SIEM).
 
 #### TTPs (Tactics, Techniques, Procedures)
-
 - Décrit comportement global d’un attaquant, pas juste un indicateur technique.
 	- Tactics : Le pourquoi : Objectif de l’adversaire (obtenir un accès initial, élever ses privilèges, exfiltrer des données…)
 	- Techniques : Le comment général : Méthode employée (hameçonnage, exploitation de vulnérabilité, vol d’identifiants…)
@@ -95,7 +89,7 @@ Moyen qui va évaluer la difficulté pour un attaquant de modifier un IoC
 
 ![image 7 1.png](../../assets/image%207%201.png)
 
-Reconnaissance : But de l’attaquant : collecter des infos publiques ou directement interagir pour construire un profil ciblé (employés, technos exposées, emails, sous-domaines…).
+#### 1. Reconnaissance : But de l’attaquant : collecter des infos publiques ou directement interagir pour construire un profil ciblé (employés, technos exposées, emails, sous-domaines…).
 - Objectif concret : augmenter la connaissance de la cible pour identifier :
 	- Phase de recherche et de planning pour l’attaque. Récup des info sur la cible pour se préparer aux étapes suivante. Peut inclure des info sur l’infra, les employées, les process business, techno exposées.
 	- Attack Surface : ensemble des éléments potentiellement attaquables (hosts, services, users, applications...)
@@ -134,8 +128,7 @@ Reconnaissance : But de l’attaquant : collecter des infos publiques ou directe
 		- Enumération répétée ;
 		- Reconnaissance de services.
 	- Maintenir les services exposés à jour pour éviter qu'une vulnérabilité découverte pendant la reco soit directement exploitable.
-
-Armement (Weaponization) : But : Préparation de l'arsenal, transformer l’info en charge actionable (maldoc, exploit pack, payload), mais pas encore d'interaction avec la cible.
+#### 2. Armement (Weaponization) : But : Préparation de l'arsenal, transformer l’info en charge actionable (maldoc, exploit pack, payload), mais pas encore d'interaction avec la cible.
 - A partir des infos de Reconnaissance, il choisit/assemble : 
 	- Exploit adapté à une vulnérabilité identifiée ;
 	- Payload / malware ;
@@ -163,7 +156,7 @@ Armement (Weaponization) : But : Préparation de l'arsenal, transformer l’info
 		- Threat Intell sur les outils/malwares utilisés par les adversaires ;
 		- tester si EDR/AV détectent les techniques attendues ;
 
-Livraison (Delivery) : Acheminer le payload à la cible. phishing (spear), watering-hole, USB drops, OAuth consent frauds, liens raccourcis.
+#### 3. Livraison (Delivery) : Acheminer le payload à la cible. phishing (spear), watering-hole, USB drops, OAuth consent frauds, liens raccourcis.
 - Le payload est déjà préparé à l'étape précédente (Weaponization), ici on cherche seulement à le faire parvenir.
 - Principaux vecteurs de Delivery :
 
@@ -193,7 +186,7 @@ Livraison (Delivery) : Acheminer le payload à la cible. phishing (spear), water
 		- Exécutable lancé depuis / USB / Downloads / Temps ;
 		- URL raccourcie ou redirection multiple.
 
-Exploitation : But : exécuter le code, tirer parti d’une vulnérabilité (CVE connue ou 0-day), exécuter macro, drive-by.
+#### 4. Exploitation : But : exécuter le code, tirer parti d’une vulnérabilité (CVE connue ou 0-day), exécuter macro, drive-by.
 - C'est le moment où le contenu livré devient réellement actif.
 - Peut nécessiter : 
 	- Vuln logicielle / OS ;
@@ -212,7 +205,7 @@ Exploitation : But : exécuter le code, tirer parti d’une vulnérabilité (CVE
 		- PowerShell / CMD lancés par Office ;
 		- Connexion réseau juste après ouverture d'un fichier.
 
-Installation : But : garantir un accès récurrent (backdoor, webshell, services, run keys, scheduled tasks).
+#### 5. Installation : But : installer composants nécessaires à la compromission sur le système cible. (backdoor, webshell, services, run keys, scheduled tasks).
 - Installer ou modifier des composants sur la machine compromise pour maintenir / renforcer l'accès.
 - Persistence : Si l'accès initial dépend d'une vulnérabilité (CVE) -> patch demain -> accès perdu, donc attaquant cherche un autre mécanisme : 
 	- Scheduled Task ;
@@ -244,12 +237,11 @@ Installation : But : garantir un accès récurrent (backdoor, webshell, services
 		- `C:\Users\Public`
 	- Signature / Application Control : Recommande d'autoriser uniquement les exécutables signés : AppLocker / Windows Defender Application Control (WDAC)
 
-Command & Control (C2) : But : Canal de communication entre l'attaquant et le système compromis (beaconing, exfiltration).
-
+#### 6. Command & Control (C2) : But : Canal de communication entre l'attaquant et le système compromis (beaconing, exfiltration).
 - Machine compromise pourra communiquer vers un serveur externe mis en place par un attaquant. Après cela établit, attaquant aura contrôle total sur la machine de la victime.
 - Callback / Beaconing :
 	- Très souvent ce n'est pas l'attaquant qui initie une connexion entrante vers la victime, le malware contacte lui-même le C2 : traverse plus facilement NAT/Firewall, trafic sortant souvent moins filtré, peut se mélanger au trafic légitime.
-	- Beaconing : un implant peut contacter périodiquement son C2 pour demander "As-tu une commande pour moi ?", cette periodicité est appelée beaconing, Pour éviter d'petre détectés, certains implants utilisent du jitter (rend périodicité moins évidente)/
+	- Beaconing : un implant peut contacter périodiquement son C2 pour demander "As-tu une commande pour moi ?", cette periodicité est appelée beaconing, Pour éviter d'être détectés, certains implants utilisent du jitter (rend périodicité moins évidente)/
 - Canal C2 les plus communs :
 	- HTTP sur le port 80 et HTTPS sur le port 443, permet à l’attaquant de se noyer dans la masse et passer Firewall.
 	- DNS : Machine infectée va faire constamment des requêtes DNS au serveur DNS contrôlé par l’attaquant, connu sous DNS Tunneling
@@ -282,7 +274,7 @@ Command & Control (C2) : But : Canal de communication entre l'attaquant et le sy
 	- Imposer proxy / DNS interne ;
 	- Bloquer destinations malveillantes via Threat Intell.
 
-Actions sur l’objectif : But : Phase où l’adversaire utilise l'accès obtenu pour atteindre son objectif réel (vol de credentials, exfiltration, sabotage, chiffrement).
+#### 7. Actions sur l’objectif : But : Phase où l’adversaire utilise l'accès obtenu pour atteindre son objectif réel (vol de credentials, exfiltration, sabotage, chiffrement).
 
 | Objectif                   | Exemple                                       |
 | -------------------------- | --------------------------------------------- |
@@ -328,100 +320,79 @@ La UKC regroupe **18 phases**, organisées en **3 macro-phases** :
 ![image 8 1.png](../../assets/image%208%201.png)
 
 #### Phase 1 - In - Initial foothold : Obtenir premier point d’entrée dans la cible
-
 ##### 1. Reconnaissance (MITRE : TA0043)
-
 - Collecte d’information sur la cible (OSINT, scans, services, emails…)
 - Passive (WHOIS, Linkedin…) & Active (Port scanning)
 - Sert à identifier des vulnérabilités exploitables, employés ou creds exposés
 
 ##### 2. Weaponization (TA0001)
-
 - Préparation de l’attaque : Création ou acquisition d’outils malveillants.
 - Exemple : Configurer C2, générer payload…
 
 ##### 3. Social Engineering (TA0001)
-
 - Manipulation humaine pour obtenir un accès.
 - Exemples : phishing, spear-phishing, faux sites de login, appels téléphoniques d’ingénierie sociale.
 
 ##### 4️⃣ Exploitation (TA0002)
-
 - Exploitation technique d’une faille (logicielle ou humaine).
 - Exemples : exécution de code via une vulnérabilité web, macros malveillantes, injections, exploits 0-day.
 
 ##### 5️⃣ Persistence (TA0003)
-
 - Maintenir un accès même après un redémarrage ou un nettoyage.
 - Exemples : création de services Windows, modification de clés de registre, installation d’un web shell.
 
 ##### 6️⃣ Defence Evasion (TA0005)
-
 - Techniques pour **éviter la détection** par les antivirus, EDR, ou IDS.
 - Exemples : obfuscation, chiffrement, timestomping, désactivation de logs.
 
 ##### 7️⃣ Command & Control (TA0011)
-
 - Mise en place d’un **canal de communication** entre l’attaquant et la machine compromise.
 - Exemples : C2 via HTTP/HTTPS, DNS tunneling, ou protocoles chiffrés personnalisés.
 
 ##### 8️⃣ Pivoting (TA0008)
-
 - Utiliser une machine compromise comme **base d’opérations** pour atteindre d’autres systèmes internes.
 - Exemples : SSH tunneling, proxychains, RDP vers d’autres hôtes internes.
 
   
 
 #### Phase 2 - Through (Propagation réseau) : Étendre l’accès dans le réseau et accroître les privilèges.
-
 ##### 9️⃣ Pivoting (TA0008)
-
 - Utiliser un point d’entrée pour attaquer d’autres segments du réseau (intranet, serveurs internes).
 
 ##### 🔟 Discovery (TA0007)
-
 - Identifier les systèmes, utilisateurs, services et configurations internes.
 - Exemples : `net view`, `ipconfig /all`, `whoami`, `Get-ADUser`.
 
 ##### 1️⃣1️⃣ Privilege Escalation (TA0004)
-
 - Obtenir des droits supérieurs (Admin, Root).
 - Exemples : exploitation de vulnérabilités locales, abus de services, jetons, ou permissions faibles.
 
 ##### 1️⃣2️⃣ Execution (TA0002)
-
 - Exécuter du code malveillant sur le système.
 - Exemples : scripts PowerShell, scheduled tasks, injection de processus.
 
 ##### 1️⃣3️⃣ Credential Access (TA0006)
-
 - Vol de mots de passe, hash, tokens ou cookies.
 - Exemples : keylogging, Mimikatz, LSASS dump, vol de sessions RDP.
 
 ##### 1️⃣4️⃣ Lateral Movement (TA0008)
-
 - Déplacement d’un système à un autre pour étendre le contrôle.
 - Exemples : Pass-the-Hash, RDP, SMB exploitation.
 
 #### Phase 3 - Out - (Actions sur objectifs) : Réaliser les buts de l’attaque (vol, destruction, rançon, etc.).
-
 ##### 1️⃣5️⃣ Collection (TA0009)
-
 - Rassembler les données sensibles.
 - Exemples : documents, bases de données, historiques de navigation, emails.
 
 ##### 1️⃣6️⃣ Exfiltration (TA0010)
-
 - Extraire les données du réseau vers l’extérieur.
 - Exemples : transfert via C2, FTP, cloud, ou dissimulation dans un flux chiffré.
 
 ##### 1️⃣7️⃣ Impact (TA0040)
-
 - Dégrader ou détruire les ressources du système.
 - Exemples : ransomware, effacement de disques, DDoS, sabotage, défacement.
 
 ##### 1️⃣8️⃣ Objectives
-
 - Réalisation finale de la mission de l’adversaire.
 - Exemples : gain financier (ransomware), espionnage, sabotage, atteinte à la réputation
 
@@ -432,7 +403,6 @@ La UKC regroupe **18 phases**, organisées en **3 macro-phases** :
 |**OUT**|Atteindre les objectifs finaux|Collection, Exfiltration, Impact, Objectives|
 
 ### Modèle Diamant
-
 Représente l’unité fondamentale d’une activité malveillante à travers quatre éléments principaux reliés en forme de diamant. Chaque attaque peut être décrite par ces quatre points interconnectés, qui expliquent qui fait quoi, comment et contre qui.
 
 ![image 9 1.png](../../assets/image%209%201.png)

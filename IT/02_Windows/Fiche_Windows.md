@@ -5,6 +5,8 @@
 
 ---
 
+# Découvrir Windows
+
 ## 1. Introduction à Windows
 
 ### À retenir
@@ -95,6 +97,8 @@ System32 = 64 bits, SysWOW64 = 32 bits. AppData et System32\config sont les zone
 
 ---
 
+# Fichiers, permissions et partages
+
 ## 4. Systèmes de fichiers : FAT32, exFAT, NTFS
 
 ### À retenir
@@ -182,6 +186,8 @@ sudo mount -t cifs -o username=<user> //<IP>/"share" /mnt/point
 SMB = port 445 ; partages par défaut `C$`, `ADMIN$`, `IPC$` ; entre Share et NTFS, la plus restrictive gagne.
 
 ---
+
+# Services, processus et sessions
 
 ## 7. Services Windows
 
@@ -293,6 +299,8 @@ Interactive = un humain s'authentifie ; non-interactive = l'OS lance des service
 
 ---
 
+# Identités et secrets
+
 ## 11. SID, Access Token, ACL, ACE, DACL, SACL
 
 ### À retenir
@@ -367,6 +375,8 @@ Pour exploiter la SAM, il faut SAM **et** SYSTEM. LSASS garde des identifiants s
 > La SAM ne peut pas être copiée tant que Windows tourne → on passe par les **Volume Shadow Copies**.
 
 ---
+
+# Registre, démarrage et UAC
 
 ## 13. Registre Windows
 
@@ -453,6 +463,8 @@ Administrateur ≠ contexte élevé. L'UAC ralentit l'abus mais se contourne ; c
 
 ---
 
+# Commandes et outils
+
 ## 16. CMD, PowerShell et commandes essentielles
 
 ### À retenir
@@ -522,7 +534,9 @@ Process Explorer pour parent/enfant, Procmon pour le temps réel, TCPView pour l
 
 ---
 
-# Synthèse mentale
+# Révision de la fiche
+
+## Synthèse mentale
 
 Tout le modèle de sécurité Windows tient dans une chaîne :
 
@@ -532,7 +546,7 @@ Tout le reste s'y rattache : les **services** s'exécutent avec un compte (souve
 
 ---
 
-# Commandes à connaître par cœur
+## Commandes à connaître par cœur
 
 ```cmd
 systeminfo                            # Cartographie de la cible
@@ -555,7 +569,7 @@ Get-WmiObject -Class Win32_OperatingSystem | select Version,BuildNumber
 
 ---
 
-# Erreurs fréquentes à éviter
+## Erreurs fréquentes à éviter
 
 - Croire que **System32 = 32 bits** → c'est **64 bits** (SysWOW64 = 32 bits).
 - Confondre **NTFS permissions** et **Share permissions** → les deux s'appliquent, la plus restrictive gagne.
@@ -568,13 +582,13 @@ Get-WmiObject -Class Win32_OperatingSystem | select Version,BuildNumber
 
 ---
 
-# Résumé ultra-court pour entretien
+## Résumé ultra-court pour entretien
 
 > Windows fonde sa sécurité sur les **SID** (identifiants uniques), les **access tokens** (qui portent SID, groupes et privilèges d'une session) et les **ACL/DACL** (qui décident, par comparaison avec le token, l'accès à chaque objet). L'authentification passe par **LSASS**, qui vérifie l'identité contre la **SAM** locale (ou Active Directory en domaine) et garde des identifiants en mémoire — ce qui en fait une cible de vol. Les **services** tournent souvent en **LocalSystem** : leurs mauvaises permissions sont un vecteur d'élévation vers SYSTEM. La **persistance** se cache dans le **registre** (clés Run/RunOnce) ou dans des services. **SMB** (port 445) gère les partages, avec des partages administratifs (`C$`, `ADMIN$`) actifs par défaut. L'**UAC** ralentit l'abus de privilèges mais n'est pas une barrière absolue.
 
 ---
 
-# Mini quiz
+## Mini quiz
 
 1. Quelle commande donne une vue d'ensemble du système (OS, build, patchs) ?
 2. System32 contient-il les binaires 32 ou 64 bits ?
@@ -623,9 +637,11 @@ Côté sécurité, Windows s’appuie sur plusieurs notions centrales :
 
 ---
 
-# 1. Programmes, processus et threads
+# Processus et services
 
-## 1.1 Programme vs processus
+## 1. Programmes, processus et threads
+
+### 1.1 Programme vs processus
 
 Un **programme** est un fichier présent sur le disque, par exemple :
 
@@ -652,7 +668,7 @@ Un même programme peut avoir plusieurs processus en même temps. Exemple : plus
 
 ---
 
-## 1.2 Ce que contient un processus
+### 1.2 Ce que contient un processus
 
 |Élément|Rôle|
 |---|---|
@@ -669,7 +685,7 @@ Un même programme peut avoir plusieurs processus en même temps. Exemple : plus
 
 ---
 
-## 1.3 Thread
+### 1.3 Thread
 
 Un **thread** est une unité d’exécution à l’intérieur d’un processus.
 
@@ -694,7 +710,7 @@ Thread = tâche précise effectuée par le cuisinier
 
 ---
 
-## 1.4 Processus parent / enfant
+### 1.4 Processus parent / enfant
 
 Quand un processus lance un autre processus, il devient son **parent**.
 
@@ -726,7 +742,7 @@ Ce type de chaîne peut indiquer une macro malveillante, un phishing ou une exé
 
 ---
 
-## 1.5 Commandes utiles pour les processus
+### 1.5 Commandes utiles pour les processus
 
 ```powershell
 Get-Process
@@ -748,7 +764,7 @@ wmic process get processid,parentprocessid,executablepath,commandline
 
 ---
 
-## 1.6 Intérêt cyber des processus
+### 1.6 Intérêt cyber des processus
 
 Comprendre les processus permet de :
 
@@ -771,7 +787,7 @@ Comprendre les processus permet de :
 
 ---
 
-# 2. Processus système critiques
+## 2. Processus système critiques
 
 |Processus|Rôle|
 |---|---|
@@ -787,7 +803,7 @@ Comprendre les processus permet de :
 
 ---
 
-## 2.1 svchost.exe
+### 2.1 svchost.exe
 
 `svchost.exe` signifie **Service Host**.
 
@@ -824,7 +840,7 @@ Avec PowerShell :
 Get-CimInstance Win32_Service | Select-Object Name, ProcessId, State, StartName, PathName
 ```
 
-### Focus cyber
+#### Focus cyber
 
 `svchost.exe` est souvent imité par des malwares.
 
@@ -860,9 +876,9 @@ C:\Windows\System32\svchost.exe
 
 ---
 
-# 3. Focus LSASS
+## 3. Focus LSASS
 
-## 3.1 Définition
+### 3.1 Définition
 
 `lsass.exe` signifie **Local Security Authority Subsystem Service**.
 
@@ -885,7 +901,7 @@ Il intervient notamment dans :
 
 ---
 
-## 3.2 LSASS et authentification
+### 3.2 LSASS et authentification
 
 Quand un utilisateur se connecte :
 
@@ -916,7 +932,7 @@ Les processus héritent du token
 
 ---
 
-## 3.3 Pourquoi LSASS est une cible critique ?
+### 3.3 Pourquoi LSASS est une cible critique ?
 
 LSASS peut contenir en mémoire des informations sensibles liées à l’authentification.
 
@@ -937,7 +953,7 @@ C’est pourquoi LSASS est une cible majeure pour le vol d’identifiants.
 
 ---
 
-## 3.4 Logs associés
+### 3.4 Logs associés
 
 Les événements liés aux connexions sont journalisés dans le journal **Security** de Windows.
 
@@ -952,7 +968,7 @@ Les événements liés aux connexions sont journalisés dans le journal **Securi
 
 ---
 
-## 3.5 Protections autour de LSASS
+### 3.5 Protections autour de LSASS
 
 Protections utiles :
 
@@ -976,9 +992,9 @@ Get-Process lsass | Format-List *
 
 ---
 
-# 4. Services Windows
+## 4. Services Windows
 
-## 4.1 Définition
+### 4.1 Définition
 
 Un **service Windows** est un composant conçu pour exécuter une tâche en arrière-plan, souvent pendant longtemps.
 
@@ -1016,7 +1032,7 @@ Exemples de fonctions gérées par des services :
 
 ---
 
-## 4.2 Service Control Manager — SCM
+### 4.2 Service Control Manager — SCM
 
 Les services sont gérés par le **Service Control Manager** ou **SCM**.
 
@@ -1045,9 +1061,9 @@ services.exe
 
 ---
 
-## 4.3 Où gérer les services ?
+### 4.3 Où gérer les services ?
 
-### Interface graphique
+#### Interface graphique
 
 ```text
 services.msc
@@ -1072,7 +1088,7 @@ Permet de voir :
 - options de récupération.
     
 
-### Ligne de commande CMD
+#### Ligne de commande CMD
 
 ```cmd
 sc query
@@ -1081,7 +1097,7 @@ sc start <ServiceName>
 sc stop <ServiceName>
 ```
 
-### PowerShell
+#### PowerShell
 
 ```powershell
 Get-Service
@@ -1098,7 +1114,7 @@ Get-CimInstance Win32_Service | Select-Object Name, State, StartMode, StartName,
 
 ---
 
-## 4.4 États d’un service
+### 4.4 États d’un service
 
 |État|Signification|
 |---|---|
@@ -1110,7 +1126,7 @@ Get-CimInstance Win32_Service | Select-Object Name, State, StartMode, StartName,
 
 ---
 
-## 4.5 Modes de démarrage
+### 4.5 Modes de démarrage
 
 |Mode|Signification|
 |---|---|
@@ -1121,7 +1137,7 @@ Get-CimInstance Win32_Service | Select-Object Name, State, StartMode, StartName,
 
 ---
 
-## 4.6 Comptes d’exécution des services
+### 4.6 Comptes d’exécution des services
 
 Un service tourne sous un compte. Ce compte détermine ses droits locaux et réseau.
 
@@ -1139,9 +1155,9 @@ Un service n’a pas toujours besoin de tourner en `LocalSystem`.
 
 ---
 
-# 5. Permissions de services
+## 5. Permissions de services
 
-## 5.1 Pourquoi c’est important ?
+### 5.1 Pourquoi c’est important ?
 
 Les services sont sensibles car :
 
@@ -1173,7 +1189,7 @@ Bonnes pratiques :
 
 ---
 
-## 5.2 Points à vérifier sur un service
+### 5.2 Points à vérifier sur un service
 
 |Élément|Pourquoi c’est important ?|
 |---|---|
@@ -1189,7 +1205,7 @@ Bonnes pratiques :
 
 ---
 
-## 5.3 Interroger la configuration d’un service
+### 5.3 Interroger la configuration d’un service
 
 ```cmd
 sc qc wuauserv
@@ -1206,7 +1222,7 @@ DEPENDENCIES         → dépendances
 
 ---
 
-## 5.4 Examiner les permissions d’un service avec SDDL
+### 5.4 Examiner les permissions d’un service avec SDDL
 
 ```cmd
 sc sdshow wuauserv
@@ -1243,9 +1259,9 @@ Exemple simplifié :
 
 ---
 
-# 6. Abus cyber liés aux services
+## 6. Abus cyber liés aux services
 
-## 6.1 Mauvaises permissions de service
+### 6.1 Mauvaises permissions de service
 
 Une mauvaise permission peut permettre à un utilisateur non privilégié de :
 
@@ -1270,7 +1286,7 @@ SERVICE_CHANGE_CONFIG
 
 ---
 
-## 6.2 Binaire de service modifiable
+### 6.2 Binaire de service modifiable
 
 Cas typique :
 
@@ -1292,7 +1308,7 @@ icacls "C:\Program Files\Application\"
 
 ---
 
-## 6.3 Unquoted Service Path
+### 6.3 Unquoted Service Path
 
 Un **Unquoted Service Path** apparaît quand le chemin du binaire contient des espaces mais n’est pas entouré par des guillemets.
 
@@ -1326,9 +1342,11 @@ Select-Object Name, StartName, PathName
 
 ---
 
-# 7. Modèle de sécurité Windows
+# Modèle de sécurité et secrets
 
-## 7.1 Security principal
+## 7. Modèle de sécurité Windows
+
+### 7.1 Security principal
 
 Un **security principal** est une entité à laquelle Windows peut attribuer des droits.
 
@@ -1349,7 +1367,7 @@ Chaque security principal possède un identifiant unique : le **SID**.
 
 ---
 
-## 7.2 SID — Security Identifier
+### 7.2 SID — Security Identifier
 
 Un **SID** identifie de façon unique un utilisateur, groupe, ordinateur, domaine ou service.
 
@@ -1375,7 +1393,7 @@ wmic useraccount get name,sid
 
 ---
 
-## 7.3 Structure d’un SID
+### 7.3 Structure d’un SID
 
 Exemple :
 
@@ -1414,7 +1432,7 @@ RID connus :
 
 ---
 
-## 7.4 Access token
+### 7.4 Access token
 
 Lorsqu’un utilisateur s’authentifie, Windows crée un **access token**.
 
@@ -1463,7 +1481,7 @@ Accès autorisé ou refusé
 
 ---
 
-## 7.5 Privilèges Windows
+### 7.5 Privilèges Windows
 
 Voir ses privilèges :
 
@@ -1484,7 +1502,7 @@ Exemples :
 
 ---
 
-## 7.6 Integrity Levels
+### 7.6 Integrity Levels
 
 Windows utilise des niveaux d’intégrité pour limiter ce qu’un processus peut faire.
 
@@ -1510,9 +1528,9 @@ Mandatory Label\High Mandatory Level
 
 ---
 
-# 8. ACL, ACE, DACL, SACL
+## 8. ACL, ACE, DACL, SACL
 
-## 8.1 Objet sécurisable
+### 8.1 Objet sécurisable
 
 Dans Windows, beaucoup d’objets peuvent avoir des permissions :
 
@@ -1539,7 +1557,7 @@ Ces objets possèdent un **Security Descriptor**.
 
 ---
 
-## 8.2 Security Descriptor
+### 8.2 Security Descriptor
 
 Un **Security Descriptor** décrit la sécurité d’un objet.
 
@@ -1556,7 +1574,7 @@ Il contient notamment :
 
 ---
 
-## 8.3 ACL / ACE / DACL / SACL
+### 8.3 ACL / ACE / DACL / SACL
 
 |Terme|Définition|Rôle|
 |---|---|---|
@@ -1581,7 +1599,7 @@ Security Descriptor
 
 ---
 
-## 8.4 Access check
+### 8.4 Access check
 
 Quand un processus veut accéder à un objet :
 
@@ -1606,9 +1624,9 @@ Access granted / Access denied
 
 ---
 
-# 9. SAM, LSA et secrets locaux
+## 9. SAM, LSA et secrets locaux
 
-## 9.1 SAM — Security Accounts Manager
+### 9.1 SAM — Security Accounts Manager
 
 La **SAM** est la base locale des comptes Windows.
 
@@ -1639,7 +1657,7 @@ HKLM\SAM
 
 ---
 
-## 9.2 SAM et SYSTEM
+### 9.2 SAM et SYSTEM
 
 Les secrets de la SAM sont protégés.
 
@@ -1666,7 +1684,7 @@ Ruches intéressantes :
 
 ---
 
-## 9.3 Extraire les ruches en lab
+### 9.3 Extraire les ruches en lab
 
 Commande possible en contexte administrateur/lab :
 
@@ -1680,7 +1698,7 @@ Note : il n’est généralement pas possible de copier directement `C:\Windows\
 
 ---
 
-## 9.4 SAM en domaine Active Directory
+### 9.4 SAM en domaine Active Directory
 
 Sur une machine jointe à un domaine :
 
@@ -1700,9 +1718,11 @@ Compte domaine → Active Directory / NTDS.dit
 
 ---
 
-# 10. Registre Windows
+# Registre, persistance et outils
 
-## 10.1 Définition
+## 10. Registre Windows
+
+### 10.1 Définition
 
 Le **registre Windows** est une base de données hiérarchique qui stocke la configuration de Windows et de nombreuses applications.
 
@@ -1737,7 +1757,7 @@ reg query <clé>
 
 ---
 
-## 10.2 Vocabulaire
+### 10.2 Vocabulaire
 
 |Terme|Définition simple|
 |---|---|
@@ -1758,7 +1778,7 @@ Donnée = contenu du fichier
 
 ---
 
-## 10.3 Ruches principales
+### 10.3 Ruches principales
 
 |Ruche|Abréviation|Contenu principal|
 |---|---|---|
@@ -1778,7 +1798,7 @@ HKU  = tous les profils utilisateurs chargés
 
 ---
 
-## 10.4 Fichiers physiques du registre
+### 10.4 Fichiers physiques du registre
 
 Les ruches système sont stockées dans :
 
@@ -1802,7 +1822,7 @@ C:\Users\<USERNAME>\NTUSER.DAT
 
 ---
 
-## 10.5 Services dans le registre
+### 10.5 Services dans le registre
 
 Les services sont configurés dans :
 
@@ -1824,9 +1844,9 @@ reg query HKLM\SYSTEM\CurrentControlSet\Services\wuauserv
 
 ---
 
-# 11. Persistance Windows
+## 11. Persistance Windows
 
-## 11.1 Définition
+### 11.1 Définition
 
 La **persistance** désigne les mécanismes permettant à un programme ou à un attaquant de survivre à :
 
@@ -1841,7 +1861,7 @@ La **persistance** désigne les mécanismes permettant à un programme ou à un 
 
 ---
 
-## 11.2 Run et RunOnce Registry Keys
+### 11.2 Run et RunOnce Registry Keys
 
 Les clés `Run` et `RunOnce` permettent de lancer automatiquement des programmes.
 
@@ -1874,7 +1894,7 @@ Focus forensic : ces clés sont parmi les premiers endroits à vérifier en cas 
 
 ---
 
-## 11.3 Services comme persistance
+### 11.3 Services comme persistance
 
 Un attaquant peut chercher à créer ou modifier un service pour exécuter un programme au démarrage.
 
@@ -1901,7 +1921,7 @@ Points suspects :
 
 ---
 
-## 11.4 Tâches planifiées
+### 11.4 Tâches planifiées
 
 Les tâches planifiées sont un mécanisme très fréquent de persistance.
 
@@ -1934,7 +1954,7 @@ Points à regarder :
 
 ---
 
-## 11.5 Startup folder
+### 11.5 Startup folder
 
 Dossier de démarrage utilisateur :
 
@@ -1950,7 +1970,7 @@ C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
 
 ---
 
-## 11.6 Autoruns
+### 11.6 Autoruns
 
 `Autoruns` est un outil Sysinternals très utile pour analyser la persistance Windows.
 
@@ -1987,9 +2007,9 @@ autoruns.exe
 
 ---
 
-# 12. Outils Windows et Sysinternals
+## 12. Outils Windows et Sysinternals
 
-## 12.1 Task Manager
+### 12.1 Task Manager
 
 Le **Task Manager** permet d’observer rapidement :
 
@@ -2018,7 +2038,7 @@ taskmgr
 
 ---
 
-## 12.2 Resource Monitor
+### 12.2 Resource Monitor
 
 Resource Monitor donne plus de détails sur :
 
@@ -2039,7 +2059,7 @@ resmon
 
 ---
 
-## 12.3 Sysinternals
+### 12.3 Sysinternals
 
 Sysinternals est une suite d’outils Microsoft pour l’administration, le diagnostic et l’analyse Windows.
 
@@ -2057,7 +2077,7 @@ Exemple :
 
 ---
 
-## 12.4 Process Explorer
+### 12.4 Process Explorer
 
 `Process Explorer` est une version avancée du Task Manager.
 
@@ -2088,7 +2108,7 @@ procexp.exe
 
 ---
 
-## 12.5 Process Monitor — Procmon
+### 12.5 Process Monitor — Procmon
 
 `Procmon` permet de surveiller en temps réel :
 
@@ -2120,7 +2140,7 @@ Path ends with .dll
 
 ---
 
-## 12.6 TCPView
+### 12.6 TCPView
 
 `TCPView` affiche les connexions réseau actives par processus.
 
@@ -2142,7 +2162,7 @@ Get-NetTCPConnection
 
 ---
 
-## 12.7 AccessChk
+### 12.7 AccessChk
 
 `AccessChk` permet d’auditer les permissions.
 
@@ -2160,7 +2180,7 @@ accesschk.exe -uwcqv "Authenticated Users" *
 
 ---
 
-## 12.8 Sigcheck
+### 12.8 Sigcheck
 
 `Sigcheck` permet de vérifier les signatures de fichiers.
 
@@ -2178,9 +2198,11 @@ sigcheck.exe -m C:\Windows\System32\svchost.exe
 
 ---
 
-# 13. UAC — User Account Control
+# UAC et protections
 
-## 13.1 Définition
+## 13. UAC — User Account Control
+
+### 13.1 Définition
 
 L’**UAC** est un mécanisme de sécurité Windows qui contrôle l’élévation de privilèges.
 
@@ -2201,7 +2223,7 @@ Exemples d’actions déclenchant potentiellement l’UAC :
 
 ---
 
-## 13.2 Admin Approval Mode
+### 13.2 Admin Approval Mode
 
 Un utilisateur membre du groupe Administrators ne travaille pas forcément en permanence avec un token administrateur complet.
 
@@ -2234,9 +2256,9 @@ Token administrateur élevé
 
 ---
 
-# 14. Protections Windows
+## 14. Protections Windows
 
-## 14.1 Windows Defender
+### 14.1 Windows Defender
 
 Windows Defender Antivirus est l’antivirus intégré de Windows.
 
@@ -2266,7 +2288,7 @@ Get-MpPreference
 
 ---
 
-## 14.2 Credential Guard
+### 14.2 Credential Guard
 
 **Credential Guard** protège certains secrets d’authentification en les isolant via Virtualization-Based Security.
 
@@ -2274,7 +2296,7 @@ Objectif : réduire l’impact d’un accès au système en empêchant certains 
 
 ---
 
-## 14.3 LSA Protection / RunAsPPL
+### 14.3 LSA Protection / RunAsPPL
 
 **LSA Protection** permet de lancer LSASS comme processus protégé.
 
@@ -2282,7 +2304,7 @@ Objectif : empêcher des processus non autorisés d’ouvrir ou de manipuler LSA
 
 ---
 
-## 14.4 AppLocker
+### 14.4 AppLocker
 
 **AppLocker** permet de contrôler quels programmes peuvent être exécutés.
 
@@ -2311,7 +2333,7 @@ Bon réflexe : commencer en **audit mode** avant de bloquer réellement.
 
 ---
 
-## 14.5 WDAC
+### 14.5 WDAC
 
 **Windows Defender Application Control** est une solution plus robuste de contrôle d’exécution applicative.
 
@@ -2324,9 +2346,11 @@ Différence simplifiée :
 
 ---
 
-# 15. Mini checklists cyber
+# Révision de l'approfondissement
 
-## 15.1 Analyse rapide d’un processus suspect
+## 15. Mini checklists cyber
+
+### 15.1 Analyse rapide d’un processus suspect
 
 À vérifier :
 
@@ -2376,7 +2400,7 @@ Sigcheck
 
 ---
 
-## 15.2 Analyse rapide d’un service suspect
+### 15.2 Analyse rapide d’un service suspect
 
 À vérifier :
 
@@ -2417,7 +2441,7 @@ Get-Acl "C:\chemin\du\dossier"
 
 ---
 
-## 15.3 Analyse rapide d’une persistance
+### 15.3 Analyse rapide d’une persistance
 
 À vérifier :
 
@@ -2463,9 +2487,9 @@ Autoruns
 
 ---
 
-# 16. Résumé mental
+## 16. Résumé mental
 
-## Chaîne d’exécution
+### Chaîne d’exécution
 
 ```text
 Programme sur disque
@@ -2483,7 +2507,7 @@ Windows compare le token aux ACL des objets
 Accès autorisé ou refusé
 ```
 
-## Chaîne services
+### Chaîne services
 
 ```text
 Service configuré dans le registre
@@ -2499,7 +2523,7 @@ Exécute un binaire ou une DLL via svchost.exe
 Peut devenir un vecteur de persistance ou privesc si mal configuré
 ```
 
-## Chaîne authentification
+### Chaîne authentification
 
 ```text
 Utilisateur saisit ses identifiants
@@ -2515,9 +2539,9 @@ Les accès sont décidés via les DACL
 
 ---
 
-# 17. Commandes à retenir
+## 17. Commandes à retenir
 
-## Processus
+### Processus
 
 ```powershell
 Get-Process
@@ -2531,7 +2555,7 @@ tasklist /svc
 wmic process get processid,parentprocessid,executablepath,commandline
 ```
 
-## Identité / token
+### Identité / token
 
 ```cmd
 whoami
@@ -2540,7 +2564,7 @@ whoami /groups
 whoami /priv
 ```
 
-## Services
+### Services
 
 ```powershell
 Get-Service
@@ -2556,7 +2580,7 @@ sc stop <service>
 sc sdshow <service>
 ```
 
-## Permissions
+### Permissions
 
 ```cmd
 icacls "C:\chemin"
@@ -2567,7 +2591,7 @@ Get-Acl "C:\chemin" | Format-List
 Get-Acl HKLM:\System\CurrentControlSet\Services\wuauserv | Format-List
 ```
 
-## Registre
+### Registre
 
 ```cmd
 reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
@@ -2575,7 +2599,7 @@ reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
 reg query HKLM\SYSTEM\CurrentControlSet\Services\wuauserv
 ```
 
-## Ruches en lab
+### Ruches en lab
 
 ```cmd
 reg save HKLM\SAM sam.save
@@ -2583,7 +2607,7 @@ reg save HKLM\SYSTEM system.save
 reg save HKLM\SECURITY security.save
 ```
 
-## Tâches planifiées
+### Tâches planifiées
 
 ```cmd
 schtasks /query /fo LIST /v
@@ -2593,7 +2617,7 @@ schtasks /query /fo LIST /v
 Get-ScheduledTask
 ```
 
-## Defender
+### Defender
 
 ```powershell
 Get-MpComputerStatus
@@ -2602,7 +2626,7 @@ Get-MpPreference
 
 ---
 
-# 18. Erreurs fréquentes à éviter
+## 18. Erreurs fréquentes à éviter
 
 - Confondre **programme** et **processus**.
     
@@ -2631,9 +2655,9 @@ Get-MpPreference
 
 ---
 
-# 19. Mini quiz
+## 19. Mini quiz
 
-## Questions
+### Questions
 
 1. Quelle est la différence entre un programme et un processus ?
     
@@ -2660,7 +2684,7 @@ Get-MpPreference
 12. Pourquoi UAC peut bloquer une action même si l’utilisateur est administrateur ?
     
 
-## Réponses attendues
+### Réponses attendues
 
 1. Un programme est un fichier sur disque ; un processus est une instance en cours d’exécution.
     
@@ -2689,6 +2713,6 @@ Get-MpPreference
 
 ---
 
-# 20. Réponse type entretien
+## 20. Réponse type entretien
 
 > Sous Windows, un programme devient un processus lorsqu’il est exécuté. Ce processus possède un PID, un contexte utilisateur et un access token contenant les SID, groupes, privilèges et niveau d’intégrité. Lorsqu’il tente d’accéder à un objet comme un fichier, une clé de registre ou un service, Windows compare ce token à la DACL de l’objet pour autoriser ou refuser l’accès. Les services sont des processus particuliers, gérés par le Service Control Manager, qui peuvent démarrer automatiquement et tourner sous des comptes privilégiés comme LocalSystem. C’est pourquoi les permissions de services, le chemin du binaire, le compte d’exécution et les mécanismes de persistance comme les Run Keys ou les tâches planifiées sont des points essentiels à analyser en cybersécurité.

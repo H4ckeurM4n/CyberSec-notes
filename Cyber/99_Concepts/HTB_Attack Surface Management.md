@@ -1,3 +1,5 @@
+> Fiche courte, complément des chapitres 28 et 29 du cours [[vulnerability_management_intelligence|Vulnerability management & intelligence]].
+
 - **ASM — Attack Surface Management** consiste à identifier, évaluer, réduire et surveiller en continu les éléments exposés pouvant être exploités par un attaquant.
 - Le processus varie selon l’organisation, mais repose généralement sur plusieurs étapes principales.
 - La surface d’attaque est la somme de tous les points qu’un attaquant est susceptible d’exploiter pour accéder aux systèmes et données d’une entreprise. Elle englobe :

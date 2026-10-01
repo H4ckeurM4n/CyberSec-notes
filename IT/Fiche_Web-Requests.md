@@ -4,6 +4,8 @@
 
 ---
 
+# HTTP, URL et HTTPS
+
 ## 1. HTTP : principe général
 
 ### À retenir
@@ -79,6 +81,8 @@ curl -k https://inlanefreight.com   # ignore les erreurs de certificat (labs/SSL
 HTTPS chiffre tout sur le port 443. `-k` ignore le certificat (à n'utiliser qu'en lab).
 
 ---
+
+# Anatomie d'un échange HTTP
 
 ## 5. Requête HTTP
 
@@ -206,6 +210,8 @@ PUT et DELETE mal sécurisées = upload malveillant ou suppression de données.
 
 ---
 
+# Outils : cURL et DevTools
+
 ## 10. cURL : commandes essentielles
 
 | Commande | Explication |
@@ -249,6 +255,8 @@ Permet de comprendre comment l'app communique avec son backend, et de **rejouer/
 Network + Copy as cURL = rejouer n'importe quelle requête en quelques secondes.
 
 ---
+
+# Envoyer des données : GET, POST, cookies, API
 
 ## 12. GET et paramètres
 
@@ -357,6 +365,8 @@ Une API qui autorise PUT/DELETE **sans contrôle d'accès** = vulnérabilité cr
 CRUD = POST/GET/PUT/DELETE. Sans contrôle d'accès, c'est une faille.
 
 ---
+
+# Synthèse et révision
 
 ## 16. Points de vigilance cyber
 

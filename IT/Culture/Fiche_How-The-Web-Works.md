@@ -5,6 +5,8 @@
 
 ---
 
+# Vue d'ensemble et URL
+
 ## 1. Vue d'ensemble : que se passe-t-il quand on visite un site web ?
 
 ### À retenir
@@ -70,6 +72,8 @@ La query string est manipulable et **loggée partout** (proxys, historiques, log
 Scheme + host = obligatoires. Le fragment reste côté client ; la query string part au serveur.
 
 ---
+
+# DNS
 
 ## 3. DNS : le répertoire d'Internet
 
@@ -207,6 +211,8 @@ DNS en clair = fuite + spoofing. DoH/DoT chiffrent, mais HTTPS seul ne masque pa
 
 ---
 
+# Réseau et TCP
+
 ## 8. Avant HTTP : réseau, IP, ARP, gateway et encapsulation
 
 ### À retenir
@@ -254,6 +260,8 @@ Le handshake TCP est la base du **scan de ports** (un SYN-ACK = port ouvert). Co
 SYN → SYN-ACK → ACK, puis les données circulent. Port 80 HTTP, 443 HTTPS, port source client temporaire.
 
 ---
+
+# HTTP : principe, requête, réponse
 
 ## 10. HTTP : principe général
 
@@ -377,6 +385,8 @@ Le JavaScript côté client est lisible et analysable (endpoints cachés, clés 
 HTML = structure, CSS = style, JS = comportement. Une page = souvent des dizaines de requêtes.
 
 ---
+
+# HTTPS et TLS
 
 ## 14. HTTPS : HTTP dans TLS
 
@@ -519,6 +529,8 @@ HTTPS chiffre le **contenu**, pas forcément toutes les **métadonnées**.
 HTTPS protège le contenu, pas toujours le domaine (DNS/SNI). `-k` = MiTM possible. HSTS = anti-downgrade.
 
 ---
+
+# HTTP en pratique
 
 ## 19. Headers HTTP importants
 
@@ -786,6 +798,8 @@ Permet de comprendre comment l'app dialogue avec son **backend**, et de **rejoue
 Network + Copy as cURL = rejouer n'importe quelle requête en quelques secondes.
 
 ---
+
+# Synthèse et révision
 
 ## 28. Points de vigilance cyber
 

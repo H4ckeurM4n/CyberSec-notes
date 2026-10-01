@@ -1,3 +1,5 @@
+# Fondamentaux du système
+
 ## Usages courants
 
 ### Linux Structure
@@ -63,6 +65,8 @@ Lorsque l’on appuie sur le bouton “Power” :
     - **GPT (GUID Partition Table) :** C'est le système de classement moderne. C'est comme une base de données numérique immense et sécurisée.
 
 ### Informations système
+
+# Investigation (forensics)
 
 ## Linux Forensics
 
@@ -228,7 +232,9 @@ btmp : connexion échouée |
     - UID 1000+ = Utilisateurs normaux
 - GID (Group ID) : Chaque utilisateur appartient à un groupe principal (souvent le même nom que l'utilisateur). Ça permet de partager des fichiers entre collègues.
 
-### Recherche & gérer fichiers / répertoires [which, find, locate]
+# Fichiers, recherche et flux
+
+## Recherche & gérer fichiers / répertoires [which, find, locate]
 
 | Commande | Description |
 | --- | --- |
@@ -375,7 +381,7 @@ btmp : connexion échouée |
 
  
 
-### Filtrer contenus fichiers [grep, tail, more, less…]
+## Filtrer contenus fichiers [grep, tail, more, less…]
 
 | Commande | Description |
 | --- | --- |
@@ -643,7 +649,7 @@ Chercher ligne contenant mot1 puis plus loin mot2 (dans cet ordre)
 grep -E "(my.*false)" /etc/passwd
 ```
 
-### Gestion des permissions [chmod, SUID…]
+## Gestion des permissions [chmod, SUID…]
 
 ### Introduction
 
@@ -793,7 +799,7 @@ Linux permet permissions spéciales sur fichiers via bits Set User ID (SUID) et 
 
 Protège fichiers dans un répertoire partagé, seul propriétaire du fichier, proprio du répertoire ou root peut supp/rename. 
 
-### File descriptors et redirections [STDIN, STDOUT, STDERR]
+## File descriptors et redirections [STDIN, STDOUT, STDERR]
 
 File descriptor (FD) sous Unix/Linux est une référence, gérée par noyau qui identifie ressource ouverte (fichier, socket…). Sous Windows, on parle de file handle. “Ticket” que l’OS utilise pour savoir quelle ressource lire/écrire.
 
@@ -866,7 +872,7 @@ cat << EOF > stream.txt
 
 ![image.png](attachment:fe4b4103-fca7-4535-bd4e-8a4c20db689f:image.png)
 
-# Pipe
+## Pipe
 
 ```bash
 - | grep mot
@@ -874,9 +880,11 @@ cat << EOF > stream.txt
 	- Nombre package : dpkg -l | grep '^ii' | wc -l
 ```
 
+# Utilisateurs, paquets et processus
+
 ### Gestion du système
 
-### Gestions des users [passwd, shadow…]
+## Gestions des users [passwd, shadow…]
 
 | Commande | Description |
 | --- | --- |
@@ -1091,7 +1099,7 @@ git clone https:...
 python3 -m pip install <paquet>
 ```
 
-### Gestion des process et service [daemons, Systemd, SIGTERM…]
+## Gestion des process et service [daemons, Systemd, SIGTERM…]
 
 ### Linux Process / Services
 
@@ -1207,7 +1215,7 @@ ss -tulpen
 - Sert à : fournir des services réseau, tâches planifiées, gestion du système.
 - **Gestionnaire courant** : `systemd` (commande **`systemctl`**).
 
-## Savoir lister et piloter (avec `systemctl`)
+### Savoir lister et piloter (avec `systemctl`)
 
 Lister :
 
@@ -1251,7 +1259,7 @@ sudo systemctl show <service> -p ExecStart -p FragmentPath -p User -p Group -p R
 
 ---
 
-## Où sont les fichiers d’unité ?
+### Où sont les fichiers d’unité ?
 
 - **Système (distro)** : `/lib/systemd/system/*.service`
 - **Local (admin/custom)** : `/etc/systemd/system/*.service` ← souvent là que se cache la persistance
@@ -1273,7 +1281,7 @@ sudo grep -R "^ExecStart=" /etc/systemd/system /lib/systemd/system | grep -vE "/
 
 ---
 
-## Voir les logs d’un service (avec `journalctl`)
+### Voir les logs d’un service (avec `journalctl`)
 
 ```bash
 # Logs du service (ancien → récent)
@@ -1295,7 +1303,7 @@ sudo journalctl -u <service> -b
 
 ---
 
-## Checklist “analyse express” (IR/Hygiène)
+### Checklist “analyse express” (IR/Hygiène)
 
 1. **Qu’est-ce qui tourne ?**
     
@@ -1328,7 +1336,7 @@ sudo journalctl -u <service> -b
 
 ---
 
-## Mini mémo (copier/coller)
+### Mini mémo (copier/coller)
 
 ```bash
 # Inventaire rapide
@@ -1346,7 +1354,7 @@ sudo systemctl stop <service>     # si à bloquer
 
 ```
 
-### Investiguer connexions réseau
+#### Investiguer connexions réseau
 
 ```bash
 netstat / ss : connexions actives + ports en écoute.
@@ -1362,9 +1370,9 @@ iptables : règles pare-feu (contexte).
 Autres vus : nmap, ping, traceroute, dig/nslookup, hostname, ifconfig/ip, arp, route, curl/wget, netcat, whois.
 ```
 
-### Linux incident surface
+#### Linux incident surface
 
-### Processus et connexion réseau
+#### Processus et connexion réseau
 
 - Instantanné des process : ps aux
 
@@ -1396,9 +1404,9 @@ START heure de démarrage · COMMAND binaire + arguments
 
 ```
 
-### Persistance
+#### Persistance
 
-### Création de compte
+#### Création de compte
 
 ```bash
 # Créer un compte et l’ajouter au groupe sudo
@@ -1412,7 +1420,7 @@ echo "attacker ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers
 - Emplacement compte : grep attacker /etc/passwd
 ```
 
-### Cron jobs
+#### Cron jobs
 
 ```bash
 - Editer cron tab : crontab -e 
@@ -1426,7 +1434,7 @@ echo "attacker ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers
 - Chercher exécution : grep CRON /var/log/syslog
 ```
 
-### Services systemd
+#### Services systemd
 
 ```bash
 Créer un fichier de conf pour test : sudo nano /etc/systemd/system/suspicious.service
@@ -1464,7 +1472,7 @@ Trace :
 
 ```
 
-## Où regarder globalement
+### Où regarder globalement
 
 - **Répertoire des logs** : `/var/log/` (auth.log, syslog, …)
 - **Comptes** : `/etc/passwd`
@@ -1473,7 +1481,7 @@ Trace :
 
 ---
 
-## Mini check-list détection (rapide)
+### Mini check-list détection (rapide)
 
 - Un **nouvel utilisateur** admin ? → `auth.log` + `/etc/passwd`
 - Des **tâches planifiées** anormales ? → crontabs + `grep CRON /var/log/syslog`
@@ -1487,7 +1495,7 @@ Trace :
 - `Systemd` et `systemctl` : Systemd est le gestionnaire qui lance et surveille ces daemons, pour travailler avec on utilise la commande systemctl
 - Moderne distrib utilisent systemd lors de l’initialisation du système (init init). Premier process qui démarre au boot et 1er Process ID (PID). Chaque process a un PID et un PPID (parent) visibles sous /proc/.
 
-### Systemctl (services systemd)
+#### Systemctl (services systemd)
 
 Permet de lancer, d’arrêter les services.
 
@@ -1524,7 +1532,7 @@ systemctl disable ssh
 ps -aux | grep ssh
 ```
 
-### Lister / chercher [PS, PSTREE, SS -lntp]
+## Lister / chercher [PS, PSTREE, SS -lntp]
 
 ```bash
 # Lister / Filtrer / Arbre / Ports
@@ -1620,7 +1628,9 @@ fg X # Permet de relancer en avant
         ```
         
 
-### Gestion réseau [netstat, ss -tulnp, resolv.conf, interfaces…]
+# Réseau et services
+
+## Gestion réseau [netstat, ss -tulnp, resolv.conf, interfaces…]
 
 ### Connaitre infos
 
@@ -1865,7 +1875,7 @@ sudo systemctl enable mytimer.timer
     ```
     
 
-### Service réseau [SSH, NFS, Python]
+## Service réseau [SSH, NFS, Python]
 
 ### SSH
 
@@ -1927,7 +1937,7 @@ mkdir ~/target_nfs
 mount 10.129.12.17:/home/john/dev_scripts ~/target_nfs
 ```
 
-### Serveur Web [Python, NPM, PHP…]
+## Serveur Web [Python, NPM, PHP…]
 
 Serveurs web (Apache, Nginx…), délivrent contenu/app via HTTP(S). Pour pentest, transfert de fichiers, points d’entrée applicatifs, phishin (pages leurres), tests config…
 
@@ -1983,7 +1993,7 @@ http-server -p XX
 php -S 127.0.0.1:8080
 ```
 
-### Services Web [Apache, cURL, WGET]
+## Services Web [Apache, cURL, WGET]
 
 - Communication entre navigateur et serveur web est centrale. Peut héberger avec Apache l’un des plus répandus, grâce à sa modularité.
     - Modules utiles : mod_ssl (chiffre échanges HHTPS), mod_proxy (proxy, reverse-proxy, redirection de trafic), mod_headers (ajuster en-têtes HTTP), mod_rewrite (réécritures d’URL)
@@ -2026,7 +2036,9 @@ Pratique pour télécharger et faire des récupérations récursives simples.
 wget http://localhost
 ```
 
-### Backup et restauration [Rsync, Deja Dup]
+# Système : sauvegarde, disques, pare-feu et shell
+
+## Backup et restauration [Rsync, Deja Dup]
 
 - Rsync : Synchro rapide/fiable (local ↔ distant). Transfère uniquement les différences (delta). Idéal pour sauvegardes incrémentales et transferts réseau.
 - Duplicity : S’appuie sur rsync mais ajoute chiffrement et archives incrémentales (vers S3, FTP, SSH…)
@@ -2132,7 +2144,7 @@ rsync -avz -e ssh /path/to/mydirectory user@backup_server:/path/to/backup/direct
     ```
     
 
-### Gestion file system [ext4, NTFS, fdisk, gpart…]
+## Gestion file system [ext4, NTFS, fdisk, gpart…]
 
 - Différents systèmes de fichiers
     - ext2 & ext3 : ancien sans journalisation, mais tjrs utile pour petits scénarios comme clés USB
@@ -2248,7 +2260,7 @@ cat /proc/swaps # Détail noyau
     ```
     
 
-### Desktop Environments [Gnome, KDE, X11…]
+## Desktop Environments [Gnome, KDE, X11…]
 
 Linux est un noyau (texte). L'interface graphique n'est qu'un programme par-dessus. On peut la tuer sans éteindre l'ordinateur !
 
@@ -2269,7 +2281,7 @@ C'est géré par un serveur d'affichage (historiquement **X11**, qui est en trai
 
 Partie user-side du système XWindows (X11). X11 système qui constitue ensemble de protocoles et d’app qui permettent d’avoir des fenêtres avec GUI.
 
-### Firewall setup [Iptables, Nftables, UFW…]
+## Firewall setup [Iptables, Nftables, UFW…]
 
 - Nftables : fournit syntaxe plus moderne et performances améliorées par rapport à iptables. Syntaxe nftables pas compatible avec iptables.
 - UFW : fournit interface simple pour conf règles de pare-feu. Il est construit sur framework iptables.
@@ -2546,7 +2558,7 @@ journalctl -u ssh --since "today" (service donné)
 journalctl -k (messages kernel)
 ```
 
-### Shell [Instable, Alias, env…]
+## Shell [Instable, Alias, env…]
 
 - Maintenir Shell instable
     
@@ -2698,6 +2710,8 @@ sudo ufw allow 22/tcp
 # Vérifier l’état
 sudo ufw status verbose
 ```
+
+# Check-lists
 
 ## Mini check-list
 

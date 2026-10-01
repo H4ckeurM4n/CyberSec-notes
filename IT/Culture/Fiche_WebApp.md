@@ -5,6 +5,8 @@
 
 ---
 
+# Vue d'ensemble
+
 ## 1. Vue d'ensemble : qu'est-ce qu'une application web ?
 
 ### À retenir
@@ -119,6 +121,8 @@ La majorité des failles intéressantes (IDOR, broken access control, escalade d
 Comprendre l'application > envoyer des payloads. La compréhension dirige les payloads.
 
 ---
+
+# Architecture et front-end
 
 ## 6. Architecture web : les trois couches (Three Tier)
 
@@ -309,6 +313,8 @@ Le JS est une mine d'endpoints et un terrain d'exécution côté victime. À lir
 
 ---
 
+# Failles côté client
+
 ## 14. Exposition de données sensibles côté front-end
 
 ### À retenir
@@ -423,6 +429,8 @@ Le contrôle **côté client** sert l'expérience utilisateur (UX) ; il se conto
 Valider l'entrée, nettoyer la donnée, encoder la sortie — et toujours imposer la décision côté serveur.
 
 ---
+
+# Back-end, bases de données et API
 
 ## 19. Back-end servers
 
@@ -581,6 +589,8 @@ Une API expose la logique back-end : tester l'auth, les id (IDOR) et les méthod
 
 ---
 
+# Vulnérabilités web et OWASP
+
 ## 24. Vulnérabilités web courantes
 
 ### À retenir
@@ -711,6 +721,8 @@ Premier réflexe sur une application connue : **identifier le composant et sa ve
 Pas de version identifiée = pas de recherche d'exploit efficace. Toujours commencer par l'empreinte (fingerprinting).
 
 ---
+
+# Méthodologie et révision
 
 ## 29. Méthodologie de lecture d'une application web
 
