@@ -46,4 +46,63 @@ Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
 
 Ces commandes sont en lecture seule : elles ne modifient ni le BIOS ni le Boot Order.
 
-Si ton objectif est de déterminer automatiquement si un HP peut démarrer sur une clé USB, même avec un mot de passe BIOS, on peut regrouper ces vérifications en une seule fonction PowerShell 5.1 basée exclusivement sur Get-WmiObject.
+
+* Get-WmiObject -List fonctionne : tu peux consulter la définition des classes.
+* Get-WmiObject -Class HP_BIOSEnumeration échoue : Windows ou le fournisseur WMI HP refuse l’accès aux données.
+
+La première cause à vérifier est l’absence d’élévation administrateur de PowerShell ISE. Microsoft confirme que les autorisations WMI peuvent différer selon le niveau d’élévation. Microsoft Learn
+
+1. Vérifie si ton PowerShell ISE est administrateur
+
+Exécute :
+
+$identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$principal = New-Object Security.Principal.WindowsPrincipal($identity)
+$principal.IsInRole(
+    [Security.Principal.WindowsBuiltInRole]::Administrator
+)
+
+* True : session élevée en administrateur.
+* False : session non élevée, même si ton compte appartient au groupe Administrateurs.
+
+Si tu obtiens False, ouvre un nouvel ISE avec :
+
+Start-Process powershell_ise.exe -Verb RunAs
+
+Il faudra disposer des droits administrateur Windows.
+
+2. Teste ces trois classes HP
+
+Dans la nouvelle session :
+
+$ns = "root\HP\InstrumentedBIOS"
+$classes = @(
+    "HP_BIOSPassword",
+    "HP_BIOSEnumeration",
+    "HP_BIOSOrderedList"
+)
+foreach ($classe in $classes) {
+    try {
+        $resultat = @(Get-WmiObject -Namespace $ns `
+            -Class $classe -ErrorAction Stop)
+        Write-Host "$classe : OK ($($resultat.Count) instances)" -ForegroundColor Green
+    }
+    catch {
+        $code = "0x{0:X8}" -f ($_.Exception.HResult -band 0xFFFFFFFF)
+        Write-Host "$classe : ERREUR $code - $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+Ce test permet de vérifier séparément l’accès aux mots de passe, aux paramètres BIOS et aux listes de démarrage, sans modifier le BIOS.
+
+3. Si tu as encore « Accès refusé »
+
+Il faudra distinguer un refus lié aux autorisations du namespace WMI d’un refus retourné par le fournisseur HP. Les codes 0x80041003 et 0x80070005 peuvent notamment aider au diagnostic. 
+
+Tu peux aussi vérifier que la lecture WMI standard fonctionne :
+
+Get-WmiObject -Class Win32_BIOS |
+    Select-Object Manufacturer, SMBIOSBIOSVersion
+
+Cette commande n’utilise pas le fournisseur HP spécifique.
+
