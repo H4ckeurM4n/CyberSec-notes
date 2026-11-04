@@ -106,3 +106,61 @@ Get-WmiObject -Class Win32_BIOS |
 
 Cette commande n’utilise pas le fournisseur HP spécifique.
 
+
+<#
+    Lecture de la configuration BIOS d'un PC HP (via WMI)
+    - Compatible PowerShell 5.1 / PowerShell ISE
+    - A lancer en administrateur (clic droit sur ISE > Executer en tant qu'administrateur)
+#>
+
+$ns = 'root\HP\InstrumentedBIOS'
+
+# --- Fonction : lit la valeur active d'un reglage BIOS ---
+function Get-HPBiosValue($nom) {
+    $reglage = Get-WmiObject -Namespace $ns -Class HP_BIOSEnumeration -Filter "Name='$nom'" -ErrorAction SilentlyContinue
+    if (-not $reglage) { return 'Non disponible' }
+
+    # Modeles recents : la valeur est directement dans CurrentValue
+    if ($reglage.CurrentValue) { return $reglage.CurrentValue }
+
+    # Anciens modeles : la valeur active est precedee d'une etoile (ex: "Disable,*Enable")
+    $actif = ($reglage.Value -split ',') | Where-Object { $_.StartsWith('*') }
+    if ($actif) { return $actif.TrimStart('*') }
+    return 'Inconnu'
+}
+
+# --- Verifie que le PC expose bien le BIOS HP en WMI ---
+$test = Get-WmiObject -Namespace $ns -Class HP_BIOSSetting -ErrorAction SilentlyContinue | Select-Object -First 1
+if (-not $test) {
+    Write-Host "BIOS HP non accessible : pas un modele HP business, ou PowerShell pas lance en administrateur." -ForegroundColor Red
+    return
+}
+
+# --- Mots de passe BIOS (IsSet = 1 si defini) ---
+$mdp        = Get-WmiObject -Namespace $ns -Class HP_BIOSPassword
+$setupPwd   = (($mdp | Where-Object { $_.Name -eq 'Setup Password' }).IsSet -eq 1)
+$powerOnPwd = (($mdp | Where-Object { $_.Name -eq 'Power-On Password' }).IsSet -eq 1)
+
+# --- Ordre de boot (le nom change selon les modeles) ---
+$boot = Get-WmiObject -Namespace $ns -Class HP_BIOSOrderedList -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -in 'UEFI Boot Order', 'Boot Order' } |
+        Select-Object -First 1
+if ($boot) { $bootOrder = $boot.Value } else { $bootOrder = 'Non disponible' }
+
+# --- Affichage du resultat ---
+[PSCustomObject]@{
+    'Mot de passe Setup'    = $setupPwd
+    'Mot de passe Power-On' = $powerOnPwd
+    'Ordre de boot'         = $bootOrder
+    'Boot USB'              = Get-HPBiosValue 'USB Storage Boot'
+    'Boot reseau (PXE)'     = Get-HPBiosValue 'Network (PXE) Boot'
+    'Secure Boot'           = Get-HPBiosValue 'Secure Boot'
+} | Format-List
+
+
+
+
+
+
+
+
