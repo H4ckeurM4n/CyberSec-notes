@@ -1,0 +1,49 @@
+Oui, PowerShell 5.1 supporte parfaitement Get-WmiObject. Tu peux remplacer les commandes Get-CimInstance par Get-WmiObject.
+
+Sur les PC HP, les classes BIOS sont généralement accessibles dans le namespace root\HP\InstrumentedBIOS.
+
+1. Vérifier les mots de passe BIOS
+
+Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
+    -Class HP_BIOSPassword |
+    Select-Object Name, IsSet
+
+* IsSet = 1 : mot de passe configuré.
+* IsSet = 0 : mot de passe non configuré.
+
+2. Récupérer le Boot Order
+
+Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
+    -Class HP_BIOSOrderedList |
+    Select-Object Name, Value, Elements |
+    Format-List
+
+3. Vérifier les options Boot USB, PXE, Secure Boot
+
+Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
+    -Class HP_BIOSSetting |
+    Where-Object {
+        $_.Name -match 'Boot|USB|PXE|Legacy|Secure|Network'
+    } |
+    Select-Object Name, Value |
+    Format-Table -AutoSize
+
+4. Récupérer toutes les configurations BIOS HP
+
+Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
+    -Class HP_BIOSEnumeration |
+    Select-Object Name, Value, PossibleValues |
+    Format-List
+
+5. Vérifier les classes WMI disponibles
+
+Get-WmiObject -Namespace "root\HP\InstrumentedBIOS" `
+    -List |
+    Where-Object { $_.Name -like 'HP_BIOS*' } |
+    Select-Object Name
+
+À noter : Get-WmiObject fonctionne nativement avec Windows PowerShell 5.1, mais n’est plus disponible nativement dans PowerShell 7.
+
+Ces commandes sont en lecture seule : elles ne modifient ni le BIOS ni le Boot Order.
+
+Si ton objectif est de déterminer automatiquement si un HP peut démarrer sur une clé USB, même avec un mot de passe BIOS, on peut regrouper ces vérifications en une seule fonction PowerShell 5.1 basée exclusivement sur Get-WmiObject.
